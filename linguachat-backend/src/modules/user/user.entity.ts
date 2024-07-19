@@ -2,6 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMan
 import { Language } from '../language/language.entity';
 import { Connection } from './connection.entity';
 import { Post } from '../post/post.entity';
+import { Comment } from '../comment/comment.entity';
 
 @Entity()
 export class User {
@@ -115,4 +116,8 @@ export class User {
 
     @OneToMany(() => Connection, (connection) => connection.connectionSecond)
     connectionsSecond: Connection[]
+
+    @OneToMany(() => Comment, (comment) => comment.userCommented)
+    comments: Comment[]
+
 }
