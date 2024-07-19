@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, ManyToMany, OneToOne } from 'typeorm';
 import { User } from '../user/user.entity';
+import { Language } from '../language/language.entity';
 
 @Entity()
 export class Post {
@@ -9,11 +10,13 @@ export class Post {
     @Column()
     type: string;
 
-    @ManyToOne(() => User, (user) => user.connectionsFirst)
-    @JoinColumn({ name: 'first_id' })
-    connectionFirst: User;
+    @ManyToMany(() => User, (user) => user.postsLiked)
+    likedByUsers: User[];
 
-    @ManyToOne(() => User, (user) => user.connectionsSecond)
-    @JoinColumn({ name: 'second_id' })
-    connectionSecond: User;
+    @ManyToOne(() => User, (user) => user.createdPosts)
+    createdBy: User;
+
+    @OneToOne(() => Language)
+    @JoinColumn()
+    language: Language
 }

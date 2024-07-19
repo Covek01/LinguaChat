@@ -1,6 +1,7 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany } from 'typeorm';
 import { Language } from '../language/language.entity';
 import { Connection } from './connection.entity';
+import { Post } from '../post/post.entity';
 
 @Entity()
 export class User {
@@ -54,10 +55,13 @@ export class User {
     })
     userBlocked: User[];
 
+
+    //Users relationships
     @ManyToMany(() => User, (user) => user.userBlocked)
     blockedBy: User[];
 
 
+    //Language relationships
     @ManyToMany(() => Language, (language) => language.learnedBy)
     @JoinTable({
         name: 'Users_Learning_Languages',
@@ -87,9 +91,28 @@ export class User {
     })
     languagesNative: Language[];
 
+    //Posts relationships
+    @ManyToMany(() => Post, (post) => post.likedByUsers)
+    @JoinTable({
+        name: 'Users_Like_Posts',
+        joinColumn: {
+            name: "user_id",
+            referencedColumnName: "id"
+        },
+        inverseJoinColumn: {
+            name: "post_id",
+            referencedColumnName: "id"
+        }
+    })
+    postsLiked: Post[];
+
+    @OneToMany(() => Post, (post) => post.createdBy)
+    createdPosts: Post[]
+
+    //Connections relationships
     @OneToMany(() => Connection, (connection) => connection.connectionFirst)
-    connectionsFirst: User[]
+    connectionsFirst: Connection[]
 
     @OneToMany(() => Connection, (connection) => connection.connectionSecond)
-    connectionsSecond: User[]
+    connectionsSecond: Connection[]
 }
