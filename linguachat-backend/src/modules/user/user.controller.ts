@@ -8,7 +8,7 @@ export class UserController {
     constructor(private userService: UserService){}
 
     @Get(':id')
-    get(@Param('id') id: string): UserInterface {
-        return this.userService.get(parseInt(id, 0));
+    get(@Param('id') id: number): UserInterface {
+        return this.userService.get(id);
     }
 }
