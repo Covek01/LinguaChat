@@ -1,0 +1,23 @@
+[33mcommit 85280392a492d5d89724acc39f4580d9396886fc[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: covek01 <stojiljkovic.nikola2001@gmail.com>
+Date:   Mon Jul 22 17:32:06 2024 +0200
+
+    los komit
+
+[33mcommit 29079f401813e51870e70b7b6bd59d6095bf6e29[m
+Author: covek01 <stojiljkovic.nikola2001@gmail.com>
+Date:   Mon Jul 22 16:50:13 2024 +0200
+
+    auth module added
+
+[33mcommit 8f163c07ff9432fa09d14e188f0fc564b9d8c10b[m
+Author: covek01 <stojiljkovic.nikola2001@gmail.com>
+Date:   Sun Jul 21 14:27:04 2024 +0200
+
+    added blockings and got dataSource
+
+[33mcommit 1980d3886cbf93057891ab7905d0733702ab69e0[m
+Author: covek01 <stojiljkovic.nikola2001@gmail.com>
+Date:   Sat Jul 20 17:33:23 2024 +0200
+
+    Backend changed and repaired MODULE_NOT_FOUND
