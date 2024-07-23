@@ -7,13 +7,14 @@ import { CommentModule } from './modules/comment/comment.module';
 import { PostModule } from './modules/post/post.module';
 import { LanguageModule } from './modules/language/language.module';
 import { UserModule } from './modules/user/user.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 
 
 
 @Module({
   imports: [TypeOrmModule.forRoot({...configTypeOrm, name: 'postgresConnection'}),
-    CommentModule, PostModule, LanguageModule, UserModule],
+    CommentModule, PostModule, LanguageModule, UserModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
 })
