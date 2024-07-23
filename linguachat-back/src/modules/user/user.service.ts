@@ -1,6 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
+import { UserGetDto, UserInsertDto, UserInterface } from '../../../../models/models.type'
 
 import { User } from './user.entity';
 
@@ -8,29 +9,29 @@ import { User } from './user.entity';
 export class UserService {
     constructor(@InjectDataSource('postgresConnection') private dataSource: DataSource){}
 
-    // async get(user_id: number) : Promise<UserGetDto> {
-    //     const user: UserGetDto = await this.dataSource
-    //                 .getRepository(User)
-    //                 .findOne({
-    //                     where: {
-    //                         id: user_id
-    //                     }
-    //                 });
+    async get(user_id: number) : Promise<UserGetDto> {
+        const user: UserGetDto = await this.dataSource
+                    .getRepository(User)
+                    .findOne({
+                        where: {
+                            id: user_id
+                        }
+                    });
         
-    //     return user;
-    // }
+        return user;
+    }
 
-    // async getByUsername(username: string) : Promise<UserGetDto>{
-    //     const user: UserInterface = await this.dataSource
-    //                 .getRepository(User)
-    //                 .findOne({
-    //                     where: {
-    //                         username: username
-    //                     }
-    //                 });
+    async getByUsername(username: string) : Promise<UserInterface>{
+        const user: UserInterface = await this.dataSource
+                    .getRepository(User)
+                    .findOne({
+                        where: {
+                            username: username
+                        }
+                    });
         
-    //     return user;
-    // }
+        return user;
+    }
 
     // async add(user_dto: UserInsertDto) : Promise<void> {
     //     const user: User = {

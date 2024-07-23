@@ -152,3 +152,8 @@ export class User implements UserInterface {
         this.role = role;
     }
 }
+
+export interface SignInDto{
+    username: string,
+    password: string
+}

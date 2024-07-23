@@ -8,6 +8,7 @@ import { PostModule } from './modules/post/post.module';
 import { LanguageModule } from './modules/language/language.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
+import { AuthService } from './modules/auth/auth.service';
 
 
 
