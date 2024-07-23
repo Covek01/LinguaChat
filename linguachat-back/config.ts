@@ -1,3 +1,3 @@
 export const configFile = {
-    test: "test"
+    secret: "dASgaas35QsfAl"
 }

@@ -1,7 +1,7 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { UserGetDto, UserInsertDto, UserInterface } from '../../../../models/models.type'
+import { UserGetDto, UserInterface } from '../../models/models.type'
 
 import { User } from './user.entity';
 
