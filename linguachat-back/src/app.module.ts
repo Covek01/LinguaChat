@@ -9,12 +9,14 @@ import { LanguageModule } from './modules/language/language.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { AuthService } from './modules/auth/auth.service';
+import { ConfigModule } from '@nestjs/config';
+import { configFile } from 'config';
 
 
 
 
 @Module({
-  imports: [TypeOrmModule.forRoot({...configTypeOrm, name: 'postgresConnection'}),
+  imports: [ConfigModule.forRoot(configFile), TypeOrmModule.forRoot({...configTypeOrm, name: 'postgresConnection'}),
     CommentModule, PostModule, LanguageModule, UserModule, AuthModule],
   controllers: [AppController],
   providers: [AppService],
