@@ -21,5 +21,3 @@ export const configTypeOrm: DataSourceOptions = {
   synchronize: true,
   name: "postgresConnection"
 }
-
-export const dataSourcePostgres = new DataSource(configTypeOrm)

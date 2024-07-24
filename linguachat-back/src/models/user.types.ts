@@ -1,73 +1,7 @@
-
-//Comment
-export interface CommentInterface {
-    id: number,
-    text: string
-}
-
-export class Comment implements CommentInterface {
-    id: number;
-    text: string;
-
-    constructor(id: number, text: string) {
-        this.id = id;
-        this.text = text;
-    }
-}
-
-
-//Connection
-export interface ConnectionInterface {
-    id: number,
-    first_id: number,
-    second_id: number,
-    since: Date
-}
-
-
-//Language
-export interface LanguageInterface {
-    id: number,
-    name: string, 
-    popularity: number
-}
-
-export class Language  implements LanguageInterface {
-    id: number;
-    name: string;
-    popularity: number;
-
-    constructor(id: number, name: string, popularity: number) {
-        this.id = id;
-        this.name = name;
-        this.popularity = popularity;
-    }
-}
-
-//Post
-export interface PostInterface {
-    id: number,
-    type: string
-}
-
-
-export class Post implements PostInterface {
-    id: number;
-    type: string;
-
-    constructor(id: number, type: string) {
-        this.id = id;
-        this.type = type;
-    }
-}
-
-
-
-
-
-
-
 //User
+
+import { ApiProperty } from "@nestjs/swagger";
+import { IsDate, IsEmail } from "class-validator";
 
 
 export interface UserInterface { 
@@ -85,25 +19,48 @@ export interface UserInterface {
     role: string
 }
 
-export interface UserInsertDto{
-    name: string,
-    surname: string,
-    username: string,
-    email: string, 
-    password: string,
-    born: Date,
-    country: string,
-    city: string,
-}
 
-export class UserInsertDtoClass{
+
+export class UserInsertDto{
+    @ApiProperty({
+        example: "Covek"
+    })
     name: string;
+
+    @ApiProperty({
+        example: "Covekovic"
+    })
     surname: string;
+
+    @ApiProperty({
+        example: "Covek123"
+    })
     username: string;
+
+    @ApiProperty({
+        example: "covek@gmail.com"
+    })
+    @IsEmail()
     email: string;
+
+    @ApiProperty({
+        example: "password"
+    })
     password: string;
+
+    @IsDate()
+    @ApiProperty({
+    })
     born: Date;
+    
+    @ApiProperty({
+        example: "USA"
+    })
     country: string;
+
+    @ApiProperty({
+        example: "Magarevo"
+    })
     city: string;
 
     constructor(name: string, surname: string, username: string, email: string, password: string, born: Date, country: string, city: string) {
@@ -118,7 +75,6 @@ export class UserInsertDtoClass{
     }
 }
 
-export type UserInsertDtoType = UserInsertDto
 
 export interface UserGetDto{
     id: number, 
@@ -181,3 +137,4 @@ export interface SignInDto{
     username: string,
     password: string
 }
+

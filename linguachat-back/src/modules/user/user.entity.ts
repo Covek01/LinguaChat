@@ -9,7 +9,7 @@ import { Blocking } from './blocking.entity';
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
-
+    
     @Column()
     name: string;
 
