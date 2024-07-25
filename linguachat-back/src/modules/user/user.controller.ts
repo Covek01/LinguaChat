@@ -1,6 +1,6 @@
-import { Body, Controller, Delete, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserInsertDto } from 'src/models/user.types';
+import { UserGetDto, UserInsertDto } from 'src/models/user.types';
 import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { User } from './user.entity';
 import { DeleteResult } from 'typeorm';
@@ -11,11 +11,25 @@ export class UserController {
     constructor(private userService: UserService){}
 
     @HttpCode(HttpStatus.OK)
-    @Post('/register')
+    @Post('register')
     @ApiBody({ type: UserInsertDto })
     async register(@Body() user_dto: UserInsertDto) : Promise<void> {
         try{
             return await this.userService.add(user_dto);
+        } catch(ex){
+            console.log("Error with inserting user");
+            console.log(ex);
+        }
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Get('/get/:id')
+    @ApiParam(
+        {name: 'id', type: Number}
+    )
+    async get(@Param('id') id: string) : Promise<UserGetDto> {
+        try{
+            return await this.userService.get(parseInt(id, 0));
         } catch(ex){
             console.log("Error with inserting user");
             console.log(ex);

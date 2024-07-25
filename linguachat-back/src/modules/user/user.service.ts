@@ -5,21 +5,24 @@ import { UserGetDto, UserInsertDto, UserInterface } from '../../models/user.type
 
 import { User } from './user.entity';
 import { sha1 } from '../auth/sha1.hash';
+import { plainToInstance } from 'class-transformer';
 
 @Injectable()
 export class UserService {
     constructor(@InjectDataSource('postgresConnection') private dataSource: DataSource){}
 
     async get(user_id: number) : Promise<UserGetDto> {
-        const user: UserGetDto = await this.dataSource
+        const user: User = await this.dataSource
                     .getRepository(User)
                     .findOne({
                         where: {
                             id: user_id
                         }
                     });
-        
-        return user;
+                    console.log(user)
+        const userDto: UserGetDto = plainToInstance(UserGetDto, user, { excludeExtraneousValues: true });
+        console.log(userDto);
+        return userDto;
     }
 
     async getByUsername(username: string) : Promise<UserInterface>{
@@ -55,8 +58,6 @@ export class UserService {
     }
 
     async delete(id: number) : Promise<string> {
-        console.log(`id = ${id}`)
-
         const result: DeleteResult = await this.dataSource
             .getRepository(User)
             .createQueryBuilder()

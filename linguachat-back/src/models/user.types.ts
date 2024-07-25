@@ -1,6 +1,7 @@
 //User
 
 import { ApiProperty } from "@nestjs/swagger";
+import { Expose } from "class-transformer";
 import { IsDate, IsEmail } from "class-validator";
 
 
@@ -75,8 +76,7 @@ export class UserInsertDto{
     }
 }
 
-
-export interface UserGetDto{
+export interface UserGetDtoInterface{
     id: number, 
     name: string,
     surname: string,
@@ -88,6 +88,41 @@ export interface UserGetDto{
     country: string,
     city: string,
     role: string
+}
+
+export class UserGetDto{
+    @Expose()
+    id: number;
+
+    @Expose()
+    name: string;
+
+    @Expose()
+    surname: string;
+
+    @Expose()
+    username: string;
+
+    @Expose()
+    email: string;
+
+    @Expose() 
+    since: Date;
+
+    @Expose()
+    born: Date;
+
+    @Expose()
+    comment: string;
+
+    @Expose()
+    country: string;
+
+    @Expose()
+    city: string;
+
+    @Expose()
+    role: string;
 }
 
 export class User implements UserInterface {
@@ -133,8 +168,15 @@ export class User implements UserInterface {
     }
 }
 
-export interface SignInDto{
-    username: string,
+export class SignInDto{
+    @ApiProperty({
+        example: "Covek123"
+    })
+    username: string;
+
+    @ApiProperty({
+        example: "password"
+    })
     password: string
 }
 
