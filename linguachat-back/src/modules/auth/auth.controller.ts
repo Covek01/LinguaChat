@@ -12,6 +12,7 @@ export class AuthController {
     @Post('login')
     @ApiBody({ type: SignInDto })
     signIn(@Body() signInObject: SignInDto) {
+        console.log(signInObject)
         return this.authService.signIn(signInObject.username, signInObject.password);
     }
 

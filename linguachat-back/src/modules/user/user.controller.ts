@@ -1,11 +1,14 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserGetDto, UserInsertDto } from 'src/models/user.types';
-import { ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { User } from './user.entity';
 import { DeleteResult } from 'typeorm';
+import { AuthGuard } from '../auth/auth.guard';
+
 
 @ApiTags("user")
+@ApiBearerAuth()
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService){}
@@ -21,7 +24,8 @@ export class UserController {
             console.log(ex);
         }
     }
-
+    
+    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get('/get/:id')
     @ApiParam(

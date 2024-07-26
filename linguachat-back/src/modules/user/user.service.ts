@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, UseGuards } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, DeleteResult } from 'typeorm';
 import { UserGetDto, UserInsertDto, UserInterface } from '../../models/user.types'
@@ -6,6 +6,7 @@ import { UserGetDto, UserInsertDto, UserInterface } from '../../models/user.type
 import { User } from './user.entity';
 import { sha1 } from '../auth/sha1.hash';
 import { plainToInstance } from 'class-transformer';
+import { AuthGuard } from '../auth/auth.guard';
 
 @Injectable()
 export class UserService {
@@ -49,7 +50,8 @@ export class UserService {
             comment: '',
             country: user_dto.country,
             city: user_dto.city,
-            role: "User"
+            role: "User",
+            confirmed: false
         }
             const result = await this.dataSource
             .getRepository(User)

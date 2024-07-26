@@ -11,13 +11,19 @@ import { AuthModule } from './modules/auth/auth.module';
 import { AuthService } from './modules/auth/auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { configFile } from 'config/config';
+import { JwtModule } from '@nestjs/jwt';
+import { jwtConfig } from 'config/jwt-config';
+import { MailModule } from './mail/mail.module';
+import { MailModule } from './mail/mail.module';
 
 
 
 
 @Module({
-  imports: [ConfigModule.forRoot(configFile), TypeOrmModule.forRoot({...configTypeOrm, name: 'postgresConnection'}),
-    CommentModule, PostModule, LanguageModule, UserModule, AuthModule],
+  imports: [ConfigModule.forRoot(configFile), 
+      JwtModule.registerAsync(jwtConfig),
+      TypeOrmModule.forRoot({...configTypeOrm, name: 'postgresConnection'}),
+      CommentModule, PostModule, LanguageModule, UserModule, AuthModule, MailModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -4,7 +4,6 @@ import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { UserGetDto, UserInterface } from 'src/models/user.types';
 import { sha1 } from './sha1.hash';
-import { asecret } from 'config/jwt-config';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +19,6 @@ export class AuthService {
         }
         const {passHash, ...userWithoutPassword} = user;
         const payload:UserGetDto = userWithoutPassword;
-        console.log(`Secret is ${asecret}`)
         return {
           access_token: await this.jwtService.signAsync(payload),
         };

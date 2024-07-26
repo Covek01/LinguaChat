@@ -64,6 +64,7 @@ export class UserInsertDto{
     })
     city: string;
 
+
     constructor(name: string, surname: string, username: string, email: string, password: string, born: Date, country: string, city: string) {
         this.name = name;
         this.surname = surname;

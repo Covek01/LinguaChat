@@ -43,7 +43,8 @@ export class User {
     @Column()
     role: string;
 
-
+    @Column()
+    confirmed: boolean;
     //Users relationships
     // @ManyToMany(() => User, (user) => user.blockedBy, {
     //     cascade: true,
