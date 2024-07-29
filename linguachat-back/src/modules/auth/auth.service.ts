@@ -53,27 +53,10 @@ export class AuthService {
         .insert(user);
 
         // const token_object = await this.signIn(user_dto.username, user_dto.password);
-        const userDto: UserGetDto = plainToInstance(UserGetDto, user, { excludeExtraneousValues: true });
+        // const userDto: UserGetDto = plainToInstance(UserGetDto, user, { excludeExtraneousValues: true });
         // console.log(userDto)
         // console.log(token_object.access_token)
         
         // await this.mailService.sendUserConfirmation(userDto, token_object.access_token);
-
-      
-      const result = await this.dataSource
-          .getRepository(User)
-          .insert(user)
-          .then( async () => {
-            const token_object = await this.signIn(user_dto.email, user_dto.password);
-            const userDto: UserGetDto = plainToInstance(UserGetDto, user, { excludeExtraneousValues: true });
-            await this.mailService.sendUserConfirmation(userDto, token_object.access_token);
-          })
-          .catch( (error) => {
-
-
-          });
-
-
-
   }
 }
