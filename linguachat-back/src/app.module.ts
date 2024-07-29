@@ -8,12 +8,10 @@ import { PostModule } from './modules/post/post.module';
 import { LanguageModule } from './modules/language/language.module';
 import { UserModule } from './modules/user/user.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { AuthService } from './modules/auth/auth.service';
 import { ConfigModule } from '@nestjs/config';
 import { configFile } from 'config/config';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConfig } from 'config/jwt-config';
-import { MailModule } from './mail/mail.module';
 import { MailModule } from './mail/mail.module';
 
 

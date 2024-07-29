@@ -7,9 +7,10 @@ import { jwtConfig } from 'config/jwt-config';
 import { configFile } from 'config/config';
 import { ConfigModule } from '@nestjs/config';
 import { AuthGuard } from './auth.guard';
+import { MailModule } from 'src/mail/mail.module';
 
 @Module({
-    imports: [forwardRef(() => UserModule), JwtModule.registerAsync(jwtConfig)],
+    imports: [forwardRef(() => UserModule), MailModule],
     providers: [AuthService, AuthGuard],
     controllers: [AuthController],
     exports: [AuthGuard]

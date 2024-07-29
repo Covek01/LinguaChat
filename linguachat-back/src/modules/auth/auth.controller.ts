@@ -1,5 +1,5 @@
 import { Body, Controller, HttpCode, HttpStatus, Post } from '@nestjs/common';
-import { SignInDto } from '../../models/user.types';
+import { SignInDto, UserInsertDto } from '../../models/user.types';
 import { AuthService } from './auth.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 
@@ -16,5 +16,15 @@ export class AuthController {
         return this.authService.signIn(signInObject.username, signInObject.password);
     }
 
-    
+    @HttpCode(HttpStatus.OK)
+    @Post('register')
+    @ApiBody({ type: UserInsertDto })
+    async register(@Body() user_dto: UserInsertDto) : Promise<void> {
+        try{
+            return await this.authService.register(user_dto);
+        } catch(ex){
+            console.log("Error with inserting user");
+            console.log(ex);
+        }
+    }
 }

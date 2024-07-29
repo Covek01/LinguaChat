@@ -13,17 +13,7 @@ import { AuthGuard } from '../auth/auth.guard';
 export class UserController {
     constructor(private userService: UserService){}
 
-    @HttpCode(HttpStatus.OK)
-    @Post('register')
-    @ApiBody({ type: UserInsertDto })
-    async register(@Body() user_dto: UserInsertDto) : Promise<void> {
-        try{
-            return await this.userService.add(user_dto);
-        } catch(ex){
-            console.log("Error with inserting user");
-            console.log(ex);
-        }
-    }
+
     
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)

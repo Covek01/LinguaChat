@@ -26,37 +26,16 @@ export class UserService {
         return userDto;
     }
 
-    async getByUsername(username: string) : Promise<UserInterface>{
-        const user: UserInterface = await this.dataSource
+    async getByUsername(username: string) : Promise<User>{
+        const user: User = await this.dataSource
                     .getRepository(User)
                     .findOne({
                         where: {
                             username: username
                         }
                     });
-        
+        console.log(`Ovde je onaj sto se nece vraca User ${user}`);
         return user;
-    }
-
-    async add(user_dto: UserInsertDto) : Promise<void> {
-        const user = {
-            name: user_dto.name,
-            surname: user_dto.surname,
-            username: user_dto.username,
-            email: user_dto.email, 
-            passHash: sha1(user_dto.password),
-            since: new Date(),
-            born: user_dto.born,
-            comment: '',
-            country: user_dto.country,
-            city: user_dto.city,
-            role: "User",
-            confirmed: false
-        }
-            const result = await this.dataSource
-            .getRepository(User)
-            .insert(user);
-
     }
 
     async delete(id: number) : Promise<string> {
