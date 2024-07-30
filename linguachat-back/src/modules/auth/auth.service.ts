@@ -32,7 +32,7 @@ export class AuthService {
     }
 
 
-    async register(user_dto: UserInsertDto) : Promise<void> {
+    async register(user_dto: UserInsertDto) : Promise<string> {
       const user = {
           name: user_dto.name,
           surname: user_dto.surname,
@@ -52,6 +52,8 @@ export class AuthService {
         .getRepository(User)
         .insert(user);
 
+
+        return "User added successfully"
         // const token_object = await this.signIn(user_dto.username, user_dto.password);
         // const userDto: UserGetDto = plainToInstance(UserGetDto, user, { excludeExtraneousValues: true });
         // console.log(userDto)

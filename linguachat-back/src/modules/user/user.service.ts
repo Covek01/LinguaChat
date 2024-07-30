@@ -1,12 +1,13 @@
 import { Inject, Injectable, UseGuards } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource, DeleteResult } from 'typeorm';
+import { DataSource, DeleteResult, InsertResult } from 'typeorm';
 import { UserGetDto, UserInsertDto, UserInterface } from '../../models/user.types'
 
 import { User } from './user.entity';
 import { sha1 } from '../auth/sha1.hash';
 import { plainToInstance } from 'class-transformer';
 import { AuthGuard } from '../auth/auth.guard';
+import { Blocking } from './blocking.entity';
 
 @Injectable()
 export class UserService {
@@ -52,7 +53,7 @@ export class UserService {
         return `User with id ${id} is deleted`;
     }
 
-    async addComment(user_id: number, user_comment: string) : Promise<string> {
+    async addCommentAboutUser(user_id: number, user_comment: string) : Promise<string> {
         const result: DeleteResult = await this.dataSource
                 .getRepository(User)
                 .update({ id: user_id }, { comment: user_comment });
@@ -61,5 +62,50 @@ export class UserService {
             return `User with id ${user_id} isn't updated or doesn't exist`;
 
         return `User with id ${user_id} got a new comment`;
+    }
+
+    async blockUser(blocker_id: number, blocked_id: number) : Promise<string> {
+        const blocker: User = await this.dataSource
+                        .getRepository(User)
+                        .findOne({
+                            where: {
+                                id: blocker_id
+                            }
+                        });
+
+        const blocked: User = await this.dataSource
+                        .getRepository(User)
+                        .findOne({
+                            where: {
+                                id: blocked_id
+                            }
+                        });
+        const result: InsertResult = await this.dataSource
+                        .createQueryBuilder()
+                        .insert()
+                        .into(Blocking)
+                        .values({
+                            user: blocker,
+                            blockedUser: blocked
+                        })
+                        .execute();
+
+
+        return `Blocking added successfully, blocker: ${blocker.id}, blocked: ${blocked.id}`;
+    }
+
+    async unblockUser(blocker_id: number, blocked_id: number) : Promise<string> {
+        console.log(`Stigo sam do ovde, ${blocker_id}, ${blocked_id}`)
+        const result : DeleteResult = await this.dataSource
+                            .createQueryBuilder()
+                            .delete()
+                            .from(Blocking)
+                            .where("userId = :blockerId", {blockerId: blocker_id})
+                            .andWhere("blockedId = :blockedId", {blockedId: blocked_id})
+                            .execute();
+        if (result.affected > 0)
+            return `Unblocking added successfully, blocker: ${blocker_id}, blocked: ${blocked_id}`;
+        else 
+            return "No rows affected";
     }
 }

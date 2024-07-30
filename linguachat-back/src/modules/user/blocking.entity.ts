@@ -1,21 +1,18 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, Index, JoinColumn } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity('blockings')
-@Index(['userId', 'blockedId'], { unique: true }) // Define the index here
+
+@Index(['user.id', 'blockedUser.id'], { unique: true }) // Define the index here
 export class Blocking {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  userId: number;
-
-  @Column()
-  blockedId: number;
-
-  @ManyToOne(() => User, user => user.blockedUsers)
+  @ManyToOne(() => User, user => user.usersBlocking)
+  @JoinColumn({name: 'userId'})
   user: User;
 
-  @ManyToOne(() => User, user => user.usersBlocking)
-  blockedUser: User;
+  @ManyToOne(() => User, user => user.blockedUsers)
+  @JoinColumn({name: 'blockedId'})
+  blockedUser: User; 
 }

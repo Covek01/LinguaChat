@@ -31,6 +31,7 @@ export class UserController {
     }
 
 
+    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Delete('/delete/:id')
     @ApiParam({name: 'id', type: Number})
@@ -43,8 +44,9 @@ export class UserController {
         }
     }
 
+    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
-    @Put('/update')
+    @Put('/insertCommentAboutUser')
     @ApiBody({
         schema: {
             properties: {
@@ -53,12 +55,39 @@ export class UserController {
             }
         }
     })
-    async insertComment(@Body() body: any) : Promise<string> {
+    async insertCommentAboutUser(@Body() body: any) : Promise<string> {
         try{
-            return await this.userService.addComment(parseInt(body.id, 0), body.comment);
+            return await this.userService.addCommentAboutUser(parseInt(body.id, 0), body.comment);
         } catch(ex){
             console.log("Error with updating user comment");
             console.log(ex);
         }
+    }
+
+    @UseGuards(AuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Post('/block/:blockerId/:blockedId')
+    async blockUser(@Param('blockerId') blockerId: string, @Param('blockedId') blockedId: string) : Promise<string> {
+            return await this.userService.blockUser(parseInt(blockerId, 0), parseInt(blockedId, 0))
+                        .catch( error => {
+                            console.log("Error with insert blocking");
+                            console.log(error);
+
+                            return "Error with insert blocking"
+                        });
+    }
+
+    @UseGuards(AuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Delete('/unblock/:blockerId/:blockedId')
+    async unblockUser(@Param('blockerId') blockerId: string, @Param('blockedId') blockedId: string) : Promise<string> {
+        console.log("UHVACEN SAM")
+        return await this.userService.unblockUser(parseInt(blockerId, 0), parseInt(blockedId, 0))
+                    .catch( error => {
+                        console.log("Error with delete blocking");
+                        console.log(error);
+
+                        return "Error with delete blocking"
+                    });
     }
 }

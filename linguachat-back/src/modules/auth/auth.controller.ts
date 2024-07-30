@@ -19,12 +19,14 @@ export class AuthController {
     @HttpCode(HttpStatus.OK)
     @Post('register')
     @ApiBody({ type: UserInsertDto })
-    async register(@Body() user_dto: UserInsertDto) : Promise<void> {
+    async register(@Body() user_dto: UserInsertDto) : Promise<string> {
         try{
             return await this.authService.register(user_dto);
         } catch(ex){
             console.log("Error with inserting user");
             console.log(ex);
+
+            return "Error with user registration"
         }
     }
 }
