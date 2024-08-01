@@ -8,6 +8,6 @@ export const jwtConfig: JwtModuleAsyncOptions = {
     global: true,
     useFactory: async (configService: ConfigService) => ({
         secret: configService.get<string>('JWT_SECRET'),
-        signOptions: { expiresIn: '36000s' },
+        //signOptions: { expiresIn: '36000s' },
     }),
 }

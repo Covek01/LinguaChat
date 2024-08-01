@@ -81,13 +81,42 @@ export class UserController {
     @HttpCode(HttpStatus.OK)
     @Delete('/unblock/:blockerId/:blockedId')
     async unblockUser(@Param('blockerId') blockerId: string, @Param('blockedId') blockedId: string) : Promise<string> {
-        console.log("UHVACEN SAM")
         return await this.userService.unblockUser(parseInt(blockerId, 0), parseInt(blockedId, 0))
                     .catch( error => {
                         console.log("Error with delete blocking");
                         console.log(error);
 
                         return "Error with delete blocking"
+                    });
+    }
+
+    @UseGuards(AuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Post('/insertLanguageNative/:userId/:languageId')
+    async insertLanguageNative(@Param('userId') user_id: string, @Param('languageId') language_id: string) : Promise<string> {
+        return await this.userService.insertLanguageNative(parseInt(user_id, 0), parseInt(language_id, 0))
+                    .catch( error => {
+                        console.log("Error with adding native language");
+                        console.log(error);
+
+                        return "Error with adding native language"
+                    });
+    }
+
+    @UseGuards(AuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Post('/insertLanguageLearning/:userId/:languageId/:level')
+    async insertLanguageLearning(
+        @Param('userId') user_id: string,
+        @Param('languageId') language_id: string,
+        @Param('level') level: string
+        ) : Promise<string> {
+        return await this.userService.insertLanguageLearning(parseInt(user_id, 0), parseInt(language_id, 0), level)
+                    .catch( error => {
+                        console.log("Error with adding native language");
+                        console.log(error);
+
+                        return "Error with adding native language"
                     });
     }
 }

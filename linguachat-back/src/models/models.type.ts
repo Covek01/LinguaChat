@@ -25,24 +25,7 @@ export interface ConnectionInterface {
 }
 
 
-//Language
-export interface LanguageInterface {
-    id: number,
-    name: string, 
-    popularity: number
-}
 
-export class Language  implements LanguageInterface {
-    id: number;
-    name: string;
-    popularity: number;
-
-    constructor(id: number, name: string, popularity: number) {
-        this.id = id;
-        this.name = name;
-        this.popularity = popularity;
-    }
-}
 
 //Post
 export interface PostInterface {

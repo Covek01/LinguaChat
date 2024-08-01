@@ -4,6 +4,7 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMan
 import { Connection } from './connection.entity';
 import { Comment } from 'src/modules/comment/comment.entity';
 import { Blocking } from './blocking.entity';
+import { UserLearningLanguage } from './UserLearningLanguage.entity';
 
 @Entity()
 export class User {
@@ -75,28 +76,33 @@ export class User {
 
 
     //Language relationships
-    @ManyToMany(() => Language, (language) => language.learnedBy, {
+    // @ManyToMany(() => Language, (language) => language.learnedBy, {
+    //     cascade: true,
+    // })
+    // @JoinTable({
+    //     name: 'users_learning_languages',
+    //     joinColumn: {
+    //         name: "user_id",
+    //         referencedColumnName: "id"
+    //     },
+    //     inverseJoinColumn: {
+    //         name: "language_id",
+    //         referencedColumnName: "id"
+    //     }
+    // })
+    // languagesLearning: Language[];
+
+    @OneToMany(() => UserLearningLanguage, (userLearningLanguage) => userLearningLanguage.user, {
         cascade: true,
     })
-    @JoinTable({
-        name: 'users_learning_languages',
-        joinColumn: {
-            name: "user_id",
-            referencedColumnName: "id"
-        },
-        inverseJoinColumn: {
-            name: "language_id",
-            referencedColumnName: "id"
-        }
-    })
-    languagesLearning: Language[];
+    userLanguagesLearning: UserLearningLanguage[];
 
 
     @ManyToMany(() => Language, (language) => language.nativeBy, {
         cascade: true,
     })
     @JoinTable({
-        name: 'users_learning_Languages',
+        name: 'users_native_languages',
         joinColumn: {
             name: "user_id",
             referencedColumnName: "id"

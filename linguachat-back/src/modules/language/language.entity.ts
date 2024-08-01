@@ -1,5 +1,6 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany } from 'typeorm';
 import { User } from 'src/modules/user/user.entity';
+import { UserLearningLanguage } from '../user/UserLearningLanguage.entity';
 
 @Entity()
 export class Language {
@@ -12,8 +13,13 @@ export class Language {
     @Column()
     popularity: number;
 
-    @ManyToMany(() => User, (user) => user.languagesLearning)
-    learnedBy: User[];
+    // @ManyToMany(() => User, (user) => user.languagesLearning)
+    // learnedBy: User[];
+
+    @OneToMany(() => UserLearningLanguage, (userLanguage) => userLanguage.language, {
+        cascade: true,
+    })
+    userLanguages: UserLearningLanguage[];
 
     @ManyToMany(() => User, (user) => user.languagesNative)
     nativeBy: User[];

@@ -9,6 +9,9 @@ export class Connection {
     @Column()
     since: Date;
 
+    @Column({unique: true})
+    connection_name: string;
+
     @ManyToOne(() => User, (user) => user.connectionsFirst)
     @JoinColumn({ name: 'first_id' })
     connectionFirst: User;

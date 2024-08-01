@@ -8,6 +8,7 @@ import { Comment } from 'src/modules/comment/comment.entity'
 import { User } from 'src/modules/user/user.entity';
 import { Connection } from 'src/modules/user/connection.entity';
 import { Blocking } from 'src/modules/user/blocking.entity';
+import { UserLearningLanguage } from 'src/modules/user/UserLearningLanguage.entity';
 
 // import { Connection } from 'src/modules/user/connection.entity';
 
@@ -17,7 +18,7 @@ export const configTypeOrm: DataSourceOptions = {
   port: 5432,
   username: 'postgres',
   password: 'password',
-  entities: [Language, Post, Comment, User, Connection, Blocking],
+  entities: [Language, Post, Comment, User, Connection, Blocking, UserLearningLanguage],
   synchronize: true,
   name: "postgresConnection"
 }

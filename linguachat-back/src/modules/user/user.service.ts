@@ -8,6 +8,8 @@ import { sha1 } from '../auth/sha1.hash';
 import { plainToInstance } from 'class-transformer';
 import { AuthGuard } from '../auth/auth.guard';
 import { Blocking } from './blocking.entity';
+import { Language } from '../language/language.entity';
+import { UserLearningLanguage } from './UserLearningLanguage.entity';
 
 @Injectable()
 export class UserService {
@@ -95,7 +97,6 @@ export class UserService {
     }
 
     async unblockUser(blocker_id: number, blocked_id: number) : Promise<string> {
-        console.log(`Stigo sam do ovde, ${blocker_id}, ${blocked_id}`)
         const result : DeleteResult = await this.dataSource
                             .createQueryBuilder()
                             .delete()
@@ -107,5 +108,106 @@ export class UserService {
             return `Unblocking added successfully, blocker: ${blocker_id}, blocked: ${blocked_id}`;
         else 
             return "No rows affected";
+    }
+
+    async insertLanguageNative(user_id: number, language_id: number) : Promise<string> {
+        // const user : User = await this.dataSource
+        // .manager
+        // .findOne(User, {
+        //     where: {
+        //         id: user_id
+        //     }
+        // });
+        // const language : Language = await this.dataSource
+        // .manager
+        // .findOne(Language, {
+        //     where: {
+        //         id: language_id
+        //     }
+        // });
+        // console.log(user)
+        // console.log(language)
+        // user.languagesNative.push(language);
+        // await this.dataSource.manager.save(user);
+
+        
+        await this.dataSource
+            .createQueryBuilder()
+            .relation(User, 'languagesNative')
+            .of(user_id)
+            .add(language_id)
+
+        return "Native language inserted for user";
+    }
+
+    async insertLanguageLearning(
+        user_id: number,
+        language_id: number,
+        level: string
+        ) : Promise<string> {
+        // const user : User = await this.dataSource
+        // .manager
+        // .findOne(User, {
+        //     where: {
+        //         id: user_id
+        //     }
+        // });
+        // const language : Language = await this.dataSource
+        // .manager
+        // .findOne(Language, {
+        //     where: {
+        //         id: language_id
+        //     }
+        // });
+
+        // user.languagesNative.push(language);
+        // language.learnedBy.push(user);
+        // language.popularity++;
+
+        // await this.dataSource.manager.transaction(async (manager) => {
+        //     await manager.save(user);
+        //     await manager.save(language);
+        // })
+
+        const user: User = await this.dataSource
+            .getRepository(User)
+            .findOne({
+                where:{
+                    id: user_id
+                }
+            });
+        
+        
+        const language: Language = await this.dataSource
+            .getRepository(Language)
+            .findOne({
+                where:{
+                    id: language_id
+                }
+            });
+        
+        await this.dataSource
+            .createQueryBuilder()
+            .insert()
+            .into(UserLearningLanguage)
+            .values({
+                user: user,
+                language: language,
+                level: level
+            })
+            .execute();
+        
+        const languageLearning = await this.dataSource
+            .getRepository(UserLearningLanguage)
+            .createQueryBuilder('UserLearningLanguage')
+            .where('UserLearningLanguage.language_id = :languageId', {languageId: language_id})
+            .getCount();
+                
+        language.popularity = languageLearning;
+        await this.dataSource
+            .manager
+            .save(language);
+        
+        return "Learning language inserted for user";
     }
 }
