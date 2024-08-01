@@ -186,4 +186,38 @@ export class UserService {
         
         return "Learning language inserted for user";
     }
+
+    async removeLanguageLearning(
+        user_id: number,
+        language_id: number,
+        ) : Promise<string> {      
+        const language: Language = await this.dataSource
+            .getRepository(Language)
+            .findOne({
+                where:{
+                    id: language_id
+                }
+            });
+        
+        await this.dataSource
+            .createQueryBuilder()
+            .delete()
+            .from(UserLearningLanguage)
+            .where('user_id = :userId', {userId: user_id})
+            .andWhere('language_id = :languageId', {languageId: language_id})
+            .execute();
+        
+        const languageLearning = await this.dataSource
+            .getRepository(UserLearningLanguage)
+            .createQueryBuilder('UserLearningLanguage')
+            .where('UserLearningLanguage.language_id = :languageId', {languageId: language_id})
+            .getCount();
+                
+        language.popularity = languageLearning;
+        await this.dataSource
+            .manager
+            .save(language);
+        
+        return "Learning language removed for user";
+    }
 }
