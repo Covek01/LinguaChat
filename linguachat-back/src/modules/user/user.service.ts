@@ -145,30 +145,6 @@ export class UserService {
         language_id: number,
         level: string
         ) : Promise<string> {
-        // const user : User = await this.dataSource
-        // .manager
-        // .findOne(User, {
-        //     where: {
-        //         id: user_id
-        //     }
-        // });
-        // const language : Language = await this.dataSource
-        // .manager
-        // .findOne(Language, {
-        //     where: {
-        //         id: language_id
-        //     }
-        // });
-
-        // user.languagesNative.push(language);
-        // language.learnedBy.push(user);
-        // language.popularity++;
-
-        // await this.dataSource.manager.transaction(async (manager) => {
-        //     await manager.save(user);
-        //     await manager.save(language);
-        // })
-
         const user: User = await this.dataSource
             .getRepository(User)
             .findOne({
