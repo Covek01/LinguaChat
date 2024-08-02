@@ -9,15 +9,19 @@ export class Comment {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable: false})
     text: string;
 
     //Post relationships
-    @ManyToOne(() => Post, (post) => post.comments)
+    @ManyToOne(() => Post, (post) => post.comments, {
+        nullable: false
+    })
     @JoinColumn({ name: 'postRelatedToId'})
     postRelatedTo: Post;
 
     //User relationships
-    @ManyToOne(() => User, (user) => user.comments)
+    @ManyToOne(() => User, (user) => user.comments, {
+        nullable: false
+    })
     userCommented: User;
 }

@@ -11,20 +11,19 @@ export class User {
     @PrimaryGeneratedColumn()
     id: number;
     
-    @Column()
+    @Column({nullable: false})
     name: string;
 
-    @Column()
+    @Column({nullable: false})
     surname: string;
 
-    @Column({unique: true})
+    @Column({unique: true, nullable: false})
     username: string;
 
-    @Column({unique: true})
+    @Column({unique: true, nullable: false})
     email: string;
 
     @Column({unique: true})
-    @Column()
     passHash: string;
 
     @Column()
@@ -42,7 +41,7 @@ export class User {
     @Column()
     city: string;
 
-    @Column()
+    @Column({nullable: false})
     role: string;
 
     @Column()
@@ -100,6 +99,7 @@ export class User {
 
     @ManyToMany(() => Language, (language) => language.nativeBy, {
         cascade: true,
+        nullable: false
     })
     @JoinTable({
         name: 'users_native_languages',
@@ -118,6 +118,7 @@ export class User {
     //Posts relationships
     @ManyToMany(() => Post, (post) => post.likedByUsers, {
         cascade: true,
+        nullable: false
     })
     @JoinTable({
         name: 'users_like_posts',

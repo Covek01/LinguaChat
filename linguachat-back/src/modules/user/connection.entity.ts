@@ -12,11 +12,15 @@ export class Connection {
     @Column({unique: true})
     connection_name: string;
 
-    @ManyToOne(() => User, (user) => user.connectionsFirst)
+    @ManyToOne(() => User, (user) => user.connectionsFirst, {
+        nullable: false
+    })
     @JoinColumn({ name: 'first_id' })
     connectionFirst: User;
 
-    @ManyToOne(() => User, (user) => user.connectionsSecond)
+    @ManyToOne(() => User, (user) => user.connectionsSecond, {
+        nullable: false
+    })
     @JoinColumn({ name: 'second_id' })
     connectionSecond: User;
 }

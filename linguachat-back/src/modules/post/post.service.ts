@@ -70,6 +70,10 @@ export class PostService {
                 }
             });
         console.log(post);
+        
+        if (!post)
+            throw new Error("Post with this ID doesn't exist")
+
         const postGetDto: PostGetDto = { ...post,
             creator: post.createdBy, 
             language: post.language
@@ -90,13 +94,25 @@ export class PostService {
     }
 
     async updatePost(postId: number, text: string, type: string, languageId: number) : Promise<PostGetDto>{
+
+        const language: Language | null = await this.dataSource
+            .getRepository(Language)
+            .findOne({
+                where: {
+                    id: languageId
+                }
+            });
+
+        if (!language)
+            console.log("Language doesn't exist");
+        
         await this.dataSource
         .createQueryBuilder()
         .update(Post)
         .set({
             text: text,
             type: type,
-            languageId: languageId
+            language: language
         })
         .where("id = :postId", { postId })
         .execute();
@@ -107,6 +123,9 @@ export class PostService {
             where: { id: postId },
             relations: ['createdBy', 'language'], // Include related entities if needed
         });
+
+        if (!updatedPost)
+            console.log("Updated post doesn't exist");
 
         const postGetDto: PostGetDto = { ...updatedPost,
             creator: updatedPost.createdBy, 

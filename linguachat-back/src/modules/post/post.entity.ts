@@ -9,23 +9,23 @@ export class Post {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({nullable: false})
     type: string;
 
-    @Column()
+    @Column({nullable: false})
     text: string;
 
     //User relationships
     @ManyToMany(() => User, (user) => user.postsLiked)
     likedByUsers: User[];
 
-    @ManyToOne(() => User, (user) => user.createdPosts)
+    @ManyToOne(() => User, (user) => user.createdPosts, {nullable: false})
     @JoinColumn({ name: 'createdById'})
     createdBy: User;
 
     //Language relationships
-    @OneToOne(() => Language)
-    @JoinColumn({ name: 'languageId'})
+    @OneToOne(() => Language, {nullable: false})
+    @JoinColumn({ name: 'languageId' })
     language: Language;
 
     //Comment relationships

@@ -40,7 +40,7 @@ export class PostController {
 
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
-    @Put('/get/:id')
+    @Put('/update')
     async updatePost(@Body() post: PostUpdateDto) : Promise<PostGetDto> {
         return await this.postService.updatePost(
             post.id,
@@ -57,7 +57,7 @@ export class PostController {
 
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
-    @Delete('/get/:id')
+    @Delete('/delete')
     async deletePost(@Param('id') id: string) : Promise<string> {
         return await this.postService.deletePost(
             parseInt(id, 0)

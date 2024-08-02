@@ -7,7 +7,7 @@ export class Language {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column({unique: true})
+    @Column({unique: true, nullable: false})
     name: string;
 
     @Column()
@@ -21,6 +21,8 @@ export class Language {
     })
     userLanguages: UserLearningLanguage[];
 
-    @ManyToMany(() => User, (user) => user.languagesNative)
+    @ManyToMany(() => User, (user) => user.languagesNative, {
+        nullable: false
+    })
     nativeBy: User[];
 }
