@@ -57,7 +57,7 @@ export class PostController {
 
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
-    @Delete('/delete')
+    @Delete('/delete/:id')
     async deletePost(@Param('id') id: string) : Promise<string> {
         return await this.postService.deletePost(
             parseInt(id, 0)

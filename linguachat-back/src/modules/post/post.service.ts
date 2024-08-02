@@ -69,7 +69,6 @@ export class PostService {
                     createdBy: true
                 }
             });
-        console.log(post);
         
         if (!post)
             throw new Error("Post with this ID doesn't exist")
@@ -94,7 +93,6 @@ export class PostService {
     }
 
     async updatePost(postId: number, text: string, type: string, languageId: number) : Promise<PostGetDto>{
-
         const language: Language | null = await this.dataSource
             .getRepository(Language)
             .findOne({
@@ -105,7 +103,7 @@ export class PostService {
 
         if (!language)
             console.log("Language doesn't exist");
-        
+
         await this.dataSource
         .createQueryBuilder()
         .update(Post)
