@@ -94,10 +94,10 @@ export class UserController {
     @HttpCode(HttpStatus.OK)
     @Post('/insertLanguageNative/:userId/:languageId')
     async insertLanguageNative(
-        @Param('userId') user_id: string,
-        @Param('languageId') language_id: string
+        @Param('userId') userId: string,
+        @Param('languageId') languageId: string
         ) : Promise<string> {
-        return await this.userService.insertLanguageNative(parseInt(user_id, 0), parseInt(language_id, 0))
+        return await this.userService.insertLanguageNative(parseInt(userId, 0), parseInt(languageId, 0))
                     .catch( error => {
                         console.log("Error with adding native language");
                         console.log(error);
@@ -110,11 +110,11 @@ export class UserController {
     @HttpCode(HttpStatus.OK)
     @Post('/insertLanguageLearning/:userId/:languageId/:level')
     async insertLanguageLearning(
-        @Param('userId') user_id: string,
-        @Param('languageId') language_id: string,
+        @Param('userId') userId: string,
+        @Param('languageId') languageId: string,
         @Param('level') level: string
         ) : Promise<string> {
-        return await this.userService.insertLanguageLearning(parseInt(user_id, 0), parseInt(language_id, 0), level)
+        return await this.userService.insertLanguageLearning(parseInt(userId, 0), parseInt(languageId, 0), level)
                     .catch( error => {
                         console.log("Error with adding learning language");
                         console.log(error);
@@ -127,10 +127,10 @@ export class UserController {
     @HttpCode(HttpStatus.OK)
     @Delete('/removeLanguageLearning/:userId/:languageId')
     async removeLanguageLearning(
-        @Param('userId') user_id: string,
-        @Param('languageId') language_id: string,
+        @Param('userId') userId: string,
+        @Param('languageId') languageId: string,
         ) : Promise<string> {
-        return await this.userService.removeLanguageLearning(parseInt(user_id, 0), parseInt(language_id, 0))
+        return await this.userService.removeLanguageLearning(parseInt(userId, 0), parseInt(languageId, 0))
                     .catch( error => {
                         console.log("Error with removing learning language");
                         console.log(error);

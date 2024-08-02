@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, ManyToOne, JoinColumn } from 'typeorm';
 // import { User } from '../user/user.entity';
 import { Post } from '../post/post.entity';
 import { User } from 'src/modules/user/user.entity';
@@ -13,7 +13,8 @@ export class Comment {
     text: string;
 
     //Post relationships
-    @ManyToOne(() => Post, (post) => post.writtenBy)
+    @ManyToOne(() => Post, (post) => post.comments)
+    @JoinColumn({ name: 'postRelatedToId'})
     postRelatedTo: Post;
 
     //User relationships

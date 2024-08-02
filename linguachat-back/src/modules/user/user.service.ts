@@ -15,12 +15,12 @@ import { UserLearningLanguage } from './UserLearningLanguage.entity';
 export class UserService {
     constructor(@InjectDataSource('postgresConnection') private dataSource: DataSource){}
 
-    async get(user_id: number) : Promise<UserGetDto> {
+    async get(userId: number) : Promise<UserGetDto> {
         const user: User = await this.dataSource
                     .getRepository(User)
                     .findOne({
                         where: {
-                            id: user_id
+                            id: userId
                         }
                     });
                     console.log(user)
@@ -55,23 +55,23 @@ export class UserService {
         return `User with id ${id} is deleted`;
     }
 
-    async addCommentAboutUser(user_id: number, user_comment: string) : Promise<string> {
+    async addCommentAboutUser(userId: number, user_comment: string) : Promise<string> {
         const result: DeleteResult = await this.dataSource
                 .getRepository(User)
-                .update({ id: user_id }, { comment: user_comment });
+                .update({ id: userId }, { comment: user_comment });
 
         if (result.affected === 0)
-            return `User with id ${user_id} isn't updated or doesn't exist`;
+            return `User with id ${userId} isn't updated or doesn't exist`;
 
-        return `User with id ${user_id} got a new comment`;
+        return `User with id ${userId} got a new comment`;
     }
 
-    async blockUser(blocker_id: number, blocked_id: number) : Promise<string> {
+    async blockUser(blockerId: number, blockedId: number) : Promise<string> {
         const blocker: User = await this.dataSource
                         .getRepository(User)
                         .findOne({
                             where: {
-                                id: blocker_id
+                                id: blockerId
                             }
                         });
 
@@ -79,7 +79,7 @@ export class UserService {
                         .getRepository(User)
                         .findOne({
                             where: {
-                                id: blocked_id
+                                id: blockedId
                             }
                         });
         const result: InsertResult = await this.dataSource
@@ -96,32 +96,32 @@ export class UserService {
         return `Blocking added successfully, blocker: ${blocker.id}, blocked: ${blocked.id}`;
     }
 
-    async unblockUser(blocker_id: number, blocked_id: number) : Promise<string> {
+    async unblockUser(blockerId: number, blockedId: number) : Promise<string> {
         const result : DeleteResult = await this.dataSource
                             .createQueryBuilder()
                             .delete()
                             .from(Blocking)
-                            .where("userId = :blockerId", {blockerId: blocker_id})
-                            .andWhere("blockedId = :blockedId", {blockedId: blocked_id})
+                            .where("userId = :blockerId", {blockerId: blockerId})
+                            .andWhere("blockedId = :blockedId", {blockedId: blockedId})
                             .execute();
         if (result.affected > 0)
-            return `Unblocking added successfully, blocker: ${blocker_id}, blocked: ${blocked_id}`;
+            return `Unblocking added successfully, blocker: ${blockerId}, blocked: ${blockedId}`;
         else 
             return "No rows affected";
     }
 
-    async insertLanguageNative(user_id: number, language_id: number) : Promise<string> {        
+    async insertLanguageNative(userId: number, language_id: number) : Promise<string> {        
         await this.dataSource
             .createQueryBuilder()
             .relation(User, 'languagesNative')
-            .of(user_id)
+            .of(userId)
             .add(language_id)
 
         return "Native language inserted for user";
     }
 
     async insertLanguageLearning(
-        user_id: number,
+        userId: number,
         language_id: number,
         level: string
         ) : Promise<string> {
@@ -129,7 +129,7 @@ export class UserService {
             .getRepository(User)
             .findOne({
                 where:{
-                    id: user_id
+                    id: userId
                 }
             });
         
@@ -151,7 +151,7 @@ export class UserService {
                 language: language,
                 level: level
             })
-            .orUpdate(['level'], ['language_id', 'user_id'])
+            .orUpdate(['level'], ['language_id', 'userId'])
             .execute();
         
         const languageLearning = await this.dataSource
@@ -169,7 +169,7 @@ export class UserService {
     }
 
     async removeLanguageLearning(
-        user_id: number,
+        userId: number,
         language_id: number,
         ) : Promise<string> {      
         const language: Language = await this.dataSource
@@ -184,7 +184,7 @@ export class UserService {
             .createQueryBuilder()
             .delete()
             .from(UserLearningLanguage)
-            .where('user_id = :userId', {userId: user_id})
+            .where('userId = :userId', {userId: userId})
             .andWhere('language_id = :languageId', {languageId: language_id})
             .execute();
         

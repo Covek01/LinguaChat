@@ -1,8 +1,11 @@
-import { Injectable, Post } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { User } from '../user/user.entity';
 import { DataSource } from 'typeorm';
-
+import { Language } from '../language/language.entity';
+import { NullPost, PostGetDto } from 'src/models/post.types';
+import { Post } from 'src/modules/post/post.entity'
+import { plainToClass, plainToInstance } from 'class-transformer';
 @Injectable()
 export class PostService {
     constructor(@InjectDataSource('postgresConnection') private dataSource: DataSource){}
@@ -10,7 +13,8 @@ export class PostService {
     async addPost(
         creatorId: number,
         postText: string,
-        postType: string
+        postType: string,
+        languageId: number
     ) : Promise<string> {
         const creator: User = await this.dataSource
             .getRepository(User)
@@ -24,6 +28,18 @@ export class PostService {
             throw new Error(`User with ID ${creatorId} not found`);
         }
 
+        const language: Language = await this.dataSource
+            .getRepository(Language)
+            .findOne({
+                where:{
+                    id: languageId
+                }
+            });
+
+        if (!creator) {
+            throw new Error(`Language with ID ${creatorId} not found`);
+        }
+
         await this.dataSource
             .createQueryBuilder()
             .insert()
@@ -31,7 +47,8 @@ export class PostService {
             .values({
                 type: postType,
                 text: postText,
-                createdBy: creator
+                createdBy: creator,
+                language: language
             })
             .execute();
 
@@ -40,12 +57,63 @@ export class PostService {
              
     }
 
-    async deletePost(postId: number){
+    async getPost(postId: number) : Promise<PostGetDto> {
+        const post: Post =  await this.dataSource 
+            .getRepository(Post)
+            .findOne({
+                where: {
+                    id: postId
+                },
+                relations: {
+                    language: true,
+                    createdBy: true
+                }
+            });
+        console.log(post);
+        const postGetDto: PostGetDto = { ...post,
+            creator: post.createdBy, 
+            language: post.language
+        };
 
+        return postGetDto;
     }
 
-    async updatePost(postId: number, text: string, type: string){
+    async deletePost(postId: number) : Promise<string> {
+        await this.dataSource
+            .createQueryBuilder()
+            .delete()
+            .from(Post)
+            .where("id = :postId", { postId })
+            .execute();
 
+        return 'Post deleted succesfully';
+    }
+
+    async updatePost(postId: number, text: string, type: string, languageId: number) : Promise<PostGetDto>{
+        await this.dataSource
+        .createQueryBuilder()
+        .update(Post)
+        .set({
+            text: text,
+            type: type,
+            languageId: languageId
+        })
+        .where("id = :postId", { postId })
+        .execute();
+
+        const updatedPost: Post | null = await this.dataSource
+        .getRepository(Post)
+        .findOne({
+            where: { id: postId },
+            relations: ['createdBy', 'language'], // Include related entities if needed
+        });
+
+        const postGetDto: PostGetDto = { ...updatedPost,
+            creator: updatedPost.createdBy, 
+            language: updatedPost.language
+        };
+
+        return postGetDto;
     }
 
     

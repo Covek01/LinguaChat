@@ -12,19 +12,23 @@ export class Post {
     @Column()
     type: string;
 
+    @Column()
+    text: string;
+
     //User relationships
     @ManyToMany(() => User, (user) => user.postsLiked)
     likedByUsers: User[];
 
     @ManyToOne(() => User, (user) => user.createdPosts)
+    @JoinColumn({ name: 'createdById'})
     createdBy: User;
 
     //Language relationships
     @OneToOne(() => Language)
-    @JoinColumn()
-    language: Language
+    @JoinColumn({ name: 'languageId'})
+    language: Language;
 
     //Comment relationships
     @OneToMany(() => Comment, (comment) => comment.postRelatedTo)
-    writtenBy: Comment[];
+    comments: Comment[];
 }
