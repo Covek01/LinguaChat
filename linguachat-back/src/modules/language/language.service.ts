@@ -19,12 +19,12 @@ export class LanguageService {
         return "Language successfully added";
     }
 
-    async getLanguage(language_id: number) : Promise<LanguageInterface> {
+    async getLanguage(languageId: number) : Promise<LanguageInterface> {
         const result : Language = await this.dataSource
                             .getRepository(Language)
                             .findOne({
                                 where: {
-                                    id: language_id
+                                    id: languageId
                                 }
                             });
         

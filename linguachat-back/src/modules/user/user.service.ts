@@ -110,27 +110,7 @@ export class UserService {
             return "No rows affected";
     }
 
-    async insertLanguageNative(user_id: number, language_id: number) : Promise<string> {
-        // const user : User = await this.dataSource
-        // .manager
-        // .findOne(User, {
-        //     where: {
-        //         id: user_id
-        //     }
-        // });
-        // const language : Language = await this.dataSource
-        // .manager
-        // .findOne(Language, {
-        //     where: {
-        //         id: language_id
-        //     }
-        // });
-        // console.log(user)
-        // console.log(language)
-        // user.languagesNative.push(language);
-        // await this.dataSource.manager.save(user);
-
-        
+    async insertLanguageNative(user_id: number, language_id: number) : Promise<string> {        
         await this.dataSource
             .createQueryBuilder()
             .relation(User, 'languagesNative')
@@ -171,6 +151,7 @@ export class UserService {
                 language: language,
                 level: level
             })
+            .orUpdate(['level'], ['language_id', 'user_id'])
             .execute();
         
         const languageLearning = await this.dataSource
