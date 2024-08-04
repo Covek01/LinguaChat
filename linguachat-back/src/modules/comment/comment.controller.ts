@@ -21,7 +21,7 @@ export class CommentController {
             console.log("Error with inserting comment");
             console.log(error);
 
-            return "Error with inserting comment";
+            throw new Error(error); 
         });
     }
 
@@ -35,7 +35,7 @@ export class CommentController {
             console.log("Error with getting comment");
             console.log(error);
 
-            return NullComment;
+            throw new Error(error);
         });
     }
 
@@ -50,7 +50,7 @@ export class CommentController {
             console.log("Error with updating comment");
             console.log(error);
 
-            return NullComment;
+            throw new Error(error);
         });
     }
 
@@ -64,7 +64,21 @@ export class CommentController {
             console.log("Error with deleting comment");
             console.log(error);
 
-            return "Error with deleting comment";
+            throw new Error(error);
+        });
+    }
+
+    @UseGuards(AuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Get('/getCommentsOfPost/:postId')
+    async getCommentsOfPost(@Param('postId') postId: string): Promise<CommentGetDto[]> {
+        return await this.commentService.getCommentsOfPost(
+            parseInt(postId, 0)
+        ).catch(error => {
+            console.log("Error with deleting comment");
+            console.log(error);
+
+            throw new Error(error);
         });
     }
 }

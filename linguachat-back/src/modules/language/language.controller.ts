@@ -16,7 +16,7 @@ export class LanguageController {
                         console.log("Error with inserting language");
                         console.log(error);
 
-                        return "Error with inserting language"
+                        throw new Error(error);
                     });
     }
 
@@ -29,7 +29,7 @@ export class LanguageController {
                         console.log("Error with getting language");
                         console.log(error);
 
-                        return NullLanguage;
+                        throw new Error(error);
                     });
     }
 
@@ -42,7 +42,7 @@ export class LanguageController {
                         console.log("Error with deleting language");
                         console.log(error);
 
-                        return "Error with deleting language"
+                        throw new Error(error);
                     });
     }
 
@@ -55,7 +55,7 @@ export class LanguageController {
                         console.log("Error with deleting language");
                         console.log(error);
 
-                        return "Error with deleting language"
+                        throw new Error(error);
                     });
     }
     @UseGuards(AuthGuard)
@@ -67,7 +67,7 @@ export class LanguageController {
                         console.log("Error with updating language");
                         console.log(error);
 
-                        return "Error with updating language"
+                        throw new Error(error);    
                     });
     }
 }

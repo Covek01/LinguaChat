@@ -20,7 +20,7 @@ export class PostController {
             console.log("Error with inserting post");
             console.log(error);
 
-            return "Error with inserting post"
+            throw new Error(error);
         });
     }
 
@@ -34,7 +34,7 @@ export class PostController {
             console.log("Error with getting post");
             console.log(error);
 
-            return NullPost
+            throw new Error(error);
         });
     }
 
@@ -51,7 +51,7 @@ export class PostController {
             console.log("Error with updating post");
             console.log(error);
 
-            return NullPost
+            throw new Error(error);
         });
     }
 
@@ -65,7 +65,21 @@ export class PostController {
             console.log("Error with deleting post");
             console.log(error);
 
-            return "Error with deleting post"
+            throw new Error(error);
+        });
+    }
+
+    @UseGuards(AuthGuard)
+    @HttpCode(HttpStatus.OK)
+    @Get('/getPostsOfUser/:userId')
+    async getPostsOfUser(@Param('userId') userId: string) : Promise<PostGetDto[]> {
+        return await this.postService.getPostsOfUser(
+            parseInt(userId, 0)
+        ).catch( error => {
+            console.log("Error with getting posts");
+            console.log(error);
+
+            throw new Error(error);
         });
     }
 }

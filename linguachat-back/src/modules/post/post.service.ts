@@ -57,7 +57,7 @@ export class PostService {
              
     }
 
-    async getPost(postId: number) : Promise<PostGetDto> {
+    async getPost(postId: number): Promise<PostGetDto> {
         const post: Post =  await this.dataSource 
             .getRepository(Post)
             .findOne({
@@ -74,14 +74,14 @@ export class PostService {
             throw new Error("Post with this ID doesn't exist")
 
         const postGetDto: PostGetDto = { ...post,
-            creator: post.createdBy, 
+            createdBy: post.createdBy, 
             language: post.language
         };
 
         return postGetDto;
     }
 
-    async deletePost(postId: number) : Promise<string> {
+    async deletePost(postId: number): Promise<string> {
         await this.dataSource
             .createQueryBuilder()
             .delete()
@@ -126,12 +126,36 @@ export class PostService {
             console.log("Updated post doesn't exist");
 
         const postGetDto: PostGetDto = { ...updatedPost,
-            creator: updatedPost.createdBy, 
+            createdBy: updatedPost.createdBy, 
             language: updatedPost.language
         };
 
         return postGetDto;
     }
 
-    
+    async getPostsOfUser(userId: number): Promise<PostGetDto[]> {
+        const posts: Post[] | null = await this.dataSource
+            .getRepository(Post)
+            .createQueryBuilder('post')
+            .innerJoinAndSelect('post.createdBy', 'createdBy')
+            .innerJoinAndSelect('post.language', 'language')
+            .where('createdBy.id = :userId', {userId})
+            .getMany();
+
+        if (!posts){
+            throw new Error("Posts for this user don't exist");
+        }
+
+        const postsDto: PostGetDto[] = posts.map(post => {
+            return {
+                id: post.id,
+                text: post.text,
+                type: post.type,
+                createdBy: post.createdBy,
+                language: post.language
+            };
+        });
+
+        return postsDto;
+    }
 }

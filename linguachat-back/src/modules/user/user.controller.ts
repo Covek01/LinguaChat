@@ -27,6 +27,8 @@ export class UserController {
         } catch(ex){
             console.log("Error with inserting user");
             console.log(ex);
+
+            throw new Error(ex);
         }
     }
 
@@ -41,6 +43,9 @@ export class UserController {
         } catch(ex){
             console.log("Error with deleting user");
             console.log(ex);
+
+            throw new Error(ex);
+
         }
     }
 
@@ -61,6 +66,8 @@ export class UserController {
         } catch(ex){
             console.log("Error with updating user comment");
             console.log(ex);
+
+            throw new Error(ex);
         }
     }
 
@@ -73,7 +80,7 @@ export class UserController {
                             console.log("Error with insert blocking");
                             console.log(error);
 
-                            return "Error with insert blocking"
+                            throw new Error(error);
                         });
     }
 
@@ -86,7 +93,7 @@ export class UserController {
                         console.log("Error with delete blocking");
                         console.log(error);
 
-                        return "Error with delete blocking"
+                        throw new Error(error);
                     });
     }
 
@@ -102,7 +109,7 @@ export class UserController {
                         console.log("Error with adding native language");
                         console.log(error);
 
-                        return "Error with adding native language"
+                        throw new Error(error);
                     });
     }
 
@@ -119,7 +126,7 @@ export class UserController {
                         console.log("Error with adding learning language");
                         console.log(error);
 
-                        return "Error with adding learning language"
+                        throw new Error(error); 
                     });
     }
 
@@ -135,7 +142,7 @@ export class UserController {
                         console.log("Error with removing learning language");
                         console.log(error);
 
-                        return "Error with removing learning language"
+                        throw new Error(error);
                     });
     }
 }

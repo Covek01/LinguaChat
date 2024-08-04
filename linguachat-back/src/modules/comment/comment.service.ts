@@ -107,4 +107,29 @@ export class CommentService {
 
         return 'Comment deleted successfully';
     }
+
+    async getCommentsOfPost(postId: number): Promise<CommentGetDto[]> {
+        const comments: Comment[] | null = await this.dataSource
+            .getRepository(Comment)
+            .createQueryBuilder('comment')
+            .innerJoinAndSelect('comment.postRelatedTo', 'postRelatedTo')
+            .innerJoinAndSelect('comment.userCommented', 'userCommented')
+            .where('postRelatedTo.id = :postId', {postId})
+            .getMany();
+
+        if (!comments){
+            throw new Error("Error with getting comments");
+        }
+
+        const postsDto: CommentGetDto[] = comments.map(comment => {
+            return {
+                id: comment.id,
+                text: comment.text,
+                postRelatedTo: comment.postRelatedTo,
+                userCommented: comment.userCommented
+            };
+        });
+
+        return postsDto;
+    }
 }

@@ -33,7 +33,7 @@ export class PostGetDto implements PostInterface {
     id: number;
     text: string;
     type: string;
-    creator: UserInterface;
+    createdBy: UserInterface;
     language: LanguageInterface;
 }
 
@@ -41,7 +41,7 @@ export const NullPost : PostGetDto = {
     id : 0,
     text : '',
     type : '',
-    creator : null,
+    createdBy : null,
     language : null
 }
 
