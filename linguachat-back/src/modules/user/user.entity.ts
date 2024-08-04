@@ -1,7 +1,7 @@
 import { Language } from 'src/modules/language/language.entity';
 import { Post } from 'src/modules/post/post.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable, OneToMany, Index } from 'typeorm';
-import { Connection } from './connection.entity';
+import { Connection } from '../connection/connection.entity';
 import { Comment } from 'src/modules/comment/comment.entity';
 import { Blocking } from './blocking.entity';
 import { UserLearningLanguage } from './UserLearningLanguage.entity';
