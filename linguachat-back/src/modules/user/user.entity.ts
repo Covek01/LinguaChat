@@ -137,12 +137,12 @@ export class User {
     createdPosts: Post[];
 
     //Connections relationships
-    @OneToMany(() => Connection, (connection) => connection.connectionFirst, {
+    @OneToMany(() => Connection, (connection) => connection.firstUser, {
         cascade: true,
     })
     connectionsFirst: Connection[]
 
-    @OneToMany(() => Connection, (connection) => connection.connectionSecond, {
+    @OneToMany(() => Connection, (connection) => connection.secondUser, {
         cascade: true,
     })
     connectionsSecond: Connection[]

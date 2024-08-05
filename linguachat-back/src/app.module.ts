@@ -13,7 +13,7 @@ import { configFile } from 'config/config';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConfig } from 'config/jwt-config';
 import { MailModule } from './mail/mail.module';
-import { ConnectionModule } from './connection/connection.module';
+import { ConnectionModule } from './modules/connection/connection.module';
 
 
 

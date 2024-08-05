@@ -10,17 +10,17 @@ export class Connection {
     since: Date;
 
     @Column({unique: true})
-    connection_name: string;
+    connectionName: string;
 
     @ManyToOne(() => User, (user) => user.connectionsFirst, {
         nullable: false
     })
     @JoinColumn({ name: 'first_id' })
-    connectionFirst: User;
+    firstUser: User;
 
     @ManyToOne(() => User, (user) => user.connectionsSecond, {
         nullable: false
     })
     @JoinColumn({ name: 'second_id' })
-    connectionSecond: User;
+    secondUser: User;
 }
