@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { TaskbarComponent } from 'src/modules/shared/component/taskbar/taskbar.component';
+import { TaskbarComponent } from 'src/modules/shared/taskbar/taskbar-component/taskbar.component';
 
 const routes: Routes = [
   {
