@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login-form',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./login-form.component.sass']
 })
 export class LoginFormComponent {
-
+  baseFrontendUrl: string = environment.frontendAddress;
 }

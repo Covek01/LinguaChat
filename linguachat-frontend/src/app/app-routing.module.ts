@@ -8,7 +8,7 @@ const routes: Routes = [
     path: 'auth',
     children: [
       {path: 'login', component: LoginComponent},
-      {path: 'signin', component: TaskbarComponent}
+      {path: 'signup', component: TaskbarComponent}
     ],
   },
   {
