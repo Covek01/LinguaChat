@@ -5,6 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TaskbarModule } from 'src/modules/shared/taskbar/taskbar.module';
+import { LoginModule } from 'src/modules/login/login.module';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { TaskbarModule } from 'src/modules/shared/taskbar/taskbar.module';
     BrowserModule,
     AppRoutingModule,
     TaskbarModule,
+    LoginModule,
     BrowserAnimationsModule,
   ],
   providers: [],

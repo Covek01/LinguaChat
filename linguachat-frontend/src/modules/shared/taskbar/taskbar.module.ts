@@ -10,6 +10,7 @@ import {MatButtonModule} from '@angular/material/button';
     CommonModule,
     MatToolbarModule,
     MatButtonModule
-  ]
+  ],
+  exports: [TaskbarComponent]
 })
 export class TaskbarModule { }
