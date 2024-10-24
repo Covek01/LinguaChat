@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './signup/signup.component';
 import { TaskbarModule } from '../shared/taskbar/taskbar.module';
-import { LoginFormModule } from './login-form/login-form.module';
+import { SignupFormModule } from './signup-form/signup-form.module';
 
 
 
 @NgModule({
   declarations: [
-    LoginComponent,
+    SignupComponent
   ],
   imports: [
     CommonModule,
     TaskbarModule,
-    LoginFormModule
-  ]
+    SignupFormModule
+  ],
 })
-export class LoginModule { }
+export class SignupModule { }

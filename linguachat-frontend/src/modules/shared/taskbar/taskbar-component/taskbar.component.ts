@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./taskbar.component.scss']
 })
 export class TaskbarComponent {
-  
+  darkMode: boolean = false;
 }
