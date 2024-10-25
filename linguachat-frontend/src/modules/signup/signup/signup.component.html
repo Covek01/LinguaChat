@@ -1,4 +1,4 @@
-<div>
+<div [ngClass]="{'dark-theme' : darkMode$ | async}" class="h-full">
     <app-taskbar />
     <app-signup-form />
 </div>

@@ -5,6 +5,8 @@ import { TaskbarComponent } from './taskbar-component/taskbar.component';
 import {MatButtonModule} from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FormsModule } from '@angular/forms';
+import { StoreModule } from '@ngrx/store';
+import { darkModeReducer } from 'src/store/dark-mode/dark-mode.reducer';
 
 @NgModule({
   declarations: [TaskbarComponent],
@@ -13,7 +15,7 @@ import { FormsModule } from '@angular/forms';
     MatToolbarModule,
     MatButtonModule,
     MatSlideToggleModule,
-    FormsModule    
+    FormsModule,
   ],
   exports: [TaskbarComponent]
 })

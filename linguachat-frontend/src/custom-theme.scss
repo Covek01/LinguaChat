@@ -14,6 +14,10 @@
 // hue. Available color palettes: https://material.io/design/color/
 $linguachat-front-primary: mat.define-palette(mat.$deep-purple-palette, A200);
 $linguachat-front-accent: mat.define-palette(mat.$yellow-palette, A700, A200, A400);
+$linguachat-front-primary-dark: mat.define-palette(mat.$deep-purple-palette, A200);
+$linguachat-front-accent-dark: mat.define-palette(mat.$yellow-palette, A700, A200, A400);
+
+
 
 // The warn palette is optional (defaults to red).
 $linguachat-front-warn: mat.define-palette(mat.$red-palette);
@@ -32,8 +36,8 @@ $linguachat-light-theme: mat.define-light-theme((
 
 $linguachat-dark-theme: mat.define-dark-theme((
   color: (
-    primary: $linguachat-front-primary,
-    accent: $linguachat-front-accent,
+    primary: $linguachat-front-primary-dark,
+    accent: $linguachat-front-accent-dark,
     warn: $linguachat-front-warn,
   ),
 ));
@@ -41,9 +45,13 @@ $linguachat-dark-theme: mat.define-dark-theme((
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include mat.all-component-themes($linguachat-dark-theme);
 @include mat.all-component-themes($linguachat-light-theme);
 
+.dark-theme {
+  background-color: #141414; 
+  color: #F5F5F5; 
+  @include mat.all-component-colors($linguachat-dark-theme);
+}
 
 
 html, body { height: 100%; }

@@ -6,6 +6,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TaskbarModule } from 'src/modules/shared/taskbar/taskbar.module';
 import { LoginModule } from 'src/modules/login/login.module';
 import { SignupModule } from 'src/modules/signup/signup.module';
+import { StoreModule } from '@ngrx/store';
+import { darkModeReducer } from 'src/store/dark-mode/dark-mode.reducer';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { SignupModule } from 'src/modules/signup/signup.module';
     TaskbarModule,
     LoginModule,
     BrowserAnimationsModule,
-    SignupModule
+    SignupModule,
+    StoreModule.forRoot({ darkMode: darkModeReducer })
   ],
   providers: [],
   bootstrap: [AppComponent]
