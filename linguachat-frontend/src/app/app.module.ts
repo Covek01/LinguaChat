@@ -8,6 +8,7 @@ import { LoginModule } from 'src/modules/login/login.module';
 import { SignupModule } from 'src/modules/signup/signup.module';
 import { StoreModule } from '@ngrx/store';
 import { darkModeReducer } from 'src/store/dark-mode/dark-mode.reducer';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { darkModeReducer } from 'src/store/dark-mode/dark-mode.reducer';
     LoginModule,
     BrowserAnimationsModule,
     SignupModule,
-    StoreModule.forRoot({ darkMode: darkModeReducer })
+    StoreModule.forRoot({ darkMode: darkModeReducer }),
   ],
   providers: [],
   bootstrap: [AppComponent]

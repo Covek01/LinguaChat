@@ -11,7 +11,7 @@ import { selectDarkModeEnabled } from 'src/store/dark-mode/dark-mode.selector';
   styleUrls: ['./taskbar.component.scss']
 })
 export class TaskbarComponent {
-  darkMode: boolean = false;
+  darkMode$ = this.store.select(selectDarkModeEnabled);
   constructor(private readonly store: Store) {
 
   }

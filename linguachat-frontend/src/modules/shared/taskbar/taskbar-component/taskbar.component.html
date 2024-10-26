@@ -1,7 +1,7 @@
 <mat-toolbar>
     <img src="assets/Lingua-cropped.png" class="h-full"/>
     <span class="w-11/12"></span>
-    <mat-slide-toggle [(ngModel)]="darkMode" (change)="toggleChanged($event)" color="primary">
+    <mat-slide-toggle [checked]="darkMode$ | async" (change)="toggleChanged($event)" color="primary">
         Dark Mode
     </mat-slide-toggle>
 </mat-toolbar>
