@@ -14,6 +14,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { jwtConfig } from 'config/jwt-config';
 import { MailModule } from './mail/mail.module';
 import { ConnectionModule } from './modules/connection/connection.module';
+import { PassportModule } from '@nestjs/passport';
 
 
 
@@ -22,6 +23,7 @@ import { ConnectionModule } from './modules/connection/connection.module';
   imports: [ConfigModule.forRoot(configFile), 
       JwtModule.registerAsync(jwtConfig),
       TypeOrmModule.forRoot({...configTypeOrm, name: 'postgresConnection'}),
+      PassportModule,
       CommentModule, PostModule, LanguageModule, UserModule, AuthModule, MailModule, ConnectionModule],
   controllers: [AppController],
   providers: [AppService],

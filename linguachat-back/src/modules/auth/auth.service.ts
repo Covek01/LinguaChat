@@ -19,16 +19,38 @@ export class AuthService {
         private mailService: MailService
     ){}
 
-    async signIn(username: string, password: string): Promise<any> {
+    async validateUser(username: string, password: string): Promise<any> {
         const user = await this.userService.getByUsername(username);
-        if (user?.passHash !== sha1(password)) {
-          throw new UnauthorizedException();
+        console.log(username)
+        if (user?.passHash === sha1(password)) {
+          const {passHash, ...userWithoutPassword} = user;
+          const payload: UserGetDto = userWithoutPassword;
+
+          return payload;
         }
-        const {passHash, ...userWithoutPassword} = user;
-        const payload:UserGetDto = userWithoutPassword;
+        
+        return null;
+    }
+
+    async signIn(username: string, password: string): Promise<any> {
+        const payload: UserGetDto = await this.validateUser(username, password);
+        if (payload === null) {
+            throw new UnauthorizedException();
+        }
+        
         return {
           access_token: await this.jwtService.signAsync(payload),
         };
+    }
+
+    async login(payload: UserGetDto): Promise<any> {
+      if (payload === null) {
+          throw new UnauthorizedException();
+      }
+      
+      return {
+        access_token: await this.jwtService.signAsync(payload),
+      };
     }
 
 

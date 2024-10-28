@@ -5,6 +5,8 @@ import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
 import { User } from './user.entity';
 import { DeleteResult } from 'typeorm';
 import { AuthGuard } from '../auth/auth.guard';
+import { LocalAuthGuard } from '../auth/local-auth.guard';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
 
 @ApiTags("user")
@@ -12,10 +14,7 @@ import { AuthGuard } from '../auth/auth.guard';
 @Controller('user')
 export class UserController {
     constructor(private userService: UserService){}
-
-
     
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get('/get/:id')
     @ApiParam(
@@ -23,7 +22,7 @@ export class UserController {
     )
     async get(@Param('id') id: string) : Promise<UserGetDto> {
         try{
-            return await this.userService.get(parseInt(id, 0));
+            return await this.userService.get(parseInt(id, 10));
         } catch(ex){
             console.log("Error with inserting user");
             console.log(ex);
@@ -32,8 +31,6 @@ export class UserController {
         }
     }
 
-
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Delete('/delete/:id')
     @ApiParam({name: 'id', type: Number})
@@ -49,7 +46,6 @@ export class UserController {
         }
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Put('/insertCommentAboutUser')
     @ApiBody({
@@ -71,7 +67,6 @@ export class UserController {
         }
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Post('/block/:blockerId/:blockedId')
     async blockUser(@Param('blockerId') blockerId: string, @Param('blockedId') blockedId: string) : Promise<string> {
@@ -84,7 +79,6 @@ export class UserController {
                         });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Delete('/unblock/:blockerId/:blockedId')
     async unblockUser(@Param('blockerId') blockerId: string, @Param('blockedId') blockedId: string) : Promise<string> {
@@ -97,7 +91,6 @@ export class UserController {
                     });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Post('/insertLanguageNative/:userId/:languageId')
     async insertLanguageNative(
@@ -113,7 +106,6 @@ export class UserController {
                     });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Post('/insertLanguageLearning/:userId/:languageId/:level')
     async insertLanguageLearning(
@@ -130,7 +122,6 @@ export class UserController {
                     });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Delete('/removeLanguageLearning/:userId/:languageId')
     async removeLanguageLearning(

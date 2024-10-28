@@ -151,7 +151,7 @@ export class UserService {
                 language: language,
                 level: level
             })
-            .orUpdate(['level'], ['language_id', 'userId'])
+            .orUpdate(['level'], ['language_id', 'user_id'])
             .execute();
         
         const languageLearning = await this.dataSource
