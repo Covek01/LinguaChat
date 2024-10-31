@@ -1,5 +1,6 @@
 import { createAction, props } from "@ngrx/store"
 import { LoginRequest, LoginResponse } from "./login.types"
+import { UserGetDto } from "src/models/user.types"
 
 export const updateUserInputValues = createAction(
     '[Login] Update User Inputs',
@@ -13,10 +14,10 @@ export const sendLoginRequest = createAction(
 
 export const getLoginResponse = createAction(
     '[Login] Get Login Response',
-    props<{request: LoginResponse}>()
+    props<{jwtToken: string}>()
 )
 
 export const getLoginError = createAction(
     '[Login] Get Login Error',
-    props<{request: LoginResponse}>()
+    props<{error: string}>()
 )

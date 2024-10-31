@@ -184,7 +184,7 @@ export class UserService {
             .createQueryBuilder()
             .delete()
             .from(UserLearningLanguage)
-            .where('userId = :userId', {userId: userId})
+            .where('user_id = :userId', {userId: userId})
             .andWhere('language_id = :languageId', {languageId: language_id})
             .execute();
         

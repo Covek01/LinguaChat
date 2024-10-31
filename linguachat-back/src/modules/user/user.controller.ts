@@ -8,7 +8,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { LocalAuthGuard } from '../auth/local-auth.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
-
+@UseGuards(JwtAuthGuard)
 @ApiTags("user")
 @ApiBearerAuth()
 @Controller('user')

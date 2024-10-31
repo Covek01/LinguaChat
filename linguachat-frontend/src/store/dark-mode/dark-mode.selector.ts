@@ -7,6 +7,7 @@ export const selectDarkModeEnabled = createSelector(
         const isDark = darkMode.isDark;
         console.log("On selector isDark is: " + isDark)
         localStorage.setItem('darkMode', JSON.stringify(isDark));
+        
         return isDark;
     }
 )

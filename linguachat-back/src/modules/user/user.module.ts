@@ -13,7 +13,6 @@ import { jwtAuthGuardObject } from 'config/jwt-auth-guard-object';
   imports: [forwardRef(() => AuthModule)],
   controllers: [UserController],
   providers: [UserService,
-    jwtAuthGuardObject
   ],
   exports: [UserService]
 })

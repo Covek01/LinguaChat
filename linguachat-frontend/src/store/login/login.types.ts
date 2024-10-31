@@ -7,6 +7,6 @@ export interface LoginRequest {
 
 export interface LoginResponse {
     jwtToken: string,
-    user: UserInterface
+    error: string,
 }
 
