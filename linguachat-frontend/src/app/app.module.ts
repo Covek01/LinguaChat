@@ -16,6 +16,9 @@ import { provideHttpClient } from '@angular/common/http'
 import { ngStoreNames } from 'src/store/config/store.names';
 import { ngEffectsNames } from 'src/store/config/store.effect.names';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { ngReduxDevtoolsConfig } from 'src/store/config/ng.redux-devtools.config';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -30,7 +33,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
     SignupModule,
     ngStoreNames,
     ngEffectsNames,
-    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
+    StoreDevtoolsModule.instrument(ngReduxDevtoolsConfig),
   ],
   providers: [
     CookieService,

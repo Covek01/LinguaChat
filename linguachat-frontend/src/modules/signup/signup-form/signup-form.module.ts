@@ -4,7 +4,9 @@ import { SignupFormComponent } from './signup-form/signup-form.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
-
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 @NgModule({
@@ -15,7 +17,13 @@ import { MatButtonModule } from '@angular/material/button';
     CommonModule,
     MatInputModule,
     MatFormFieldModule,
-    MatButtonModule
+    MatButtonModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
+  ],
+  providers: [
   ],
   exports: [SignupFormComponent]
 })

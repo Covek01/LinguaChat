@@ -23,9 +23,7 @@ export class UserService {
                             id: userId
                         }
                     });
-                    console.log(user)
         const userDto: UserGetDto = plainToInstance(UserGetDto, user, { excludeExtraneousValues: true });
-        console.log(userDto);
         return userDto;
     }
 

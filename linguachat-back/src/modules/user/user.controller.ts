@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards, Request } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserGetDto, UserInsertDto } from 'src/models/user.types';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
@@ -23,6 +23,19 @@ export class UserController {
     async get(@Param('id') id: string) : Promise<UserGetDto> {
         try{
             return await this.userService.get(parseInt(id, 10));
+        } catch(ex){
+            console.log("Error with inserting user");
+            console.log(ex);
+
+            throw new Error(ex);
+        }
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Get('/myprofile')
+    async myProfile(@Request() req) : Promise<UserGetDto> {
+        try{
+            return req.user;
         } catch(ex){
             console.log("Error with inserting user");
             console.log(ex);

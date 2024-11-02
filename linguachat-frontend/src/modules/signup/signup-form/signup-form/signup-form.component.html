@@ -1,18 +1,54 @@
-<div class="mx-auto relative top-12 h-3/5 w-3/5 flex flex-col">
-    <img src="assets/Lingua-cropped.png" class="h-1/3 mx-auto"/>
-    <div class="mt-16 flex flex-col justify-between w-1/2 h-72 self-center">
-        <p class="text-4xl self-center mb-8 font-semibold">Sign up</p>
-        <mat-form-field class="block">
-            <mat-label>Username</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <mat-form-field class="block">
-            <mat-label>Password</mat-label>
-            <input matInput>
-        </mat-form-field>
-        <button mat-flat-button color="primary">
-            Login
-        </button>
-    </div>
-    <a [href]="baseFrontendUrl + '/auth/login'" class="mt-10 underline text-xl self-center">Already registered? Go to login page.</a>
+<div class="mx-auto relative top-12 h-4/5 w-4/5 flex flex-col">
+    <img src="assets/Lingua-cropped.png" class="h-64 mx-auto"/>
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-12 flex w-4/5 flex-col justify-between self-center flex-nowrap">
+            <p class="text-4xl self-center mb-8 font-semibold">Sign up</p>
+            <div class="flex flex-row justify-between">
+              <mat-form-field class="block w-2/5">
+                <mat-label>Name</mat-label>
+                <input matInput formControlName="name">
+              </mat-form-field>
+              <mat-form-field class="block w-2/5">
+                <mat-label>Surname</mat-label>
+                <input matInput formControlName="surname">
+              </mat-form-field>
+            </div>
+            <div class="flex flex-row justify-between">
+                <mat-form-field class="block w-2/5">
+                  <mat-label>Username</mat-label>
+                  <input matInput formControlName="username">
+                </mat-form-field>
+                <mat-form-field class="block w-2/5">
+                  <mat-label>Email</mat-label>
+                  <input matInput formControlName="email">
+                </mat-form-field>
+            </div>
+            <div class="flex flex-row justify-between">
+                <mat-form-field class="block w-2/5">
+                  <mat-label>Country</mat-label>
+                  <input matInput formControlName="country">
+                </mat-form-field>
+                <mat-form-field class="block w-2/5">
+                  <mat-label>City</mat-label>
+                  <input matInput formControlName="city">
+                </mat-form-field>
+            </div>
+            <mat-form-field class="block w-2/3 self-center">
+                <mat-label>Born</mat-label>
+                <input matInput formControlName="born" [matDatepicker]="picker">
+                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="block w-2/3 self-center">
+                <mat-label>Password</mat-label>
+                <input matInput formControlName="password">
+            </mat-form-field>
+            <mat-form-field class="block w-2/3 self-center mb-8">
+                <mat-label>Confirm Password</mat-label>
+                <input matInput formControlName="confirmPassword">
+            </mat-form-field>
+            <button mat-flat-button color="primary" [disabled]="!loginForm.valid">
+              Login
+            </button>
+          </form>
+    <a [href]="baseFrontendUrl + '/auth/login'" class="mt-12 underline text-xl self-center">Already registered? Go to login page.</a>
 </div>
