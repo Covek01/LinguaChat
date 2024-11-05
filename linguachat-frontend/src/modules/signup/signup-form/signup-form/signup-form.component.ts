@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { environment } from 'src/environments/environment';
-import { UserInsertDto } from 'src/models/user.types';
+import { UserInsertDto, UserInsertDtoWithPasswordReset } from 'src/models/user.types';
 
 @Component({
   selector: 'app-signup-form',
@@ -11,19 +11,17 @@ import { UserInsertDto } from 'src/models/user.types';
 })
 export class SignupFormComponent {
   baseFrontendUrl: string = environment.frontendAddress;
-  userInputState: UserInsertDto;
   loginForm: FormGroup;
 
   constructor(
     private readonly store: Store,
     private readonly formBuilder: FormBuilder
   ) {
-    this.userInputState = new UserInsertDto();
     this.loginForm = this.formBuilder.group({
       name: ['', Validators.required],
       surname: ['', Validators.required],
       username: ['', Validators.required],
-      email: ['', Validators.required],
+      email: ['', [Validators.required, Validators.email]],
       born: [new Date(), Validators.required],
       country: ['', Validators.required],
       city: ['', Validators.required],
@@ -32,7 +30,16 @@ export class SignupFormComponent {
     });
   }
 
-  onSubmit() {
-    
+
+
+  onUserSignupSubmit() {
+    const loginValue: UserInsertDtoWithPasswordReset = this.loginForm.value;
+
+    if (loginValue.password !== loginValue.confirmPassword) {
+      console.log("PASSWORD AND PASSWORD RESET AREN'T THE SAME");
+      return;
+    }
+
+    const {confirmPassword, ...user} = loginValue; 
   }
 }

@@ -4,4 +4,7 @@
     <mat-slide-toggle [checked]="darkMode$ | async" (change)="toggleChanged($event)" color="primary">
         Dark Mode
     </mat-slide-toggle>
+    <div *ngIf="isUserLoggedIn">
+        
+    </div>
 </mat-toolbar>

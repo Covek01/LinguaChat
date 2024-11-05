@@ -19,6 +19,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { ngReduxDevtoolsConfig } from 'src/store/config/ng.redux-devtools.config';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
+import { MyprofileModule } from 'src/modules/profile/myprofile/myprofile.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { DateAdapter } from '@angular/material/core';
     LoginModule,
     BrowserAnimationsModule,
     SignupModule,
+    MyprofileModule,
     ngStoreNames,
     ngEffectsNames,
     StoreDevtoolsModule.instrument(ngReduxDevtoolsConfig),

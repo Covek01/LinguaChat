@@ -1,7 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup, NgForm, Validators } from '@angular/forms';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { filter } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { sendLoginRequest } from 'src/store/login/login.actions';
 import { selectLoginResponse } from 'src/store/login/login.selector';
@@ -19,7 +20,7 @@ export class LoginFormComponent {
   public password: string = '';
 
   
-  constructor(private readonly store: Store) {
+  constructor(private readonly store: Store, private readonly router: Router) {
     
   }
   // loginForm = new FormGroup({
@@ -28,8 +29,16 @@ export class LoginFormComponent {
   // });
 
   listenWhenLoginOccurs$ = this.store.select(selectLoginResponse)
+    .pipe(filter(token => !!token))
     .subscribe(token => {
-      console.log("I AM INVOKED MY FRIEND")
+      console.log("I AM INVOKED MY FRIEND");
+      localStorage.setItem('jwtToken', token);
+      this.router.navigate(['/user/myprofile'])
+        .then(nav => {
+          console.log(nav); // true if navigation is successful
+        }, err => {
+          console.log(err) // when there's an error
+        });
     })
 
 

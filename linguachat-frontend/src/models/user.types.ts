@@ -1,5 +1,7 @@
 //User
 
+import { count } from "rxjs";
+
 
 
 export interface UserInterface { 
@@ -56,6 +58,25 @@ export class UserInsertDto{
         this.born = born;
         this.country = country;
         this.city = city;
+    }
+}
+
+export class UserInsertDtoWithPasswordReset extends UserInsertDto {
+    confirmPassword: string;
+
+    constructor(
+        name: string = '',
+        surname: string = '', 
+        username: string = '', 
+        email: string = '', 
+        password: string = '', 
+        born: Date = new Date(), 
+        country: string = '', 
+        city: string = '',
+        confirmPassword = ''
+    ) {
+        super(name, surname, username, email, password, born, country, city);
+        this.confirmPassword = confirmPassword;
     }
 }
 

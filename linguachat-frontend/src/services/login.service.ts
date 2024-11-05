@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { UserInsertDto } from 'src/models/user.types';
 import { JwtToken } from 'src/models/utility.types';
 
 @Injectable({
@@ -22,6 +23,13 @@ export class LoginService {
     return this.http.post<any>(
       `${this.baseAddress}/auth/login`,
       loginBody,
+    )
+  }
+
+  signup(user: UserInsertDto): Observable<string> {
+    return this.http.post<any>(
+      `${this.baseAddress}/auth/register`,
+      user,
     )
   }
 }

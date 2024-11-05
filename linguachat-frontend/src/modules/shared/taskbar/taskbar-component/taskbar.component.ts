@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { booleanAttribute, Component, Input } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import { darkModeDisable, darkModeEnable } from 'src/store/dark-mode/dark-mode.actions';
@@ -11,6 +11,8 @@ import { selectDarkModeEnabled } from 'src/store/dark-mode/dark-mode.selector';
   styleUrls: ['./taskbar.component.scss']
 })
 export class TaskbarComponent {
+  @Input() isUserLoggedIn: boolean = false;
+
   darkMode$ = this.store.select(selectDarkModeEnabled);
   constructor(private readonly store: Store) {
 
