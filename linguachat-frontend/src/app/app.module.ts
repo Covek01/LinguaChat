@@ -12,7 +12,7 @@ import { RouterModule } from '@angular/router';
 import { CookieService } from 'ngx-cookie-service';
 import { EffectsModule } from '@ngrx/effects';
 import { DarkModeEffects } from 'src/store/dark-mode/dark-mode.effects';
-import { provideHttpClient } from '@angular/common/http'
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http'
 import { ngStoreNames } from 'src/store/config/store.names';
 import { ngEffectsNames } from 'src/store/config/store.effect.names';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
@@ -20,6 +20,7 @@ import { ngReduxDevtoolsConfig } from 'src/store/config/ng.redux-devtools.config
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DateAdapter } from '@angular/material/core';
 import { MyprofileModule } from 'src/modules/profile/myprofile/myprofile.module';
+import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MyprofileModule } from 'src/modules/profile/myprofile/myprofile.module'
   ],
   providers: [
     CookieService,
-    provideHttpClient()
+    provideHttpClient(),
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent]
 })

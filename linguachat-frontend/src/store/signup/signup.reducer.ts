@@ -2,7 +2,7 @@ import { createReducer, on } from "@ngrx/store";
 import { initialStateSignupContext } from "./signup.state";
 import * as SignupActions from "./signup.actions";
 
-export const loginReducer = createReducer(
+export const signupReducer = createReducer(
     initialStateSignupContext,
     on(SignupActions.getSignupResponse, (state, { response }) => ({
         ...state,

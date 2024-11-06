@@ -27,9 +27,12 @@ export class LoginService {
   }
 
   signup(user: UserInsertDto): Observable<string> {
-    return this.http.post<any>(
+    return this.http.post(
       `${this.baseAddress}/auth/register`,
       user,
+      {
+        responseType: 'text',
+      }
     )
   }
 }
