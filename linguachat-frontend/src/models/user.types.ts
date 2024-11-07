@@ -94,30 +94,36 @@ export interface UserGetDtoInterface{
     role: string
 }
 
-export interface UserGetDto{
+export class UserGetDto {
     id: number;
-
     name: string;
-
     surname: string;
-
     username: string;
-
     email: string;
-
     since: Date;
-
     born: Date;
-
     comment: string;
-
     country: string;
-
     city: string;
-
     role: string;
-}
-
+    confirmed: boolean;
+  
+    constructor() {
+      this.id = 0;
+      this.name = '';
+      this.surname = '';
+      this.username = '';
+      this.email = '';
+      this.since = new Date(0); // Initialize with the epoch date (January 1, 1970)
+      this.born = new Date(0);  // Initialize with the epoch date (January 1, 1970)
+      this.comment = '';
+      this.country = '';
+      this.city = '';
+      this.role = '';
+      this.confirmed = false;
+    }
+  }
+  
 export class User implements UserInterface {
     id: number;
     name: string;

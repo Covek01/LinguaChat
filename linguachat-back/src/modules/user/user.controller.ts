@@ -32,10 +32,27 @@ export class UserController {
     }
 
     @HttpCode(HttpStatus.OK)
+    @Get('/getForProfile/:id')
+    @ApiParam(
+        {name: 'id', type: Number}
+    )
+    async getForProfile(@Param('id') id: string) : Promise<UserGetDto> {
+        try{
+            return await this.userService.getUserForProfile(parseInt(id, 10));
+        } catch(ex){
+            console.log("Error with inserting user");
+            console.log(ex);
+
+            throw new Error(ex);
+        }
+    }
+
+    @HttpCode(HttpStatus.OK)
     @Get('/myprofile')
     async myProfile(@Request() req) : Promise<UserGetDto> {
         try{
-            return req.user;
+            const userId = req.user.id;
+            return await this.userService.get(parseInt(userId, 10));
         } catch(ex){
             console.log("Error with inserting user");
             console.log(ex);

@@ -1,7 +1,7 @@
 import { Inject, Injectable, UseGuards } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, DeleteResult, InsertResult } from 'typeorm';
-import { UserGetDto, UserInsertDto, UserInterface } from '../../models/user.types'
+import { UserGetDto, UserGetDtoProfile, UserInsertDto, UserInterface } from '../../models/user.types'
 
 import { User } from './user.entity';
 import { sha1 } from '../auth/sha1.hash';
@@ -24,6 +24,24 @@ export class UserService {
                         }
                     });
         const userDto: UserGetDto = plainToInstance(UserGetDto, user, { excludeExtraneousValues: true });
+        return userDto;
+    }
+
+    async getUserForProfile(userId: number) : Promise<UserGetDtoProfile> {
+        const user: User = await this.dataSource
+                    .getRepository(User)
+                    .createQueryBuilder('user')
+                    .leftJoinAndSelect('user.usersBlocking', 'usersBlocking')
+                    .leftJoinAndSelect('usersBlocking.blockedUser', 'blockedUser')
+                    .leftJoinAndSelect('user.userLanguagesLearning', 'userLanguagesLearning')
+                    .leftJoinAndSelect('userLanguagesLearning.language', 'language')
+                    .leftJoinAndSelect('user.languagesNative', 'languagesNative')
+                    .where('user.id = :userId', {userId})
+                    .getOne();
+        console.log(user)  
+        const {passHash, ...userDto} = user;
+        //const userDto: UserGetDtoProfile = plainToInstance(UserGetDtoProfile, user, { excludeExtraneousValues: true });
+        console.log(userDto instanceof UserGetDtoProfile)
         return userDto;
     }
 

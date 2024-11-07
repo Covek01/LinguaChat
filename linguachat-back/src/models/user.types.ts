@@ -3,6 +3,9 @@
 import { ApiProperty } from "@nestjs/swagger";
 import { Expose } from "class-transformer";
 import { IsDate, IsEmail } from "class-validator";
+import { Language } from "./language.types";
+import { Blocking } from "src/modules/user/blocking.entity";
+import { UserLearningLanguage } from "src/modules/user/UserLearningLanguage.entity";
 
 
 export interface UserInterface { 
@@ -124,7 +127,16 @@ export class UserGetDto{
 
     @Expose()
     role: string;
+
+    @Expose()
+    confirmed: boolean;
 }
+
+export class UserGetDtoProfile extends UserGetDto {
+    usersBlocking: Blocking[];
+    userLanguagesLearning: UserLearningLanguage[];
+    languagesNative: Language[];
+    }
 
 export class User implements UserInterface {
     id: number;
