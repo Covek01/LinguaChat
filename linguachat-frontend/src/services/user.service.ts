@@ -26,6 +26,13 @@ export class UserService {
     )
   }
 
+  updateInfo(user: UserGetDto): Observable<UserGetDto> {
+    return this.http.put<UserGetDto>(
+      `${this.baseAddress}/user/updateInfo`,
+      user
+    )
+  }
+
   block(myid: number, id: number): Observable<string> {
     return this.http.post(
       `${this.baseAddress}/user/block/${myid}/${id}`,

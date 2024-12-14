@@ -16,14 +16,14 @@ export const selectMyUserError = createSelector(
 )
 
 export const selectUser = createSelector(
-    createFeatureSelector<UserStoreState>('myUser'),
+    createFeatureSelector<UserStoreState>('user'),
     (state) =>  {
         return state.user;
     }
 )
 
 export const selectUserError = createSelector(
-    createFeatureSelector<UserStoreState>('myUser'),
+    createFeatureSelector<UserStoreState>('user'),
     (state) =>  {
         return state.error;
     }

@@ -61,6 +61,35 @@ export class UserInsertDto{
     }
 }
 
+export class UserUpdateDto{
+    id: number;
+    name: string;
+    surname: string;
+    username: string;
+    born: Date;
+    country: string;
+    city: string;
+
+    constructor(
+        id: number = 0,
+        name: string = '',
+        surname: string = '', 
+        username: string = '', 
+        born: Date = new Date(), 
+        country: string = '', 
+        city: string = ''
+    ) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.born = born;
+        this.country = country;
+        this.city = city;
+    }
+}
+
+
 export class UserInsertDtoWithPasswordReset extends UserInsertDto {
     confirmPassword: string;
 

@@ -98,6 +98,19 @@ export class UserController {
     }
 
     @HttpCode(HttpStatus.OK)
+    @Put('/updateInfo')
+    async updateUserInfo(@Body() body: UserGetDto) : Promise<UserGetDto> {
+        try{
+            return await this.userService.updateUserInfo(body);
+        } catch(ex){
+            console.log("Error with updating user comment");
+            console.log(ex);
+
+            throw new Error(ex);
+        }
+    }
+
+    @HttpCode(HttpStatus.OK)
     @Post('/block/:blockerId/:blockedId')
     async blockUser(@Param('blockerId') blockerId: string, @Param('blockedId') blockedId: string) : Promise<string> {
             return await this.userService.blockUser(parseInt(blockerId, 0), parseInt(blockedId, 0))

@@ -1,5 +1,5 @@
 import { createAction, emptyProps, props } from "@ngrx/store";
-import { UserGetDto, UserInsertDto } from "src/models/user.types";
+import { UserGetDto, UserInsertDto, UserUpdateDto } from "src/models/user.types";
 
 export const sendRequestToGetUser = createAction(
     '[User] Send Request To Get User',
@@ -9,6 +9,11 @@ export const sendRequestToGetUser = createAction(
 export const sendRequestToGetMyUser = createAction(
     '[User] Send Request To Get My User',
     emptyProps
+)
+
+export const sendRequestToUpdateMyUser = createAction(
+    '[User] Send Request To Update My User',
+    props<{user: UserGetDto}>()
 )
 
 export const getResponse = createAction(

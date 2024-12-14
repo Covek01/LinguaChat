@@ -1,7 +1,7 @@
-import { Inject, Injectable, UseGuards } from '@nestjs/common';
+import { Delete, Inject, Injectable, UseGuards } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, DeleteResult, InsertResult } from 'typeorm';
-import { UserGetDto, UserGetDtoProfile, UserInsertDto, UserInterface } from '../../models/user.types'
+import { UserGetDto, UserGetDtoProfile, UserInsertDto, UserInterface, UserUpdateDto } from '../../models/user.types'
 
 import { User } from './user.entity';
 import { sha1 } from '../auth/sha1.hash';
@@ -80,6 +80,17 @@ export class UserService {
             return `User with id ${userId} isn't updated or doesn't exist`;
 
         return `User with id ${userId} got a new comment`;
+    }
+
+    async updateUserInfo(user: UserGetDto) : Promise<UserGetDto> {
+        const {id, ...userWithoutId} = user;
+        const result: DeleteResult = await this.dataSource
+                .getRepository(User)
+                .update({ id: user.id }, userWithoutId );
+        if (result.affected === 0)
+            return new UserGetDto();
+
+        return user;
     }
 
     async blockUser(blockerId: number, blockedId: number) : Promise<string> {

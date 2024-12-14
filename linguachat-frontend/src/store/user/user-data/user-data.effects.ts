@@ -37,4 +37,19 @@ export class UserDataEffects {
       )
     )
   );
+
+  updateUserInfo$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(UserDataActions.sendRequestToUpdateMyUser),
+      exhaustMap((action) =>
+        this.userService.updateInfo(action.user).pipe(
+          tap((response) => console.log('User Response:', response)),
+          map((user) => {
+            return UserDataActions.getResponse({ user });
+          }),
+          catchError((error) => of(UserDataActions.getError({ error: error })))
+        )
+      )
+    )
+  );
 }

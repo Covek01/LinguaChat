@@ -80,6 +80,34 @@ export class UserInsertDto{
     }
 }
 
+export class UserUpdateDto{
+    id: number;
+    name: string;
+    surname: string;
+    username: string;
+    born: Date;
+    country: string;
+    city: string;
+
+    constructor(
+        id: number = 0,
+        name: string = '',
+        surname: string = '', 
+        username: string = '', 
+        born: Date = new Date(), 
+        country: string = '', 
+        city: string = ''
+    ) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.born = born;
+        this.country = country;
+        this.city = city;
+    }
+}
+
 export interface UserGetDtoInterface{
     id: number, 
     name: string,
@@ -130,6 +158,34 @@ export class UserGetDto{
 
     @Expose()
     confirmed: boolean;
+
+    constructor(
+        id: number = 0,
+        name: string = '',
+        surname: string = '',
+        username: string = '',
+        email: string = '',
+        since: Date= new Date(),
+        born: Date = new Date(),
+        comment: string = '',
+        country: string = '',
+        city: string = '',
+        role: string = '',
+        confirmed: boolean = false,
+    ) {
+        this.id = id;
+        this.name = name;
+        this.surname = surname;
+        this.username = username;
+        this.email = email;
+        this.since = since;
+        this.born = born;
+        this.comment = comment;
+        this.country = country;
+        this.city = city;
+        this.role = role;
+        this.confirmed = confirmed;
+    }
 }
 
 export class UserGetDtoProfile extends UserGetDto {
