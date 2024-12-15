@@ -31,7 +31,7 @@ export class UserService {
         const user: User = await this.dataSource
                     .getRepository(User)
                     .createQueryBuilder('user')
-                    .leftJoinAndSelect('user.usersBlocking', 'usersBlocking')
+                    .leftJoinAndSelect('user.blockedUsers', 'usersBlocking')
                     .leftJoinAndSelect('usersBlocking.blockedUser', 'blockedUser')
                     .leftJoinAndSelect('user.userLanguagesLearning', 'userLanguagesLearning')
                     .leftJoinAndSelect('userLanguagesLearning.language', 'language')
@@ -40,9 +40,24 @@ export class UserService {
                     .getOne();
         console.log(user)  
         const {passHash, ...userDto} = user;
-        //const userDto: UserGetDtoProfile = plainToInstance(UserGetDtoProfile, user, { excludeExtraneousValues: true });
         console.log(userDto instanceof UserGetDtoProfile)
         return userDto;
+    }
+
+    async getUsersWhoAreBlockedByUser(userId: number) : Promise<UserGetDto[]> {
+        const blockedUsers: Blocking[] = await this.dataSource
+                    .getRepository(Blocking)
+                    .createQueryBuilder('blocking')
+                    .leftJoinAndSelect('blocking.user', 'userWhoBlocked')
+                    .where('blocking.userId = :userId', {userId})
+                    .getMany();
+
+        const blockedUsersMapped = blockedUsers.map(obj => obj.user).map(objUser => {
+            const {passHash, ...userWithoutPassHash} = objUser;
+            return userWithoutPassHash
+        });
+        console.log(blockedUsers);  
+        return blockedUsersMapped;
     }
 
     async getByUsername(username: string) : Promise<User>{

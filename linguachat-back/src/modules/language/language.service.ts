@@ -3,6 +3,7 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, DeleteResult, InsertResult } from 'typeorm';
 import { Language } from './language.entity';
 import { LanguageInterface, NullLanguage } from 'src/models/language.types';
+import { UserLearningLanguage } from '../user/UserLearningLanguage.entity';
 
 @Injectable()
 export class LanguageService {
@@ -60,4 +61,32 @@ export class LanguageService {
                             });
         return "Language successfully deleted";
     }
+
+    async getLanguagesUserIsLearning(userId: number) : Promise<Language[]> {
+        const userLearningLanguages: UserLearningLanguage[] = await this.dataSource
+                    .getRepository(UserLearningLanguage)
+                    .createQueryBuilder('userLearningLanguage')
+                    .leftJoinAndSelect('userLearningLanguage.language', 'language')
+                    .where('userLearningLanguage.user_id = :userId', {userId})
+                    .getMany();
+
+        const learnedLanguages: Language[] = userLearningLanguages.map(userLearningLanguage => 
+            userLearningLanguage.language
+        );
+        return learnedLanguages;
+    }
+
+    async getNativeLanguagesForUser(userId: number) : Promise<Language[]> {
+        const languages: Language[] = await this.dataSource
+                    .getRepository(Language)
+                    .createQueryBuilder('language')
+                    .innerJoin('language.nativeBy', 'user')
+                    .where('user.id = :userId', { userId })
+                    .getMany();
+
+
+        console.log(languages);  
+        return languages;
+    }
+
 }

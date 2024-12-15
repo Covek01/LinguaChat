@@ -7,6 +7,8 @@ import { DeleteResult } from 'typeorm';
 import { AuthGuard } from '../auth/auth.guard';
 import { LocalAuthGuard } from '../auth/local-auth.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { Blocking } from './blocking.entity';
+import { Language } from '../language/language.entity';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags("user")
@@ -52,7 +54,8 @@ export class UserController {
     async myProfile(@Request() req) : Promise<UserGetDto> {
         try{
             const userId = req.user.id;
-            return await this.userService.get(parseInt(userId, 10));
+            console.log(typeof userId)
+            return await this.userService.get(userId);
         } catch(ex){
             console.log("Error with inserting user");
             console.log(ex);
@@ -60,6 +63,20 @@ export class UserController {
             throw new Error(ex);
         }
     }
+
+    @HttpCode(HttpStatus.OK)
+    @Get('/getUsersWhoAreBlockedByUser/:id')
+    async getUsersWhoAreBlockedByUser(@Param('id') id: string) : Promise<UserGetDto[]> {
+        try{
+            return await this.userService.getUsersWhoAreBlockedByUser(parseInt(id, 10));
+        } catch(ex){
+            console.log("Error with getting blocked user list");
+            console.log(ex);
+
+            throw new Error(ex);
+        }
+    }
+
 
     @HttpCode(HttpStatus.OK)
     @Delete('/delete/:id')

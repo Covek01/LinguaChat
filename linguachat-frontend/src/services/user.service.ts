@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Language } from 'src/models/language.types';
 import { UserGetDto } from 'src/models/user.types';
 
 @Injectable({
@@ -52,5 +53,24 @@ export class UserService {
       }
     )
   }
+
+  getUsersWhoAreBlockedByUser(id: number): Observable<UserGetDto[]> {
+    return this.http.get<UserGetDto[]>(
+      `${this.baseAddress}/user/getUsersWhoAreBlockedByUser/${id}`
+    );
+  }
+  
+  getNativeLanguagesForUser(id: number): Observable<Language[]> {
+    return this.http.get<Language[]>(
+      `${this.baseAddress}/user/getNativeLanguagesForUser/${id}`
+    );
+  }
+  
+  getLanguagesUserIsLearning(id: number): Observable<Language[]> {
+    return this.http.get<Language[]>(
+      `${this.baseAddress}/user/getLanguagesUserIsLearning/${id}`
+    );
+  }
+  
 
 }

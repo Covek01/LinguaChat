@@ -1,13 +1,14 @@
 import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
 import { LanguageService } from './language.service';
 import { AuthGuard } from '../auth/auth.guard';
-import { LanguageInterface, NullLanguage } from 'src/models/language.types';
+import { Language, LanguageInterface, NullLanguage } from 'src/models/language.types';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('language')
 export class LanguageController {
     constructor(private languageService: LanguageService){}
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Post('/add')
     async addLanguage(@Query('name') name: string) : Promise<string> {
@@ -20,7 +21,6 @@ export class LanguageController {
                     });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get('/get/:id')
     async getLanguage(@Param('id') id: string) : Promise<LanguageInterface> {
@@ -33,7 +33,6 @@ export class LanguageController {
                     });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Delete('/delete/:id')
     async deleteLanguage(@Param('id') id: string) : Promise<string> {
@@ -46,7 +45,6 @@ export class LanguageController {
                     });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Delete('/deleteByName/:name')
     async deleteLanguageByName(@Param('name') name: string) : Promise<string> {
@@ -58,7 +56,6 @@ export class LanguageController {
                         throw new Error(error);
                     });
     }
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Put('/update')
     async updateLanguage(@Body() language: LanguageInterface) : Promise<string> {
@@ -69,5 +66,31 @@ export class LanguageController {
 
                         throw new Error(error);    
                     });
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Get('/getNativeLanguagesForUser/:id')
+    async getNativeLanguagesForUser(@Param('id') id: string) : Promise<Language[]> {
+        try{
+            return await this.languageService.getNativeLanguagesForUser(parseInt(id, 10));
+        } catch(ex){
+            console.log("Error with getting blocked user list");
+            console.log(ex);
+
+            throw new Error(ex);
+        }
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Get('/getLanguagesUserIsLearning/:id')
+    async getLanguagesUserIsLearning(@Param('id') id: string) : Promise<Language[]> {
+        try{
+            return await this.languageService.getLanguagesUserIsLearning(parseInt(id, 10));
+        } catch(ex){
+            console.log("Error with getting blocked user list");
+            console.log(ex);
+
+            throw new Error(ex);
+        }
     }
 }
