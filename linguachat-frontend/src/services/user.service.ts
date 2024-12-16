@@ -60,17 +60,7 @@ export class UserService {
     );
   }
   
-  getNativeLanguagesForUser(id: number): Observable<Language[]> {
-    return this.http.get<Language[]>(
-      `${this.baseAddress}/user/getNativeLanguagesForUser/${id}`
-    );
-  }
-  
-  getLanguagesUserIsLearning(id: number): Observable<Language[]> {
-    return this.http.get<Language[]>(
-      `${this.baseAddress}/user/getLanguagesUserIsLearning/${id}`
-    );
-  }
+
   
 
 }
