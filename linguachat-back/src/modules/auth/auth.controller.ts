@@ -22,7 +22,8 @@ export class AuthController {
     @Post('login')
     @ApiBody({ type: SignInDto })
     signIn(@Request() req) {
-        return this.authService.login(req.user);
+        const a = this.authService.login(req.user);
+        return a;
     }
 
     @HttpCode(HttpStatus.OK)
