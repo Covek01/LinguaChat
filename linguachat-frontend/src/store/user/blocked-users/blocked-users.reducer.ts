@@ -3,7 +3,7 @@ import { blockedUsersAdapter, initialStateBlockedUsers } from "./blocked-users.s
 import * as BlockedUsersDataActions from './blocked-users.actions';
 
 
-export const blockedUsersStateReducer = createReducer(
+export const blockedUsersReducer = createReducer(
   initialStateBlockedUsers,
   on(BlockedUsersDataActions.getResponseForBlockedUsers, (state, { users }) => {
     return blockedUsersAdapter.setAll(users, state);

@@ -72,7 +72,7 @@ export class UserService {
         return user;
     }
 
-    async delete(id: number) : Promise<string> {
+    async delete(id: number) : Promise<number> {
         const result: DeleteResult = await this.dataSource
             .getRepository(User)
             .createQueryBuilder()
@@ -81,9 +81,9 @@ export class UserService {
             .execute();
 
         if (result.affected === 0)
-            return `User with id ${id} isn't deleted or doesn't exist`;
+            throw new Error(`User with id ${id} isn't deleted or doesn't exist`);
 
-        return `User with id ${id} is deleted`;
+        return id;
     }
 
     async addCommentAboutUser(userId: number, user_comment: string) : Promise<string> {

@@ -1,4 +1,4 @@
-import { UserInterface } from "./user.types";
+import { UserGetDto, UserInterface } from "./user.types";
 
 export interface ConnectionInterface {
     id: number,
@@ -30,6 +30,13 @@ export class CreateConnectionDto {
         this.firstUserId = firstUserId;
         this.secondUserId = secondUserId;
     }
+}
+
+export interface ConnectionWithoutId {
+    since: Date;
+    connectionName: string;
+    firstUser: UserGetDto;
+    secondUser: UserGetDto;
 }
 
 export class UpdateConnectionDto {

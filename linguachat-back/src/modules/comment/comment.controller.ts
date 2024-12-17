@@ -2,12 +2,13 @@ import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, 
 import { CommentService } from './comment.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { CommentGetDto, CommentInsertDto, CommentInterface, NullComment } from 'src/models/comment.types';
+import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 
+@UseGuards(JwtAuthGuard)
 @Controller('comment')
 export class CommentController {
     constructor(private commentService: CommentService){}
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Post('/add')
     async addComment(@Body() comment: CommentInsertDto): Promise<string> {
@@ -25,7 +26,6 @@ export class CommentController {
         });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get('/get/:id')
     async getComment(@Param('id') id: string): Promise<CommentGetDto> {
@@ -39,7 +39,6 @@ export class CommentController {
         });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Put('/update')
     async updateComment(@Body() comment: CommentInterface): Promise<CommentGetDto> {
@@ -54,7 +53,6 @@ export class CommentController {
         });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Delete('/delete/:id')
     async deleteComment(@Param('id') id: string): Promise<string> {
@@ -68,7 +66,6 @@ export class CommentController {
         });
     }
 
-    @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
     @Get('/getCommentsOfPost/:postId')
     async getCommentsOfPost(@Param('postId') postId: string): Promise<CommentGetDto[]> {

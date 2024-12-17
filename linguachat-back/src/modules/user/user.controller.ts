@@ -81,7 +81,7 @@ export class UserController {
     @HttpCode(HttpStatus.OK)
     @Delete('/delete/:id')
     @ApiParam({name: 'id', type: Number})
-    async delete(@Param() params: any) : Promise<string> {
+    async delete(@Param() params: any) : Promise<number> {
         try{
             return await this.userService.delete(parseInt(params.id, 0));
         } catch(ex){

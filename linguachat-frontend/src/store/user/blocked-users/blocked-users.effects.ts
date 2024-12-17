@@ -5,10 +5,10 @@ import * as BlockedUsersActions from './blocked-users.actions';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 
 @Injectable()
-export class UserDataEffects {
+export class BlockedUserEffects {
   constructor(private actions$: Actions, private userService: UserService) {}
 
-  getMyUser$ = createEffect(() =>
+  getBlockedUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(BlockedUsersActions.sendRequestToGetBlockedUsers),
       exhaustMap((action) =>

@@ -9,7 +9,10 @@ export interface ConnectionInterface {
     since: Date
 }
 
-
+export interface DoubleIds {
+    firstId: number,
+    secondId: number
+}
 
 
 
