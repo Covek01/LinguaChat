@@ -4,4 +4,4 @@ import { ConnectionsState } from './connections.types';
 
 export const connectionsAdapter = createEntityAdapter<UserGetDto>();
 
-export const initialStateConnections: ConnectionsState = connections.getInitialState();
+export const initialStateConnections: ConnectionsState = connectionsAdapter.getInitialState();
