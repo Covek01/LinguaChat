@@ -188,7 +188,7 @@ export class UserController {
     async removeLanguageLearning(
         @Param('userId') userId: string,
         @Param('languageId') languageId: string,
-        ) : Promise<string> {
+        ) : Promise<LanguageInterface> {
         return await this.userService.removeLanguageLearning(parseInt(userId, 0), parseInt(languageId, 0))
                     .catch( error => {
                         console.log("Error with removing learning language");

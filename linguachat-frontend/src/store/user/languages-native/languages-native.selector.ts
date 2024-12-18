@@ -1,34 +1,34 @@
 import { UserGetDto } from 'src/models/user.types';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { langaugesLearningAdapter } from './languages-learning.state';
-import { LanguagesLearningState } from './languages-learning.types';
+import { languagesNativeAdapter } from './languages-native.state';
+import { LanguagesNativeState } from './languages-native.types';
 
 const { selectIds, selectEntities, selectAll, selectTotal } =
-  langaugesLearningAdapter.getSelectors();
+  languagesNativeAdapter.getSelectors();
 
-export const languageLearningState =
-  createFeatureSelector<LanguagesLearningState>('languagesLearning');
+export const languageNativeState =
+  createFeatureSelector<LanguagesNativeState>('languagesNative');
 
 // select the array of connected user ids
 export const selectBlockedUserIds = createSelector(
-  languageLearningState,
+  languageNativeState,
   selectIds
 );
 
 // select the dictionary of connected user entities
 export const selectBlockedUserEntities = createSelector(
-  languageLearningState,
+  languageNativeState,
   selectEntities
 );
 
 // select the array of connected users
 export const selectAllBlockedUsers = createSelector(
-  languageLearningState,
+  languageNativeState,
   selectAll
 );
 
 // select the total connected user count
 export const selectBlockedUsersTotal = createSelector(
-  languageLearningState,
+  languageNativeState,
   selectTotal
 );

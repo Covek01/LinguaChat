@@ -1,10 +1,5 @@
 import { createAction, emptyProps, props } from '@ngrx/store';
-import {
-  ConnectionGetDto,
-  ConnectionWithoutId,
-} from 'src/models/connection.types';
 import { LanguageInterface } from 'src/models/language.types';
-import { UserGetDto } from 'src/models/user.types';
 
 //get languages learning by user
 export const sendRequestToGetLanguagesLearning = createAction(

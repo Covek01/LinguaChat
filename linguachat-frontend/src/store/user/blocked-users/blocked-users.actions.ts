@@ -1,8 +1,6 @@
 import { createAction, emptyProps, props } from '@ngrx/store';
 import {
   UserGetDto,
-  UserInsertDto,
-  UserUpdateDto,
 } from 'src/models/user.types';
 
 export const sendRequestToGetBlockedUsers = createAction(
