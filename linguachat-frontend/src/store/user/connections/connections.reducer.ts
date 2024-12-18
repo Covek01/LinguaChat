@@ -2,7 +2,7 @@ import { createReducer, on } from "@ngrx/store";
 import { connectionsAdapter, initialStateConnections } from "./connections.state";
 import * as ConnectionsActions from './connections.actions';
 
-export const blockedUsersReducer = createReducer(
+export const connectionsReducer = createReducer(
 initialStateConnections,
   on(ConnectionsActions.getResponseForConnectedUsers, (state, { users }) => {
     return connectionsAdapter.setAll(users, state);

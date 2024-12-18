@@ -9,6 +9,7 @@ import { LocalAuthGuard } from '../auth/local-auth.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { Blocking } from './blocking.entity';
 import { Language } from '../language/language.entity';
+import { LanguageInterface } from 'src/models/language.types';
 
 @UseGuards(JwtAuthGuard)
 @ApiTags("user")
@@ -172,7 +173,7 @@ export class UserController {
         @Param('userId') userId: string,
         @Param('languageId') languageId: string,
         @Param('level') level: string
-        ) : Promise<string> {
+        ) : Promise<LanguageInterface> {
         return await this.userService.insertLanguageLearning(parseInt(userId, 0), parseInt(languageId, 0), level)
                     .catch( error => {
                         console.log("Error with adding learning language");

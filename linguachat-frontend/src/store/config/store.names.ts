@@ -4,6 +4,7 @@ import { loginReducer } from "../login/login.reducer";
 import { signupReducer } from "../signup/signup.reducer";
 import { myUserStateReducer, userStateReducer } from "../user/user-data/user-data.reducer";
 import { blockedUsersReducer } from "../user/blocked-users/blocked-users.reducer";
+import { connectionsReducer } from "../user/connections/connections.reducer";
 
 
 //it's stateName - reducer configuration
@@ -13,6 +14,7 @@ export const ngStoreNames = StoreModule.forRoot({
     signupState: signupReducer,
     userState: userStateReducer,
     myUserState: myUserStateReducer,
-    blockedUsers: blockedUsersReducer
+    blockedUsers: blockedUsersReducer,
+    connections: connectionsReducer
 })
 

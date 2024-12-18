@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Language } from 'src/models/language.types';
+import { Language, LanguageInterface } from 'src/models/language.types';
 import { UserGetDto } from 'src/models/user.types';
 import { servicesPaths } from './config/services-paths.config';
 
@@ -77,15 +77,15 @@ export class UserService {
     );
   }
 
-  insertLanguageLearning(userId: number, languageId: number, level: string): Observable<string> {
-    return this.http.post<string>(
+  insertLanguageLearning(userId: number, languageId: number, level: string): Observable<LanguageInterface> {
+    return this.http.post<LanguageInterface>(
       `${this.baseAddress}/${this.basePath}/insertLanguageLearning/${userId}/${languageId}/${level}`,
       ''
     );
   }
 
-  removeLanguageLearning(userId: number, languageId: number): Observable<string> {
-    return this.http.delete<string>(
+  removeLanguageLearning(userId: number, languageId: number): Observable<LanguageInterface> {
+    return this.http.delete<LanguageInterface>(
       `${this.baseAddress}/${this.basePath}/removeLanguageLearning/${userId}/${languageId}`
     );
   }

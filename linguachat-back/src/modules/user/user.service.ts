@@ -10,6 +10,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { Blocking } from './blocking.entity';
 import { Language } from '../language/language.entity';
 import { UserLearningLanguage } from './UserLearningLanguage.entity';
+import { LanguageInterface } from 'src/models/language.types';
 
 @Injectable()
 export class UserService {
@@ -166,7 +167,7 @@ export class UserService {
         userId: number,
         language_id: number,
         level: string
-        ) : Promise<string> {
+        ) : Promise<LanguageInterface> {
         const user: User = await this.dataSource
             .getRepository(User)
             .findOne({
@@ -207,13 +208,13 @@ export class UserService {
             .manager
             .save(language);
         
-        return "Learning language inserted for user";
+        return language;
     }
 
     async removeLanguageLearning(
         userId: number,
         language_id: number,
-        ) : Promise<string> {      
+        ) : Promise<LanguageInterface> {      
         const language: Language = await this.dataSource
             .getRepository(Language)
             .findOne({
@@ -241,6 +242,6 @@ export class UserService {
             .manager
             .save(language);
         
-        return "Learning language removed for user";
+        return language;
     }
 }

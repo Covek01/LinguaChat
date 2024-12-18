@@ -1,4 +1,4 @@
-import { EntityState, EntityAdapter, createEntityAdapter } from '@ngrx/entity';
+import { createEntityAdapter } from '@ngrx/entity';
 import { UserGetDto } from 'src/models/user.types';
 import { ConnectionsState } from './connections.types';
 
