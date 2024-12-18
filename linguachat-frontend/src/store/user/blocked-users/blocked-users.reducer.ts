@@ -1,7 +1,9 @@
-import { createReducer, on } from "@ngrx/store";
-import { blockedUsersAdapter, initialStateBlockedUsers } from "./blocked-users.state";
+import { createReducer, on } from '@ngrx/store';
+import {
+  blockedUsersAdapter,
+  initialStateBlockedUsers,
+} from './blocked-users.state';
 import * as BlockedUsersDataActions from './blocked-users.actions';
-
 
 export const blockedUsersReducer = createReducer(
   initialStateBlockedUsers,

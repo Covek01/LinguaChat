@@ -17,7 +17,9 @@ export class BlockedUserEffects {
           map((users) => {
             return BlockedUsersActions.getResponseForBlockedUsers({ users });
           }),
-          catchError((error) => of(BlockedUsersActions.getError({ error: error })))
+          catchError((error) =>
+            of(BlockedUsersActions.getError({ error: error }))
+          )
         )
       )
     )

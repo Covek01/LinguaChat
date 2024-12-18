@@ -1,9 +1,12 @@
-import { createReducer, on } from "@ngrx/store";
-import { connectionsAdapter, initialStateConnections } from "./connections.state";
+import { createReducer, on } from '@ngrx/store';
+import {
+  connectionsAdapter,
+  initialStateConnections,
+} from './connections.state';
 import * as ConnectionsActions from './connections.actions';
 
 export const connectionsReducer = createReducer(
-initialStateConnections,
+  initialStateConnections,
   on(ConnectionsActions.getResponseForConnectedUsers, (state, { users }) => {
     return connectionsAdapter.setAll(users, state);
   }),
@@ -12,5 +15,5 @@ initialStateConnections,
   }),
   on(ConnectionsActions.getResponseToDeleteConnectedUser, (state, { id }) => {
     return connectionsAdapter.removeOne(id, state);
-  }),
+  })
 );

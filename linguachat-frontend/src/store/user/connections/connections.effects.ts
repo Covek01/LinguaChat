@@ -5,7 +5,6 @@ import * as ConnectionsActions from './connections.actions';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { ConnectionService } from 'src/services/connection.service';
 
-
 @Injectable()
 export class ConnectionsEffects {
   constructor(
@@ -23,7 +22,9 @@ export class ConnectionsEffects {
           map((users) => {
             return ConnectionsActions.getResponseForConnectedUsers({ users });
           }),
-          catchError((error) => of(ConnectionsActions.getError({ error: error })))
+          catchError((error) =>
+            of(ConnectionsActions.getError({ error: error }))
+          )
         )
       )
     )
@@ -33,13 +34,19 @@ export class ConnectionsEffects {
     this.actions$.pipe(
       ofType(ConnectionsActions.sendRequestToAddConnectedUser),
       exhaustMap((action) =>
-        this.connectionService.addConnection(action.firstId, action.secondId).pipe(
-          tap((response) => console.log('User Response:', response)),
-          map((connection) => {
-            return ConnectionsActions.getResponseToAddConnectedUser({ user: connection.secondUser });
-          }),
-          catchError((error) => of(ConnectionsActions.getError({ error: error })))
-        )
+        this.connectionService
+          .addConnection(action.firstId, action.secondId)
+          .pipe(
+            tap((response) => console.log('User Response:', response)),
+            map((connection) => {
+              return ConnectionsActions.getResponseToAddConnectedUser({
+                user: connection.secondUser,
+              });
+            }),
+            catchError((error) =>
+              of(ConnectionsActions.getError({ error: error }))
+            )
+          )
       )
     )
   );
@@ -48,13 +55,19 @@ export class ConnectionsEffects {
     this.actions$.pipe(
       ofType(ConnectionsActions.sendRequestToDeleteConnectedUser),
       exhaustMap((action) =>
-        this.connectionService.deleteConnectionBetweenUsers(action.firstId, action.secondId).pipe(
-          tap((response) => console.log('User Response:', response)),
-          map((doubleIds) => {
-            return ConnectionsActions.getResponseToDeleteConnectedUser({ id: doubleIds.secondId });
-          }),
-          catchError((error) => of(ConnectionsActions.getError({ error: error })))
-        )
+        this.connectionService
+          .deleteConnectionBetweenUsers(action.firstId, action.secondId)
+          .pipe(
+            tap((response) => console.log('User Response:', response)),
+            map((doubleIds) => {
+              return ConnectionsActions.getResponseToDeleteConnectedUser({
+                id: doubleIds.secondId,
+              });
+            }),
+            catchError((error) =>
+              of(ConnectionsActions.getError({ error: error }))
+            )
+          )
       )
     )
   );

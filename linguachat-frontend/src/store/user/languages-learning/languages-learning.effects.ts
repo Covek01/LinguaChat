@@ -6,13 +6,12 @@ import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { ConnectionService } from 'src/services/connection.service';
 import { LanguageService } from 'src/services/language.service';
 
-
 @Injectable()
 export class LanguagesLearningEffects {
   constructor(
     private actions$: Actions,
     private userService: UserService,
-    private languageService: LanguageService,
+    private languageService: LanguageService
   ) {}
 
   getLanguagesLearning$ = createEffect(() =>
@@ -22,9 +21,13 @@ export class LanguagesLearningEffects {
         this.languageService.getLanguagesUserIsLearning(action.id).pipe(
           tap((response) => console.log('User Response:', response)),
           map((languages) => {
-            return LanguagesLearningActions.getResponseForLanguagesLearning({ languages });
+            return LanguagesLearningActions.getResponseForLanguagesLearning({
+              languages,
+            });
           }),
-          catchError((error) => of(LanguagesLearningActions.getError({ error: error })))
+          catchError((error) =>
+            of(LanguagesLearningActions.getError({ error: error }))
+          )
         )
       )
     )
@@ -34,17 +37,23 @@ export class LanguagesLearningEffects {
     this.actions$.pipe(
       ofType(LanguagesLearningActions.sendRequestToAddLanguageLearning),
       exhaustMap((action) =>
-        this.userService.insertLanguageLearning(
+        this.userService
+          .insertLanguageLearning(
             action.userId,
             action.languageId,
             action.level
-        ).pipe(
-          tap((response) => console.log('User Response:', response)),
-          map((language) => {
-            return LanguagesLearningActions.getResponseToAddLanguageLearning({ language });
-          }),
-          catchError((error) => of(LanguagesLearningActions.getError({ error: error })))
-        )
+          )
+          .pipe(
+            tap((response) => console.log('User Response:', response)),
+            map((language) => {
+              return LanguagesLearningActions.getResponseToAddLanguageLearning({
+                language,
+              });
+            }),
+            catchError((error) =>
+              of(LanguagesLearningActions.getError({ error: error }))
+            )
+          )
       )
     )
   );
@@ -53,16 +62,19 @@ export class LanguagesLearningEffects {
     this.actions$.pipe(
       ofType(LanguagesLearningActions.sendRequestToDeleteLanguageLearning),
       exhaustMap((action) =>
-        this.userService.removeLanguageLearning(
-            action.userId,
-            action.languageId
-        ).pipe(
-          tap((response) => console.log('User Response:', response)),
-          map((language) => {
-            return LanguagesLearningActions.getResponseToDeleteLanguageLearning({ id: language.id});
-          }),
-          catchError((error) => of(LanguagesLearningActions.getError({ error: error })))
-        )
+        this.userService
+          .removeLanguageLearning(action.userId, action.languageId)
+          .pipe(
+            tap((response) => console.log('User Response:', response)),
+            map((language) => {
+              return LanguagesLearningActions.getResponseToDeleteLanguageLearning(
+                { id: language.id }
+              );
+            }),
+            catchError((error) =>
+              of(LanguagesLearningActions.getError({ error: error }))
+            )
+          )
       )
     )
   );
