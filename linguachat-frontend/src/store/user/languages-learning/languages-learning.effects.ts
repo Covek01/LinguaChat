@@ -19,7 +19,7 @@ export class LanguagesLearningEffects {
       ofType(LanguagesLearningActions.sendRequestToGetLanguagesLearning),
       exhaustMap((action) =>
         this.languageService.getLanguagesUserIsLearning(action.id).pipe(
-          tap((response) => console.log('User Response:', response)),
+          tap((response) => console.log('Response:', response)),
           map((languages) => {
             return LanguagesLearningActions.getResponseForLanguagesLearning({
               languages,
@@ -44,7 +44,7 @@ export class LanguagesLearningEffects {
             action.level
           )
           .pipe(
-            tap((response) => console.log('User Response:', response)),
+            tap((response) => console.log('Response:', response)),
             map((language) => {
               return LanguagesLearningActions.getResponseToAddLanguageLearning({
                 language,
@@ -65,10 +65,10 @@ export class LanguagesLearningEffects {
         this.userService
           .removeLanguageLearning(action.userId, action.languageId)
           .pipe(
-            tap((response) => console.log('User Response:', response)),
-            map((language) => {
+            tap((response) => console.log('Response:', response)),
+            map(() => {
               return LanguagesLearningActions.getResponseToDeleteLanguageLearning(
-                { id: language.id }
+                { id: action.languageId }
               );
             }),
             catchError((error) =>

@@ -11,7 +11,7 @@ export class CommentController {
 
     @HttpCode(HttpStatus.OK)
     @Post('/add')
-    async addComment(@Body() comment: CommentInsertDto): Promise<string> {
+    async addComment(@Body() comment: CommentInsertDto): Promise<CommentGetDto> {
         console.log(`UserId ${comment.userCommentedId} Post ${comment.postRelatedToId}
              Text ${comment.text}`)
         return await this.commentService.addComment(

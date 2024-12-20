@@ -133,17 +133,25 @@ export class User {
     })
     postsLiked: Post[];
 
-    @OneToMany(() => Post, (post) => post.createdBy)
+    @OneToMany(() => Post, (post) => post.createdBy, {
+        cascade: true,
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
+    })
     createdPosts: Post[];
 
     //Connections relationships
     @OneToMany(() => Connection, (connection) => connection.firstUser, {
         cascade: true,
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
     })
     connectionsFirst: Connection[]
 
     @OneToMany(() => Connection, (connection) => connection.secondUser, {
         cascade: true,
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
     })
     connectionsSecond: Connection[]
 

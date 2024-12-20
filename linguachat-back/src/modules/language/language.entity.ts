@@ -1,6 +1,7 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, OneToMany, ManyToOne } from 'typeorm';
 import { User } from 'src/modules/user/user.entity';
 import { UserLearningLanguage } from '../user/UserLearningLanguage.entity';
+import * as PostEntity from 'src/modules/post/post.entity';
 
 @Entity()
 export class Language {
@@ -25,4 +26,9 @@ export class Language {
         nullable: false
     })
     nativeBy: User[];
+
+    @OneToMany(() => PostEntity.Post, (post) => post.language, {
+        nullable: false
+    })
+    postsReferencedIn: User[];
 }

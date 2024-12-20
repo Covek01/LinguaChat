@@ -12,16 +12,23 @@ export class Comment {
     @Column({nullable: false})
     text: string;
 
+    @Column({nullable: false})
+    time: Date;
+
     //Post relationships
     @ManyToOne(() => Post, (post) => post.comments, {
-        nullable: false
+        nullable: false,
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
     })
     @JoinColumn({ name: 'postRelatedToId'})
     postRelatedTo: Post;
 
     //User relationships
     @ManyToOne(() => User, (user) => user.comments, {
-        nullable: false
+        nullable: false,
+        onDelete: "CASCADE",
+        onUpdate: "CASCADE",
     })
     userCommented: User;
 }

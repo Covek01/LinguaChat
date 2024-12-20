@@ -1,51 +1,66 @@
-import { PostInterface } from "./post.types";
-import { UserInterface } from "./user.types";
+import { PostInterface } from './post.types';
+import { UserInterface } from './user.types';
 
 //Comment
 export interface CommentInterface {
-    id: number,
-    text: string
+  id: number;
+  text: string;
+  time: Date;
+}
+
+export interface CommentsForStore {
+  postId: number;
+  comments: CommentInterface[];
 }
 
 export class CommentDto implements CommentInterface {
-    id: number;
-    text: string;
+  id: number;
+  text: string;
+  time: Date;
 
-    constructor(id: number, text: string) {
-        this.id = id;
-        this.text = text;
-    }
+  constructor(id: number, text: string, time: Date) {
+    this.id = id;
+    this.text = text;
+    this.time = time;
+  }
 }
 
-
 export class CommentGetDto implements CommentInterface {
-    id: number;
-    text: string;
-    postRelatedTo: PostInterface;
-    userCommented: UserInterface;
+  id: number;
+  text: string;
+  time: Date;
+  postRelatedTo: PostInterface;
+  userCommented: UserInterface;
 
-    constructor(id: number, text: string, postRelatedTo: PostInterface, userCommented: UserInterface) {
-        this.id = id;
-        this.text = text;
-        this.postRelatedTo = postRelatedTo;
-        this.userCommented = userCommented;
-    }
+  constructor(
+    id: number,
+    text: string,
+    time: Date,
+    postRelatedTo: PostInterface,
+    userCommented: UserInterface
+  ) {
+    this.id = id;
+    this.text = text;
+    this.time = time;
+    this.postRelatedTo = postRelatedTo;
+    this.userCommented = userCommented;
+  }
 }
 
 export class CommentInsertDto {
-    text: string;
-    postRelatedToId: number;
-    userCommentedId: number;
+  text: string;
+  postRelatedToId: number;
+  userCommentedId: number;
 
-    constructor(text: string, postRelatedToId: number, userCommentedId: number) {
-        this.text = text;
-        this.postRelatedToId = postRelatedToId;
-        this.userCommentedId = userCommentedId;
-    }
+  constructor(text: string, postRelatedToId: number, userCommentedId: number) {
+    this.text = text;
+    this.postRelatedToId = postRelatedToId;
+    this.userCommentedId = userCommentedId;
+  }
 }
 export const NullComment = {
-    id: 0,
-    text: '',
-    postRelatedTo: null,
-    userCommented: null
-}
+  id: 0,
+  text: '',
+  postRelatedTo: null,
+  userCommented: null,
+};

@@ -55,7 +55,6 @@ export class UserController {
     async myProfile(@Request() req) : Promise<UserGetDto> {
         try{
             const userId = req.user.id;
-            console.log(typeof userId)
             return await this.userService.get(userId);
         } catch(ex){
             console.log("Error with inserting user");

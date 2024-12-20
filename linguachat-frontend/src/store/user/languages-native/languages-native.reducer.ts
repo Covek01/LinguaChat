@@ -10,19 +10,19 @@ export const languagesNativeReducer = createReducer(
   on(
     LanguagesLearningActions.getResponseForLanguagesNative,
     (state, { languages }) => {
-      return langaugesNativeAdapter.setAll(languages, state);
+      return languagesNativeAdapter.setAll(languages, state);
     }
   ),
   on(
     LanguagesLearningActions.getResponseToAddLanguageNative,
     (state, { language }) => {
-      return langaugesNativeAdapter.addOne(language, state);
+      return languagesNativeAdapter.addOne(language, state);
     }
   ),
   on(
     LanguagesLearningActions.getResponseToDeleteLanguageNative,
     (state, { id }) => {
-      return langaugesNativeAdapter.removeOne(id, state);
+      return languagesNativeAdapter.removeOne(id, state);
     }
   )
 );
