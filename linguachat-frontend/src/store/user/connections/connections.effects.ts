@@ -30,6 +30,23 @@ export class ConnectionsEffects {
     )
   );
 
+  getUserConnectionsByMe$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ConnectionsActions.sendRequestToGetConnectedUsersByMe),
+      exhaustMap((action) =>
+        this.connectionService.getConnectedUsersOfMe().pipe(
+          tap((response) => console.log('User Response:', response)),
+          map((users) => {
+            return ConnectionsActions.getResponseForConnectedUsers({ users });
+          }),
+          catchError((error) =>
+            of(ConnectionsActions.getError({ error: error }))
+          )
+        )
+      )
+    )
+  );
+
   addUserConnection$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ConnectionsActions.sendRequestToAddConnectedUser),

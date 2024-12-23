@@ -11,6 +11,11 @@ export const sendRequestToGetConnectedUsers = createAction(
   props<{ id: number }>()
 );
 
+export const sendRequestToGetConnectedUsersByMe = createAction(
+  '[Connections] Send Request To Get Connected Users By Me',
+  emptyProps
+);
+
 export const getResponseForConnectedUsers = createAction(
   '[Connections] Get Response For Getting Connected Users',
   props<{ users: UserGetDto[] }>()

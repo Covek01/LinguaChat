@@ -33,6 +33,25 @@ export class LanguagesLearningEffects {
     )
   );
 
+  getLanguagesLearningByMe$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LanguagesLearningActions.sendRequestToGetMyLanguagesLearning),
+      exhaustMap(() =>
+        this.languageService.getLanguagesIAmLearning().pipe(
+          tap((response) => console.log('Response:', response)),
+          map((languages) => {
+            return LanguagesLearningActions.getResponseForLanguagesLearning({
+              languages,
+            });
+          }),
+          catchError((error) =>
+            of(LanguagesLearningActions.getError({ error: error }))
+          )
+        )
+      )
+    )
+  );
+
   addLanguageLearning$ = createEffect(() =>
     this.actions$.pipe(
       ofType(LanguagesLearningActions.sendRequestToAddLanguageLearning),

@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards, Request } from '@nestjs/common';
 import { LanguageService } from './language.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { Language, LanguageInterface, NullLanguage } from 'src/models/language.types';
@@ -82,10 +82,38 @@ export class LanguageController {
     }
 
     @HttpCode(HttpStatus.OK)
+    @Get('/getNativeLanguagesForMe')
+    async getNativeLanguagesForMe(@Request() request) : Promise<Language[]> {
+        try{
+            const myid = request.user.id;
+            return await this.languageService.getNativeLanguagesForUser(myid);
+        } catch(ex){
+            console.log("Error with getting blocked user list");
+            console.log(ex);
+
+            throw new Error(ex);
+        }
+    }
+
+    @HttpCode(HttpStatus.OK)
     @Get('/getLanguagesUserIsLearning/:id')
     async getLanguagesUserIsLearning(@Param('id') id: string) : Promise<Language[]> {
         try{
             return await this.languageService.getLanguagesUserIsLearning(parseInt(id, 10));
+        } catch(ex){
+            console.log("Error with getting blocked user list");
+            console.log(ex);
+
+            throw new Error(ex);
+        }
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Get('/getLanguagesIAmLearning')
+    async getLanguagesIAmLearning(@Request() request) : Promise<Language[]> {
+        try{
+            const myid = request.user.id;
+            return await this.languageService.getLanguagesUserIsLearning(myid);
         } catch(ex){
             console.log("Error with getting blocked user list");
             console.log(ex);

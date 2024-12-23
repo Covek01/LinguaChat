@@ -30,6 +30,23 @@ export class PostEffects {
     )
   );
 
+  getPostsByMe$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PostActions.sendRequestToGetPostsByMe),
+      exhaustMap((action) =>
+        this.postService.getPostsOfUserWithLikedStatusByMe().pipe(
+          tap((response) => console.log('User Response:', response)),
+          map((posts) => {
+            return PostActions.getResponseForPosts({
+              posts,
+            });
+          }),
+          catchError((error) => of(PostActions.getError({ error: error })))
+        )
+      )
+    )
+  );
+
   addPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PostActions.sendRequestToAddPost),

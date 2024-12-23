@@ -57,6 +57,12 @@ export class UserService {
     );
   }
 
+  getUsersWhoAreBlockedByMe(id: number): Observable<UserGetDto[]> {
+    return this.http.get<UserGetDto[]>(
+      `${this.baseAddress}/${this.basePath}/getUsersWhoAreBlockedByMe`
+    );
+  }
+
   delete(id: number): Observable<string> {
     return this.http.delete<string>(
       `${this.baseAddress}/${this.basePath}/delete/${id}`

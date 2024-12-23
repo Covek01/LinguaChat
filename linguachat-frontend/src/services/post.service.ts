@@ -54,11 +54,23 @@ export class PostService {
     );
   }
 
+  getPostsOfMe(userId: number): Observable<PostGetDto[]> {
+    return this.http.get<PostGetDto[]>(
+      `${this.baseAddress}/${this.basePath}/getPostsOfMe`
+    );
+  }
+
   getPostsOfUserWithLikedStatus(
     userId: number
   ): Observable<PostWithLikedAndCount[]> {
     return this.http.get<PostWithLikedAndCount[]>(
       `${this.baseAddress}/${this.basePath}/getPostsOfUserWithLikedStatus/${userId}`
+    );
+  }
+
+  getPostsOfUserWithLikedStatusByMe(): Observable<PostWithLikedAndCount[]> {
+    return this.http.get<PostWithLikedAndCount[]>(
+      `${this.baseAddress}/${this.basePath}/getPostsWithLikedStatusByMe`
     );
   }
 }

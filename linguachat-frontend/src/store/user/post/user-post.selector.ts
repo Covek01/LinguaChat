@@ -10,25 +10,25 @@ export const languageNativeState =
   createFeatureSelector<PostsState>('posts');
 
 // select the array of connected user ids
-export const selectBlockedUserIds = createSelector(
+export const selectPostIds = createSelector(
   languageNativeState,
   selectIds
 );
 
 // select the dictionary of connected user entities
-export const selectBlockedUserEntities = createSelector(
+export const selectPostEntities = createSelector(
   languageNativeState,
   selectEntities
 );
 
 // select the array of connected users
-export const selectAllBlockedUsers = createSelector(
+export const selectAllPosts = createSelector(
   languageNativeState,
   selectAll
 );
 
 // select the total connected user count
-export const selectBlockedUsersTotal = createSelector(
+export const selectPostsTotal = createSelector(
   languageNativeState,
   selectTotal
 );

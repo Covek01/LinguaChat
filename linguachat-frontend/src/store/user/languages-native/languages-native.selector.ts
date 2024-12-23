@@ -10,7 +10,7 @@ export const languageNativeState =
   createFeatureSelector<LanguagesNativeState>('languagesNative');
 
 // select the array of connected user ids
-export const selectBlockedUserIds = createSelector(
+export const selectLanguagesNativeIds = createSelector(
   languageNativeState,
   selectIds
 );
@@ -22,13 +22,13 @@ export const selectBlockedUserEntities = createSelector(
 );
 
 // select the array of connected users
-export const selectAllBlockedUsers = createSelector(
+export const selectAllLanguagesNative = createSelector(
   languageNativeState,
   selectAll
 );
 
 // select the total connected user count
-export const selectBlockedUsersTotal = createSelector(
+export const selectLanguagesNativeTotal = createSelector(
   languageNativeState,
   selectTotal
 );

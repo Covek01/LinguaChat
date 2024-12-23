@@ -19,7 +19,26 @@ export class LanguagesNativeEffects {
       ofType(LanguagesNativeActions.sendRequestToGetLanguagesNative),
       exhaustMap((action) =>
         this.languageService.getLanguagesUserIsLearning(action.id).pipe(
-          tap((response) => console.log('User Response:', response)),
+          tap((response) => console.log('Response:', response)),
+          map((languages) => {
+            return LanguagesNativeActions.getResponseForLanguagesNative({
+              languages,
+            });
+          }),
+          catchError((error) =>
+            of(LanguagesNativeActions.getError({ error: error }))
+          )
+        )
+      )
+    )
+  );
+
+  getLanguagesNativeByMe$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LanguagesNativeActions.sendRequestToGetLanguagesNativeByMe),
+      exhaustMap((action) =>
+        this.languageService.getNativeLanguagesForMe().pipe(
+          tap((response) => console.log('Response:', response)),
           map((languages) => {
             return LanguagesNativeActions.getResponseForLanguagesNative({
               languages,
@@ -44,7 +63,7 @@ export class LanguagesNativeEffects {
             action.level
           )
           .pipe(
-            tap((response) => console.log('User Response:', response)),
+            tap((response) => console.log('Response:', response)),
             map((language) => {
               return LanguagesNativeActions.getResponseToAddLanguageNative({
                 language,
@@ -65,7 +84,7 @@ export class LanguagesNativeEffects {
         this.userService
           .removeLanguageLearning(action.userId, action.languageId)
           .pipe(
-            tap((response) => console.log('User Response:', response)),
+            tap((response) => console.log('Response:', response)),
             map((language) => {
               return LanguagesNativeActions.getResponseToDeleteLanguageNative(
                 { id: language.id }

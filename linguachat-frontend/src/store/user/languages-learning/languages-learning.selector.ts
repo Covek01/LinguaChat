@@ -10,25 +10,25 @@ export const languageLearningState =
   createFeatureSelector<LanguagesLearningState>('languagesLearning');
 
 // select the array of connected user ids
-export const selectBlockedUserIds = createSelector(
+export const selectLanguagesLearningIds = createSelector(
   languageLearningState,
   selectIds
 );
 
 // select the dictionary of connected user entities
-export const selectBlockedUserEntities = createSelector(
+export const selectLanguagesLearningEntities = createSelector(
   languageLearningState,
   selectEntities
 );
 
 // select the array of connected users
-export const selectAllBlockedUsers = createSelector(
+export const selectLanguagesLearning = createSelector(
   languageLearningState,
   selectAll
 );
 
 // select the total connected user count
-export const selectBlockedUsersTotal = createSelector(
+export const selectLanguagesLearningTotal = createSelector(
   languageLearningState,
   selectTotal
 );

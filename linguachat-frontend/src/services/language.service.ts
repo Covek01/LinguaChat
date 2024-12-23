@@ -22,10 +22,22 @@ export class LanguageService {
       `${this.baseAddress}/${this.basePath}/getNativeLanguagesForUser/${id}`
     );
   }
+
+  getNativeLanguagesForMe(): Observable<Language[]> {
+    return this.http.get<Language[]>(
+      `${this.baseAddress}/${this.basePath}/getNativeLanguagesForMe`
+    );
+  }
   
   getLanguagesUserIsLearning(id: number): Observable<Language[]> {
     return this.http.get<Language[]>(
       `${this.baseAddress}/${this.basePath}/getLanguagesUserIsLearning/${id}`
+    );
+  }
+
+  getLanguagesIAmLearning(): Observable<Language[]> {
+    return this.http.get<Language[]>(
+      `${this.baseAddress}/${this.basePath}/getLanguagesIAmLearning`
     );
   }
 

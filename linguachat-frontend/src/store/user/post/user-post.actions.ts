@@ -7,6 +7,11 @@ export const sendRequestToGetPosts = createAction(
   props<{ userId: number }>()
 );
 
+export const sendRequestToGetPostsByMe = createAction(
+  '[User Post] Send Request To Get User Posts',
+  emptyProps
+);
+
 export const getResponseForPosts = createAction(
   '[User Post] Get Response For Getting User Posts',
   props<{ posts: PostWithLikedAndCount[] }>()

@@ -7,28 +7,28 @@ const { selectIds, selectEntities, selectAll, selectTotal } =
   connectionsAdapter.getSelectors();
 
 export const selectConnectionsState =
-  createFeatureSelector<ConnectionsState>('blockedUsers');
+  createFeatureSelector<ConnectionsState>('connections');
 
 // select the array of connected user ids
-export const selectBlockedUserIds = createSelector(
+export const selectConnectionsIds = createSelector(
   selectConnectionsState,
   selectIds
 );
 
 // select the dictionary of connected user entities
-export const selectBlockedUserEntities = createSelector(
+export const selectConnectionsEntities = createSelector(
   selectConnectionsState,
   selectEntities
 );
 
 // select the array of connected users
-export const selectAllBlockedUsers = createSelector(
+export const selectAllConnections = createSelector(
   selectConnectionsState,
   selectAll
 );
 
 // select the total connected user count
-export const selectBlockedUsersTotal = createSelector(
+export const selectConnectionsTotal = createSelector(
   selectConnectionsState,
   selectTotal
 );

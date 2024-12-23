@@ -20,9 +20,8 @@ export class LoginFormComponent {
   public password: string = '';
 
   
-  constructor(private readonly store: Store, private readonly router: Router) {
-    
-  }
+  constructor(private readonly store: Store, private readonly router: Router) {}
+
   // loginForm = new FormGroup({
   //   username: new FormControl('', [Validators.required]),
   //   password: new FormControl('', [Validators.required]),

@@ -1,4 +1,4 @@
-import { booleanAttribute, Component, Input } from '@angular/core';
+import { booleanAttribute, Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { Store } from '@ngrx/store';
 import { darkModeDisable, darkModeEnable } from 'src/store/dark-mode/dark-mode.actions';
@@ -12,7 +12,7 @@ import { selectDarkModeEnabled } from 'src/store/dark-mode/dark-mode.selector';
 })
 export class TaskbarComponent {
   @Input() isUserLoggedIn: boolean = false;
-
+  @Output() toggleSidenav = new EventEmitter<void>();
   darkMode$ = this.store.select(selectDarkModeEnabled);
   constructor(private readonly store: Store) {
 
@@ -26,5 +26,9 @@ export class TaskbarComponent {
     } else {
       this.store.dispatch(darkModeDisable());
     }
+  }
+
+  requestToggleSidenav() {
+    this.toggleSidenav.emit();
   }
 }

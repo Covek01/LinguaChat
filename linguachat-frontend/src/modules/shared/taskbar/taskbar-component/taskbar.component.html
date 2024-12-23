@@ -6,6 +6,6 @@
     </mat-slide-toggle>
     <div *ngIf="isUserLoggedIn">
         <app-notifications />
-        <app-actions />
+        <app-actions (toggleSidenav)="requestToggleSidenav()"/>
     </div>
 </mat-toolbar>

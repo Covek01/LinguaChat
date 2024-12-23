@@ -8,10 +8,9 @@ import { LanguageService } from 'src/services/language.service';
 import { CommentService } from 'src/services/comment.service';
 
 @Injectable()
-export class LanguagesNativeEffects {
+export class CommentEffects {
   constructor(
     private actions$: Actions,
-    private userService: UserService,
     private commentService: CommentService
   ) {}
 
@@ -32,7 +31,7 @@ export class LanguagesNativeEffects {
     )
   );
 
-  addLanguageNative$ = createEffect(() =>
+  addComment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CommentsActions.sendRequestToAddComment),
       exhaustMap((action) =>
@@ -49,7 +48,7 @@ export class LanguagesNativeEffects {
     )
   );
 
-  deleteLanguageLearning$ = createEffect(() =>
+  deleteComment$ = createEffect(() =>
     this.actions$.pipe(
       ofType(CommentsActions.sendRequestToDeleteComment),
       exhaustMap((action) =>

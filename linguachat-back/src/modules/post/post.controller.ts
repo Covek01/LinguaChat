@@ -81,6 +81,20 @@ export class PostController {
     }
 
     @HttpCode(HttpStatus.OK)
+    @Get('/getPostsOfMe')
+    async getPostsOfMe(@Request() request) : Promise<PostGetDto[]> {
+        const myid = request.user.id;
+        return await this.postService.getPostsOfUser(
+            myid
+        ).catch( error => {
+            console.log("Error with getting posts");
+            console.log(error);
+
+            throw new Error(error);
+        });
+    }
+
+    @HttpCode(HttpStatus.OK)
     @Get('/getPostsOfUserWithLikedStatus/:userId')
     async getPostsOfUserWithLikedStatus(@Request() req, @Param('userId') userId: string) : Promise<PostWithLikedAndCount[]> {
         const myid: number = req.user.id;
@@ -88,6 +102,22 @@ export class PostController {
         return await this.postService.getPostsOfUserWithLikedStatus(
             myid,
             parseInt(userId, 0)
+        ).catch( error => {
+            console.log("Error with getting posts");
+            console.log(error);
+
+            throw new Error(error);
+        });
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Get('/getPostsWithLikedStatusByMe')
+    async getPostsWithLikedStatusByMe(@Request() req) : Promise<PostWithLikedAndCount[]> {
+        const myid: number = req.user.id;
+        console.log(myid);
+        return await this.postService.getPostsOfUserWithLikedStatus(
+            myid,
+            myid
         ).catch( error => {
             console.log("Error with getting posts");
             console.log(error);

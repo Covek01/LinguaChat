@@ -10,6 +10,7 @@ import { blockedUsersReducer } from '../user/blocked-users/blocked-users.reducer
 import { connectionsReducer } from '../user/connections/connections.reducer';
 import { languagesLearningReducer } from '../user/languages-learning/languages-learning.reducer';
 import { languagesNativeReducer } from '../user/languages-native/languages-native.reducer';
+import { postReducer } from '../user/post/user-post.reducer';
 
 //it's stateName - reducer configuration
 export const ngStoreNames = StoreModule.forRoot({
@@ -22,4 +23,5 @@ export const ngStoreNames = StoreModule.forRoot({
   connections: connectionsReducer,
   languagesLearning: languagesLearningReducer,
   languagesNative: languagesNativeReducer,
+  posts: postReducer
 });

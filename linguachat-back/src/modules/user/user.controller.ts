@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, UseGuards, Request, Req } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserGetDto, UserInsertDto } from 'src/models/user.types';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
@@ -76,6 +76,21 @@ export class UserController {
             throw new Error(ex);
         }
     }
+
+    @HttpCode(HttpStatus.OK)
+    @Get('/getUsersWhoAreBlockedByMe')
+    async getUsersWhoAreBlockedByMe(@Request() request) : Promise<UserGetDto[]> {
+        try{
+            const myid = request.user.id;
+            return await this.userService.getUsersWhoAreBlockedByUser(myid);
+        } catch(ex){
+            console.log("Error with getting blocked user list");
+            console.log(ex);
+
+            throw new Error(ex);
+        }
+    }
+
 
 
     @HttpCode(HttpStatus.OK)

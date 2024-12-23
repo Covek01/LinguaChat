@@ -6,5 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./myprofile-body.component.sass']
 })
 export class MyprofileBodyComponent {
-
+  
 }

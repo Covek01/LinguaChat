@@ -2,6 +2,12 @@ import { createAction, emptyProps, props } from '@ngrx/store';
 import { LanguageInterface } from 'src/models/language.types';
 
 //get languages learning by user
+
+export const sendRequestToGetMyLanguagesLearning = createAction(
+  '[Languages Learning] Send Request To Get Languages Learning By Me',
+  emptyProps
+);
+
 export const sendRequestToGetLanguagesLearning = createAction(
   '[Languages Learning] Send Request To Get Languages Learning By User',
   props<{ id: number }>()

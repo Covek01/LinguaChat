@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, UseGuards, Request } from '@nestjs/common';
 import { ConnectionService } from './connection.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { ConnectionGetDto, ConnectionWithoutId, CreateConnectionDto } from 'src/models/connection.types';
@@ -77,6 +77,20 @@ export class ConnectionController {
     async getConnectionsOfUser(@Param('id') id: string): Promise<ConnectionGetDto[]> {
         return await this.connectionService.getConnectionsOfUser(
             parseInt(id, 0)
+        ).catch(error => {
+            console.log("Error with getting connections of User");
+            console.log(error);
+
+            throw new Error(error);
+        });
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Get('/getConnectedUsersOfMe')
+    async getConnectionsOfMe(@Request() req): Promise<UserGetDto[]> {
+        const myid = req.user.id;
+        return await this.connectionService.getConnectedUsersOfUser(
+            myid
         ).catch(error => {
             console.log("Error with getting connections of User");
             console.log(error);

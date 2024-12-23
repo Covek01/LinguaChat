@@ -7,6 +7,11 @@ export const sendRequestToGetLanguagesNative = createAction(
   props<{ id: number }>()
 );
 
+export const sendRequestToGetLanguagesNativeByMe = createAction(
+  '[Languages Native] Send Request To Get Languages Native By Me',
+  emptyProps
+);
+
 export const getResponseForLanguagesNative = createAction(
   '[Languages Native] Get Response For Getting Languages Native',
   props<{ languages: LanguageInterface[] }>()
