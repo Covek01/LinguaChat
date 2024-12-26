@@ -3,6 +3,7 @@ import { PostService } from './post.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { NullPost, PostGetDto, PostInsertDto, PostInterface, PostUpdateDto, PostWithLikedAndCount } from 'src/models/post.types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { use } from 'passport';
 
 @UseGuards(JwtAuthGuard)
 @Controller('post')
@@ -12,8 +13,10 @@ export class PostController {
     @HttpCode(HttpStatus.OK)
     @Post('/add')
     async addPost(@Body() post: PostInsertDto) : Promise<PostInterface> {
+        console.log(post);
         return await this.postService.addPostAndReturnResult(
             post.creatorId, 
+            post.title,
             post.text, 
             post.type, 
             post.languageId

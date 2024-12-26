@@ -22,6 +22,9 @@ export class Post {
   type: string;
 
   @Column({ nullable: false })
+  title: string;
+
+  @Column({ nullable: false })
   text: string;
 
   @Column({ nullable: false })

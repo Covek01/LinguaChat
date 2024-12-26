@@ -7,6 +7,7 @@ import { NullPost, PostGetDto, PostWithLikedAndCount } from 'src/models/post.typ
 import { Post } from 'src/modules/post/post.entity';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { removePassHash } from 'src/utils/user.utils';
+import { title } from 'process';
 @Injectable()
 export class PostService {
   constructor(
@@ -58,6 +59,7 @@ export class PostService {
 
   async addPostAndReturnResult(
     creatorId: number,
+    postTitle: string,
     postText: string,
     postType: string,
     languageId: number,
@@ -99,6 +101,7 @@ export class PostService {
 
     const insertedObject = {
       type: postType,
+      title: postTitle,
       text: postText,
       time: new Date(),
       createdBy: creator,
@@ -208,6 +211,7 @@ export class PostService {
     const postsDto: PostGetDto[] = posts.map((post) => {
       return {
         id: post.id,
+        title: post.title,
         text: post.text,
         type: post.type,
         time: post.time,

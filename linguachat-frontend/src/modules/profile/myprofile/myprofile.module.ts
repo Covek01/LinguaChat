@@ -19,7 +19,6 @@ import {MatCardModule} from '@angular/material/card';
     MatListModule,
     MatIconModule,
     MyprofileBodyModule,
-    MatCardModule
   ],
   exports: [
     MyprofileComponent,

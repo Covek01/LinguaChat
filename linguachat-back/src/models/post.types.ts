@@ -4,6 +4,7 @@ import { UserInterface } from './user.types';
 //Post
 export interface PostInterface {
   id: number;
+  title: string;
   text: string;
   type: string;
   time: Date;
@@ -12,11 +13,13 @@ export interface PostInterface {
 export class Post implements PostInterface {
   id: number;
   type: string;
+  title: string;
   text: string;
   time: Date;
 
-  constructor(id: number, text: string, type: string) {
+  constructor(id: number, text: string, title: string, type: string) {
     this.id = id;
+    this.title = title;
     this.text = text;
     this.type = type;
   }
@@ -24,6 +27,7 @@ export class Post implements PostInterface {
 
 export class PostUpdateDto implements PostInterface {
   id: number;
+  title: string;
   text: string;
   type: string;
   languageId: number;
@@ -32,6 +36,7 @@ export class PostUpdateDto implements PostInterface {
 
 export class PostGetDto implements PostInterface {
   id: number;
+  title: string;
   text: string;
   type: string;
   createdBy: UserInterface;
@@ -46,6 +51,7 @@ export class PostWithLikedAndCount extends PostGetDto {
 
 export const NullPost: PostGetDto = {
   id: 0,
+  title: '',
   text: '',
   type: '',
   time: new Date(),
@@ -54,6 +60,7 @@ export const NullPost: PostGetDto = {
 };
 
 export class PostInsertDto {
+  title: string;
   text: string;
   type: string;
   creatorId: number;

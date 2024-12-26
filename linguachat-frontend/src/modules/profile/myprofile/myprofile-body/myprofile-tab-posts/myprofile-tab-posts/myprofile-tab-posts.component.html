@@ -1,0 +1,15 @@
+<mat-card class="mt-4">
+    <mat-card-content *ngIf="userPosts$ | async as userPosts; else loading">
+        <mat-list *ngFor="let userPost of userPosts">
+            <mat-list-item>
+                <app-myprofile-tab-post-item [post]="userPost"></app-myprofile-tab-post-item>
+            </mat-list-item>
+        </mat-list>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-raised-button color="primary" >Add Post</button>
+    </mat-card-actions>
+</mat-card>
+<ng-template #loading>
+    <mat-spinner #loading class="ml-auto mr-auto"></mat-spinner>
+</ng-template>  
