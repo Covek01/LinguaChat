@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MyprofileBodyModule } from './myprofile-body/myprofile-body.module';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [MyprofileComponent],
@@ -17,7 +18,8 @@ import { MyprofileBodyModule } from './myprofile-body/myprofile-body.module';
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    MyprofileBodyModule
+    MyprofileBodyModule,
+    MatCardModule
   ],
   exports: [
     MyprofileComponent,

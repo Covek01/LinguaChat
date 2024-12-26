@@ -55,7 +55,6 @@ export class AuthService {
 
 
     async register(user_dto: UserInsertDto) : Promise<string> {
-      console.log('SERVER IS TOUCHED');
       const user = {
           name: user_dto.name,
           surname: user_dto.surname,

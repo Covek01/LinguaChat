@@ -53,7 +53,7 @@ export class ConnectionService {
   getConnectedUsersOfUser(id: number): Observable<UserGetDto[]> {
     return this.http.get<UserGetDto[]>(
       `${this.baseAddress}/${this.basePath}/getConnectedUsersOfUser/${id}`
-    );
+  );
   }
 
   getConnectedUsersOfMe(): Observable<UserGetDto[]> {

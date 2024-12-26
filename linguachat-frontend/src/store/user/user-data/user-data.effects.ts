@@ -45,7 +45,7 @@ export class UserDataEffects {
         this.userService.updateInfo(action.user).pipe(
           tap((response) => console.log('User Response:', response)),
           map((user) => {
-            return UserDataActions.getResponse({ user });
+            return UserDataActions.getResponseForMyUser({ user });
           }),
           catchError((error) => of(UserDataActions.getError({ error: error })))
         )

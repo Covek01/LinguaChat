@@ -21,7 +21,7 @@ export const selectPostEntities = createSelector(
   selectEntities
 );
 
-// select the array of connected users
+// select the array of posts
 export const selectAllPosts = createSelector(
   languageNativeState,
   selectAll

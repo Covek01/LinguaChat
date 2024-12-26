@@ -1,0 +1,55 @@
+<mat-card *ngIf="userInfo$ | async as userInfo; else loading">
+    <mat-card-header>
+        <mat-icon color="primary" >info</mat-icon>
+        <p>Basic profile info about user</p>
+    </mat-card-header>
+    <mat-card-content class="mt-4">
+        <div class="m-8">
+            <div class="flex align-middle">
+                <mat-icon color="primary" >location_on</mat-icon>
+                <p class="inline">Country</p>
+            </div>
+            <p>{{userInfo.country}}</p>
+        </div>
+        <div class="m-8">
+            <div class="flex align-middle">
+                <mat-icon color="primary">location_city</mat-icon>
+                <p>City</p>
+            </div>
+            <p>{{userInfo.city}}</p>
+        </div>
+        <div class="m-8">
+            <div class="flex align-middle">
+                <mat-icon color="primary">cake</mat-icon>
+                <p>Born</p>
+            </div>
+            <p>{{userInfo.born | date: 'yyyy-MM-dd'}}</p>
+        </div>
+        <div class="m-8">
+            <div class="flex align-middle">
+                <mat-icon color="primary">account_box</mat-icon>
+                <h3>Profile created</h3>
+            </div>
+            <p>{{userInfo.since | date: 'yyyy-MM-dd'}}</p>
+        </div>
+        <div class="m-8">
+            <div class="flex align-middle">
+                <mat-icon color="primary">edit_square</mat-icon>
+                <h3>About user</h3>
+            </div>
+            <div class="w-4/5 min-h-10 my-primary">
+                <p class="m-2">{{userInfo.comment}}</p>
+            </div>
+        </div>
+    </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-flat-button color="primary" (click)="handleUpdateProfileDialog()">
+            <mat-icon>edit</mat-icon>
+            <p>Edit profile</p>
+        </button>
+    </mat-card-actions>
+</mat-card>
+
+<ng-template #loading>
+    <mat-spinner #loading class="ml-auto mr-auto"></mat-spinner>
+</ng-template>  

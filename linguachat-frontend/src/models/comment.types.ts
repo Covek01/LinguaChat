@@ -8,10 +8,7 @@ export interface CommentInterface {
   time: Date;
 }
 
-export interface CommentsForStore {
-  postId: number;
-  comments: CommentInterface[];
-}
+
 
 export class CommentDto implements CommentInterface {
   id: number;

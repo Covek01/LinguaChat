@@ -12,7 +12,7 @@ export class BlockedUserEffects {
     this.actions$.pipe(
       ofType(BlockedUsersActions.sendRequestToGetBlockedUsers),
       exhaustMap((action) =>
-        this.userService.getUsersWhoAreBlockedByUser(action.id).pipe(
+        this.userService.getUsersWhoAreBlockedByMe().pipe(
           tap((response) => console.log('User Response:', response)),
           map((users) => {
             return BlockedUsersActions.getResponseForBlockedUsers({ users });

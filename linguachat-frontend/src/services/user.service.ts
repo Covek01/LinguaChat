@@ -32,6 +32,7 @@ export class UserService {
   }
 
   updateInfo(user: UserGetDto): Observable<UserGetDto> {
+    console.log(user);
     return this.http.put<UserGetDto>(
       `${this.baseAddress}/${this.basePath}/updateInfo`,
       user
@@ -57,7 +58,7 @@ export class UserService {
     );
   }
 
-  getUsersWhoAreBlockedByMe(id: number): Observable<UserGetDto[]> {
+  getUsersWhoAreBlockedByMe(): Observable<UserGetDto[]> {
     return this.http.get<UserGetDto[]>(
       `${this.baseAddress}/${this.basePath}/getUsersWhoAreBlockedByMe`
     );

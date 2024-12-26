@@ -1,6 +1,6 @@
 import { Delete, Inject, Injectable, UseGuards } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource, DeleteResult, InsertResult } from 'typeorm';
+import { DataSource, DeleteResult, InsertResult, UpdateResult } from 'typeorm';
 import { UserGetDto, UserGetDtoProfile, UserInsertDto, UserInterface, UserUpdateDto } from '../../models/user.types'
 
 import { User } from './user.entity';
@@ -39,9 +39,7 @@ export class UserService {
                     .leftJoinAndSelect('user.languagesNative', 'languagesNative')
                     .where('user.id = :userId', {userId})
                     .getOne();
-        console.log(user)  
         const {passHash, ...userDto} = user;
-        console.log(userDto instanceof UserGetDtoProfile)
         return userDto;
     }
 
@@ -99,8 +97,9 @@ export class UserService {
     }
 
     async updateUserInfo(user: UserGetDto) : Promise<UserGetDto> {
+        console.log('TAKNUT SAM');
         const {id, ...userWithoutId} = user;
-        const result: DeleteResult = await this.dataSource
+        const result: UpdateResult = await this.dataSource
                 .getRepository(User)
                 .update({ id: user.id }, userWithoutId );
         if (result.affected === 0)

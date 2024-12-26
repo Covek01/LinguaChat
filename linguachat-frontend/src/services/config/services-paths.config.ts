@@ -3,5 +3,5 @@ export const servicesPaths = {
     language: 'language',
     comment: 'comment',
     post: 'post',
-    connection: 'post',
+    connection: 'connection',
 }

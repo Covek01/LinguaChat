@@ -5,7 +5,7 @@ import {
 
 export const sendRequestToGetBlockedUsers = createAction(
   '[User Blocks] Send Request To Get Users',
-  props<{ id: number }>()
+  emptyProps
 );
 
 export const getResponseForBlockedUsers = createAction(

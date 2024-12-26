@@ -1,3 +1,11 @@
-<mat-list>
-    <mat-list-item></mat-list-item>
-</mat-list>
+<div>
+    <mat-list *ngIf="connectedUsers$ | async as connectedUsers; else loading">
+        <h2 matSubheader>Connections</h2>
+        <mat-list-item *ngFor="let connectedUser of connectedUsers">
+            <app-myprofile-barleft-item [user]="connectedUser"></app-myprofile-barleft-item>
+        </mat-list-item>
+    </mat-list>
+</div>
+<ng-template #loading>
+    <mat-spinner #loading class="ml-auto mr-auto"></mat-spinner>
+</ng-template>
