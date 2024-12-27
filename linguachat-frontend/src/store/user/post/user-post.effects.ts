@@ -35,7 +35,7 @@ export class PostEffects {
       ofType(PostActions.sendRequestToGetPostsByMe),
       exhaustMap((action) =>
         this.postService.getPostsOfUserWithLikedStatusByMe().pipe(
-          tap((response) => console.log('User Response:', response)),
+          tap((response) => console.log('Post Response:', response)),
           map((posts) => {
             return PostActions.getResponseForPosts({
               posts,

@@ -6,29 +6,19 @@ import { CommentsState } from './comment.types';
 const { selectIds, selectEntities, selectAll, selectTotal } =
   commentsAdapter.getSelectors();
 
-export const commentState =
-  createFeatureSelector<CommentsState>('comments');
+export const commentState = createFeatureSelector<CommentsState>('comments');
 
 // select the array of comments ids
-export const selectCommentIds = createSelector(
-    commentState,
-  selectIds
-);
+export const selectCommentIds = createSelector(commentState, selectIds);
 
 // select the dictionary of comment entities
 export const selectCommentEntities = createSelector(
-    commentState,
+  commentState,
   selectEntities
 );
 
 // select the array of comments
-export const selectAllComments = createSelector(
-    commentState,
-  selectAll
-);
+export const selectAllComments = createSelector(commentState, selectAll);
 
 // select the total comments count
-export const selectCommentsTotal = createSelector(
-    commentState,
-  selectTotal
-);
+export const selectCommentsTotal = createSelector(commentState, selectTotal);

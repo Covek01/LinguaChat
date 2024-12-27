@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import { sendRequestToGetBlockedUsers } from 'src/store/user/blocked-users/blocked-users.actions';
 import { sendRequestToGetLanguagesLearning, sendRequestToGetMyLanguagesLearning } from 'src/store/user/languages-learning/languages-learning.actions';
 import { sendRequestToGetLanguagesNativeByMe } from 'src/store/user/languages-native/languages-native.actions';
+import { sendRequestToGetPostsByMe } from 'src/store/user/post/user-post.actions';
 import { sendRequestToGetMyUser } from 'src/store/user/user-data/user-data.actions';
 import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
 
@@ -22,6 +23,7 @@ export class MyprofileComponent implements OnInit {
     this.store.dispatch(sendRequestToGetMyLanguagesLearning());
     this.store.dispatch(sendRequestToGetLanguagesNativeByMe());
     this.store.dispatch(sendRequestToGetBlockedUsers());
-
+    console.log('Dispatching sendRequestToGetPostsByMe');
+    this.store.dispatch(sendRequestToGetPostsByMe());
   }
 }

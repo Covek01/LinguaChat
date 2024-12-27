@@ -8,7 +8,7 @@ export const sendRequestToGetPosts = createAction(
 );
 
 export const sendRequestToGetPostsByMe = createAction(
-  '[User Post] Send Request To Get User Posts',
+  '[User Post] Send Request To Get User Posts By Me',
   emptyProps
 );
 

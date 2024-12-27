@@ -7,6 +7,8 @@ import { BlockedUserEffects } from '../user/blocked-users/blocked-users.effects'
 import { ConnectionsEffects } from '../user/connections/connections.effects';
 import { LanguagesLearningEffects } from '../user/languages-learning/languages-learning.effects';
 import { LanguagesNativeEffects } from '../user/languages-native/languages-native.effects';
+import { PostEffects } from '../user/post/user-post.effects';
+import { CommentEffects } from '../comment/comment.effects';
 
 export const ngEffectsNames = EffectsModule.forRoot([
   DarkModeEffects,
@@ -17,4 +19,6 @@ export const ngEffectsNames = EffectsModule.forRoot([
   ConnectionsEffects,
   LanguagesLearningEffects,
   LanguagesNativeEffects,
+  PostEffects,
+  CommentEffects
 ]);

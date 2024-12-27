@@ -1,0 +1,10 @@
+<mat-card appearance="outlined">
+    <mat-card-header>
+        Comments
+    </mat-card-header>
+    <mat-card-content>
+        <div *ngFor="let commentOfPost of commentsOfPost$ | async as commentsOfPost">
+            <app-myprofile-tab-comments-item [comment]="commentOfPost"></app-myprofile-tab-comments-item>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -1,8 +1,49 @@
-<mat-card appearance="outlined">
-    <mat-card-title>
-
-    </mat-card-title>
-    <mat-card-content>
-
+<div *ngIf="userInfo$ | async as userInfo" class="flex align-middle ml-4">
+    <mat-icon color="primary">person</mat-icon>
+    <p>{{userInfo?.username}}</p>
+</div>
+<mat-card appearance="raised" class="m-2">
+    <mat-card-header>
+        <mat-icon *ngIf="post?.type === 'Question'" color="primary" [inline]="true">help_center</mat-icon>
+        <mat-icon *ngIf="post?.type === 'Lesson'" color="primary" [inline]="true">cast_for_education</mat-icon>
+        <p>
+            {{post?.title}}
+        </p>
+    </mat-card-header>
+    <!-- <mat-card-subtitle >
+        {{post?.type}}
+    </mat-card-subtitle> -->
+    <mat-card-content class="min-h-16 mt-2">
+        {{post?.text}}
     </mat-card-content> 
+    <mat-card-actions align="end">
+        <button mat-flat-button color="primary">
+            <div *ngIf="post?.liked === true">
+                <mat-icon  [inline]="true">thumb_up</mat-icon>
+                <p>Liked</p>
+            </div>
+            <div *ngIf="post?.liked === false" class="flex align-middle">
+                <mat-icon  [inline]="true">thumb_up_off_alt</mat-icon>
+                <p>Like</p>
+            </div>
+        </button>
+        <button mat-stroked-button color="primary" class="m-1">
+                <mat-icon [inline]="true">comment</mat-icon>
+                <span>Comment</span>
+        </button>
+    </mat-card-actions>
+    <mat-card-footer class="m-2">
+        <span>Post created: </span>
+        {{post?.time | date: 'yyyy-MM-dd'}}
+    </mat-card-footer>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                <mat-icon  [inline]="true" class="m-2" color="primary">comment</mat-icon>
+                <p>Comments</p>
+            </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-myprofile-tab-comments [post]="post"></app-myprofile-tab-comments>
+    </mat-expansion-panel>
+    
 </mat-card>
