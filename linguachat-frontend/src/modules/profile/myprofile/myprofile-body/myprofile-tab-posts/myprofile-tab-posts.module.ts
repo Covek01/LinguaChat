@@ -10,10 +10,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MyprofileTabCommentsComponent } from './myprofile-tab-comments/myprofile-tab-comments.component';
 import { MyprofileTabCommentsItemComponent } from './myprofile-tab-comments-item/myprofile-tab-comments-item.component';
+import { MyprofileTabPostAddDialogComponent } from './myprofile-tab-post-add-dialog/myprofile-tab-post-add-dialog.component';
 
 
 @NgModule({
-  declarations: [MyprofileTabPostsComponent, MyprofileTabPostItemComponent, MyprofileTabCommentsComponent, MyprofileTabCommentsItemComponent],
+  declarations: [MyprofileTabPostsComponent, MyprofileTabPostItemComponent, MyprofileTabCommentsComponent, MyprofileTabCommentsItemComponent, MyprofileTabPostAddDialogComponent],
   imports: [
     CommonModule,
     MatCardModule,

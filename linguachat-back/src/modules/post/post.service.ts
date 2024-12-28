@@ -3,7 +3,11 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { User } from '../user/user.entity';
 import { DataSource } from 'typeorm';
 import { Language } from '../language/language.entity';
-import { NullPost, PostGetDto, PostWithLikedAndCount } from 'src/models/post.types';
+import {
+  NullPost,
+  PostGetDto,
+  PostWithLikedAndCount,
+} from 'src/models/post.types';
 import { Post } from 'src/modules/post/post.entity';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { removePassHash } from 'src/utils/user.utils';
@@ -195,6 +199,30 @@ export class PostService {
     return postGetDto;
   }
 
+  async likePost(userId: number, postId: number): Promise<string> {
+    console.log(userId);
+    console.log(postId);
+    await this.dataSource
+      .createQueryBuilder()
+      .relation(Post, 'likedByUsers')
+      .of(postId)
+      .add(userId);
+
+    return 'Post liked successfully';
+  }
+
+  async unlikePost(userId: number, postId: number): Promise<string> {
+    console.log(userId);
+    console.log(postId);
+    await this.dataSource
+      .createQueryBuilder()
+      .relation(Post, 'likedByUsers')
+      .of(postId)
+      .remove(userId);
+
+    return 'Post unliked successfully';
+  }
+
   async getPostsOfUser(userId: number): Promise<PostGetDto[]> {
     const posts: Post[] | null = await this.dataSource
       .getRepository(Post)
@@ -236,8 +264,8 @@ export class PostService {
       .where('createdBy.id = :userId', { userId })
       .select(['post', 'createdBy', 'language', 'likedByUsers.id'])
       .getMany();
-    
-    console.log(posts)
+
+    console.log(posts);
 
     if (!posts) {
       throw new Error("Posts for this user don't exist");
@@ -247,11 +275,11 @@ export class PostService {
       const isLiked = post.likedByUsers
         .map((liked) => liked.id)
         .some((currentId) => currentId === myId);
-        const likedCount = post.likedByUsers.length;
+      const likedCount = post.likedByUsers.length;
       return {
         ...post,
         liked: isLiked,
-        likedCount: likedCount
+        likedCount: likedCount,
       };
     });
 

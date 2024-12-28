@@ -69,9 +69,45 @@ export class PostEffects {
       ofType(PostActions.sendRequestToDeletePost),
       exhaustMap((action) =>
         this.postService.deletePost(action.postId).pipe(
-          tap((response) => console.log('User Response:', response)),
+          tap((response) => console.log('Response:', response)),
           map(() => {
             return PostActions.getResponseToDeletePost({
+              postId: action.postId,
+            });
+          }),
+          catchError((error) => of(PostActions.getError({ error: error })))
+        )
+      )
+    )
+  );
+
+  likePost$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PostActions.sendRequestToLikePost),
+      exhaustMap((action) =>
+        this.postService.likePost(action.userId, action.postId).pipe(
+          tap((response) => console.log('Response:', response)),
+          map(() => {
+            return PostActions.getResponseToLikePost({
+              userId: action.userId,
+              postId: action.postId,
+            });
+          }),
+          catchError((error) => of(PostActions.getError({ error: error })))
+        )
+      )
+    )
+  );
+
+  unlikePost$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PostActions.sendRequestToUnlikePost),
+      exhaustMap((action) =>
+        this.postService.unlikePost(action.userId, action.postId).pipe(
+          tap((response) => console.log('Response:', response)),
+          map(() => {
+            return PostActions.getResponseToUnlikePost({
+              userId: action.userId,
               postId: action.postId,
             });
           }),

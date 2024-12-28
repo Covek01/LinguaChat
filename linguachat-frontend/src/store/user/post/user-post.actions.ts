@@ -39,6 +39,27 @@ export const getResponseToDeletePost = createAction(
   props<{ postId: number }>()
 );
 
+//Like and Unlike Post
+export const sendRequestToLikePost = createAction(
+  '[User Post] Send Request To Like Post',
+  props<{ userId: number, postId: number }>()
+);
+
+export const getResponseToLikePost = createAction(
+  '[User Post] Get Response To Like Post',
+  props<{ userId: number, postId: number }>()
+);
+
+export const sendRequestToUnlikePost = createAction(
+  '[User Post] Send Request To Unlike Post',
+  props<{ userId: number, postId: number }>()
+);
+
+export const getResponseToUnlikePost = createAction(
+  '[User Post] Get Response To Unlike Post',
+  props<{ userId: number, postId: number }>()
+);
+
 export const getError = createAction(
   '[User Post] Get Error',
   props<{ error: string }>()

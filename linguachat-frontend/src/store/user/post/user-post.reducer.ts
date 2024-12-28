@@ -10,13 +10,54 @@ export const postReducer = createReducer(
   }),
   on(PostActions.getResponseToAddPost, (state, { post }) => {
     const postWithLikedAndCountAttributes: PostWithLikedAndCount = {
-        ...post,
-        liked: false,
-        likedCount: 0
-    }
+      ...post,
+      liked: false,
+      likedCount: 0,
+    };
     return userPostsAdapter.addOne(postWithLikedAndCountAttributes, state);
   }),
   on(PostActions.getResponseToDeletePost, (state, { postId }) => {
     return userPostsAdapter.removeOne(postId, state);
-  })
+  }),
+  on(PostActions.getResponseToLikePost, (state, { userId, postId }) => {
+    const post = state.entities[postId] ?? null;
+    console.log("RX PROVERA ZA POST UPDATE")
+    console.log(post) 
+    if (post) {
+      const postNew = {
+        ...post,
+        liked: true
+      }
+      console.log(post);
+      return userPostsAdapter.updateOne(
+        {
+          id: postId,
+          changes: postNew,
+        },
+        state
+      );
+    }
+
+    return state;
+  }),
+  on(PostActions.getResponseToUnlikePost, (state, { userId, postId }) => {
+    const post = state.entities[postId] ?? null;
+    console.log("RX PROVERA ZA POST UPDATE")
+    console.log(post)
+    if (post) {
+      const postNew = {
+        ...post,
+        liked: false
+      }
+      return userPostsAdapter.updateOne(
+        {
+          id: postId,
+          changes: postNew,
+        },
+        state
+      );
+    }
+
+    return state;
+  }),
 );

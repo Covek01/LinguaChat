@@ -9,6 +9,8 @@ import {
   PostUpdateDto,
   PostWithLikedAndCount,
 } from 'src/models/post.types';
+import { emptyProps } from '@ngrx/store';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
@@ -71,6 +73,32 @@ export class PostService {
   getPostsOfUserWithLikedStatusByMe(): Observable<PostWithLikedAndCount[]> {
     return this.http.get<PostWithLikedAndCount[]>(
       `${this.baseAddress}/${this.basePath}/getPostsWithLikedStatusByMe`
+    );
+  }
+
+  likePost(
+    userId: number,
+    postId: number
+  ): Observable<string> {
+    return this.http.put(
+      `${this.baseAddress}/${this.basePath}/likePost/${userId}/${postId}`,
+      null,
+      {
+        responseType: 'text'
+      }
+    );
+  }
+
+  unlikePost(
+    userId: number,
+    postId: number
+  ): Observable<string> {
+    return this.http.put(
+      `${this.baseAddress}/${this.basePath}/unlikePost/${userId}/${postId}`,
+      null,
+      {
+        responseType: 'text'
+      }
     );
   }
 }

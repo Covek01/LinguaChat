@@ -17,8 +17,8 @@
         {{post?.text}}
     </mat-card-content> 
     <mat-card-actions align="end">
-        <button mat-flat-button color="primary">
-            <div *ngIf="post?.liked === true">
+        <button mat-flat-button color="primary" (click)="likeOrUnlikePost()">
+            <div *ngIf="post?.liked === true" class="flex align-middle">
                 <mat-icon  [inline]="true">thumb_up</mat-icon>
                 <p>Liked</p>
             </div>
@@ -30,6 +30,9 @@
         <button mat-stroked-button color="primary" class="m-1">
                 <mat-icon [inline]="true">comment</mat-icon>
                 <span>Comment</span>
+        </button>
+        <button mat-icon-button class="rounded-sm" color="warn">
+            <mat-icon>delete</mat-icon>
         </button>
     </mat-card-actions>
     <mat-card-footer class="m-2">

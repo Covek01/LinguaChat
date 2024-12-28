@@ -4,6 +4,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import { NullPost, PostGetDto, PostInsertDto, PostInterface, PostUpdateDto, PostWithLikedAndCount } from 'src/models/post.types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { use } from 'passport';
+import { QueryFailedError } from 'typeorm';
 
 @UseGuards(JwtAuthGuard)
 @Controller('post')
@@ -32,7 +33,7 @@ export class PostController {
     @Get('/get/:id')
     async getPost(@Param('id') id: string) : Promise<PostGetDto> {
         return await this.postService.getPost(
-            parseInt(id, 0)
+            parseInt(id)
         ).catch( error => {
             console.log("Error with getting post");
             console.log(error);
@@ -61,7 +62,7 @@ export class PostController {
     @Delete('/delete/:id')
     async deletePost(@Param('id') id: string) : Promise<string> {
         return await this.postService.deletePost(
-            parseInt(id, 0)
+            parseInt(id)
         ).catch( error => {
             console.log("Error with deleting post");
             console.log(error);
@@ -74,7 +75,7 @@ export class PostController {
     @Get('/getPostsOfUser/:userId')
     async getPostsOfUser(@Param('userId') userId: string) : Promise<PostGetDto[]> {
         return await this.postService.getPostsOfUser(
-            parseInt(userId, 0)
+            parseInt(userId)
         ).catch( error => {
             console.log("Error with getting posts");
             console.log(error);
@@ -104,7 +105,7 @@ export class PostController {
         console.log(myid);
         return await this.postService.getPostsOfUserWithLikedStatus(
             myid,
-            parseInt(userId, 0)
+            parseInt(userId)
         ).catch( error => {
             console.log("Error with getting posts");
             console.log(error);
@@ -123,6 +124,36 @@ export class PostController {
             myid
         ).catch( error => {
             console.log("Error with getting posts");
+            console.log(error);
+
+            throw new Error(error);
+        });
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Put('/likePost/:userId/:postId')
+    async likePost(@Param('userId') userId: string, @Param('postId') postId: string) : Promise<string> {
+        console.log('TAKNUT SAM');
+        return await this.postService.likePost(
+            parseInt(userId),
+            parseInt(postId)
+        ).catch( error => {
+            console.log("Error with liking post");
+            console.log(error);
+
+            throw new Error(error);
+        });
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Put('/unlikePost/:userId/:postId')
+    async unlikePost(@Param('userId') userId: string, @Param('postId') postId: string) : Promise<string> {
+        console.log('TAKNUT SAM');
+        return await this.postService.unlikePost(
+            parseInt(userId),
+            parseInt(postId)
+        ).catch( error => {
+            console.log("Error with unliking post");
             console.log(error);
 
             throw new Error(error);
