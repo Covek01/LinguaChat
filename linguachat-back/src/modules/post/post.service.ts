@@ -12,6 +12,7 @@ import { Post } from 'src/modules/post/post.entity';
 import { plainToClass, plainToInstance } from 'class-transformer';
 import { removePassHash } from 'src/utils/user.utils';
 import { title } from 'process';
+import { ReturnMessage } from 'src/models/models.type';
 @Injectable()
 export class PostService {
   constructor(
@@ -143,7 +144,8 @@ export class PostService {
     return postGetDto;
   }
 
-  async deletePost(postId: number): Promise<string> {
+  async deletePost(postId: number): Promise<ReturnMessage> {
+    console.log("TAKNUT SAM")
     await this.dataSource
       .createQueryBuilder()
       .delete()
@@ -151,7 +153,7 @@ export class PostService {
       .where('id = :postId', { postId })
       .execute();
 
-    return 'Post deleted succesfully';
+    return new ReturnMessage('Post deleted succesfully');
   }
 
   async updatePost(

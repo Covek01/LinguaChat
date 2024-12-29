@@ -10,11 +10,27 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MyprofileTabCommentsComponent } from './myprofile-tab-comments/myprofile-tab-comments.component';
 import { MyprofileTabCommentsItemComponent } from './myprofile-tab-comments-item/myprofile-tab-comments-item.component';
+import { MyprofileModule } from '../../myprofile.module';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
 import { MyprofileTabPostAddDialogComponent } from './myprofile-tab-post-add-dialog/myprofile-tab-post-add-dialog.component';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MyprofileTabCommentAddComponent } from './myprofile-tab-comment-add/myprofile-tab-comment-add.component';
+import { MyprofileTabCommentAddDialogComponent } from './myprofile-tab-comment-add-dialog/myprofile-tab-comment-add-dialog.component';
 
 @NgModule({
-  declarations: [MyprofileTabPostsComponent, MyprofileTabPostItemComponent, MyprofileTabCommentsComponent, MyprofileTabCommentsItemComponent, MyprofileTabPostAddDialogComponent],
+  declarations: [
+    MyprofileTabPostsComponent,
+    MyprofileTabPostItemComponent,
+    MyprofileTabCommentsComponent,
+    MyprofileTabCommentsItemComponent,
+    MyprofileTabPostAddDialogComponent,
+    MyprofileTabCommentAddComponent,
+    MyprofileTabCommentAddDialogComponent
+  ],
   imports: [
     CommonModule,
     MatCardModule,
@@ -22,10 +38,16 @@ import { MyprofileTabPostAddDialogComponent } from './myprofile-tab-post-add-dia
     MatListModule,
     MatProgressSpinnerModule,
     MatIconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    FormsModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatDialogModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    MatAutocompleteModule
   ],
-  exports: [
-    MyprofileTabPostsComponent
-  ]
+  exports: [MyprofileTabPostsComponent, MyprofileTabCommentsComponent],
 })
-export class MyprofileTabPostsModule { }
+export class MyprofileTabPostsModule {}

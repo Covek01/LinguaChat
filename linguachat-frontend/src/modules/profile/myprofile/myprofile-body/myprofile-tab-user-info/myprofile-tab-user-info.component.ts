@@ -16,7 +16,6 @@ import { sendRequestToUpdateMyUser } from 'src/store/user/user-data/user-data.ac
 export class MyprofileTabUserInfoComponent {
   constructor(
     private readonly store: Store,
-    private readonly router: Router,
     private dialog: MatDialog
   ) {
   }

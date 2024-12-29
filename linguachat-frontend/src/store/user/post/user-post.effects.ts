@@ -52,7 +52,7 @@ export class PostEffects {
       ofType(PostActions.sendRequestToAddPost),
       exhaustMap((action) =>
         this.postService.addPost(action.postInsert).pipe(
-          tap((response) => console.log('User Response:', response)),
+          tap((response) => console.log('Add post Response:', response)),
           map((post) => {
             return PostActions.getResponseToAddPost({
               post,

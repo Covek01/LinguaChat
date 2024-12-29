@@ -10,3 +10,16 @@ export interface DoubleIds {
   firstId: number;
   secondId: number;
 }
+
+export interface ReturnMessageInterface {
+  message: string
+}
+
+export class ReturnMessage implements ReturnMessageInterface {
+  message: string;
+
+  constructor(message: string) {
+    this.message = message;
+
+  }
+}

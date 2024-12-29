@@ -1,7 +1,20 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { PostInsertDto } from 'src/models/post.types';
+import { Store } from '@ngrx/store';
+import { combineLatest, map, mergeMap, reduce } from 'rxjs';
+import { LanguageInterface } from 'src/models/language.types';
+import { Post, PostInsertDto, PostInterface } from 'src/models/post.types';
+import { UserGetDto } from 'src/models/user.types';
+import {
+  selectLanguagesLearning,
+  selectLanguagesLearningTotal,
+} from 'src/store/user/languages-learning/languages-learning.selector';
+import {
+  selectAllLanguagesNative,
+  selectLanguagesNativeIds,
+} from 'src/store/user/languages-native/languages-native.selector';
+import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
 
 @Component({
   selector: 'app-myprofile-tab-post-add-dialog',
@@ -9,28 +22,67 @@ import { PostInsertDto } from 'src/models/post.types';
   styleUrls: ['./myprofile-tab-post-add-dialog.component.sass'],
 })
 export class MyprofileTabPostAddDialogComponent {
-  userForm: FormGroup;
+  myUser: UserGetDto | null = null;
+  postLanguages: LanguageInterface[] | null = null;
+  postForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<MyprofileTabPostAddDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: PostInsertDto,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private readonly store: Store
   ) {
-    this.userForm = this.fb.group({
-      title: [this.data.title, [Validators.required]],
-      text: [this.data.text, [Validators.required]],
-      type: [this.data.type, Validators.required],
-      languageId: [this.data.languageId, [Validators.required]],
+    this.postForm = this.fb.group({
+      title: [
+        'Title',
+        [Validators.required, Validators.pattern('[A-Z][^]*')],
+      ],
+      text: ['Text', [Validators.required, Validators.pattern('[A-Z][^]*')]],
+      type: ['Type', Validators.required],
+      language: ['', [Validators.required]],
     });
   }
+
+  languagesLearning$ = this.store.select(selectLanguagesLearning);
+  languagesNative$ = this.store.select(selectAllLanguagesNative);
+
+  languagesSubscription = combineLatest([
+    this.languagesLearning$,
+    this.languagesNative$,
+  ])
+    .pipe(map(([array1, array2]) => [...array1, ...array2]))
+    .subscribe((languages) => {
+      const uniqueLanguages = Array.from(
+        new Set(languages.map((item) => JSON.stringify(item)))
+      ).map((string) => JSON.parse(string));
+
+      this.postLanguages = uniqueLanguages;
+    });
+
+  userSubscription = this.store.select(selectMyUser).subscribe((myUser) => {
+    this.myUser = {
+      ...myUser,
+    };
+  });
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   onSubmit(): void {
-    if (this.userForm.valid) {
-      this.dialogRef.close(this.userForm.value);
+    if (this.postForm.valid) {
+      const selectedLanguageId = this.postLanguages?.find(
+        (language) => language.name === this.postForm.value.language
+      )?.id;
+
+      const returnObjectWithLanguageProperty = {
+        ...this.postForm.value,
+        languageId: selectedLanguageId,
+        creatorId: this.myUser?.id,
+      };
+
+      const { language, ...postInsertDto } = returnObjectWithLanguageProperty;
+
+      this.dialogRef.close(postInsertDto);
     }
   }
 }

@@ -5,6 +5,7 @@ import { PostWithLikedAndCount } from 'src/models/post.types';
 import { UserGetDto } from 'src/models/user.types';
 import { sendRequestToGetComments } from 'src/store/comment/comment.actions';
 import {
+  sendRequestToDeletePost,
   sendRequestToLikePost,
   sendRequestToUnlikePost,
 } from 'src/store/user/post/user-post.actions';
@@ -33,7 +34,7 @@ export class MyprofileTabPostItemComponent implements OnInit {
     );
   }
 
-  likeOrUnlikePost() {
+  likeOrUnlikePost(): void {
     if (!this.post) {
       return;
     }
@@ -44,7 +45,7 @@ export class MyprofileTabPostItemComponent implements OnInit {
     }
   }
 
-  likePost() {
+  likePost(): void {
     this.store.dispatch(
       sendRequestToLikePost({
         userId: this.user?.id ?? 0,
@@ -53,12 +54,16 @@ export class MyprofileTabPostItemComponent implements OnInit {
     );
   }
 
-  unlikePost() {
+  unlikePost(): void {
     this.store.dispatch(
       sendRequestToUnlikePost({
         userId: this.user?.id ?? 0,
         postId: this.post?.id ?? 0,
       })
     );
+  }
+
+  deletePost(): void {
+    this.store.dispatch(sendRequestToDeletePost({postId: this.post?.id ?? 0}));
   }
 }

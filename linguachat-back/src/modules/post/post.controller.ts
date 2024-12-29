@@ -5,6 +5,7 @@ import { NullPost, PostGetDto, PostInsertDto, PostInterface, PostUpdateDto, Post
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { use } from 'passport';
 import { QueryFailedError } from 'typeorm';
+import { ReturnMessage } from 'src/models/models.type';
 
 @UseGuards(JwtAuthGuard)
 @Controller('post')
@@ -60,7 +61,7 @@ export class PostController {
 
     @HttpCode(HttpStatus.OK)
     @Delete('/delete/:id')
-    async deletePost(@Param('id') id: string) : Promise<string> {
+    async deletePost(@Param('id') id: string) : Promise<ReturnMessage> {
         return await this.postService.deletePost(
             parseInt(id)
         ).catch( error => {

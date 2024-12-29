@@ -31,7 +31,11 @@ export class Post {
   time: Date;
 
   //User relationships
-  @ManyToMany(() => User, (user) => user.postsLiked)
+  @ManyToMany(() => User, (user) => user.postsLiked, {
+    cascade: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   likedByUsers: User[];
 
   @ManyToOne(() => User, (user) => user.createdPosts, {

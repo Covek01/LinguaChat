@@ -13,7 +13,7 @@
     <!-- <mat-card-subtitle >
         {{post?.type}}
     </mat-card-subtitle> -->
-    <mat-card-content class="min-h-16 mt-2">
+    <mat-card-content class="min-h-16 mt-2 mb-4">
         {{post?.text}}
     </mat-card-content> 
     <mat-card-actions align="end">
@@ -31,7 +31,7 @@
                 <mat-icon [inline]="true">comment</mat-icon>
                 <span>Comment</span>
         </button>
-        <button mat-icon-button class="rounded-sm" color="warn">
+        <button mat-icon-button class="rounded-sm" color="warn" (click)="deletePost()">
             <mat-icon>delete</mat-icon>
         </button>
     </mat-card-actions>
