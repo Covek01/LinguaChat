@@ -1,9 +1,13 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged } from 'rxjs';
 import { PostWithLikedAndCount } from 'src/models/post.types';
 import { UserGetDto } from 'src/models/user.types';
-import { sendRequestToGetComments } from 'src/store/comment/comment.actions';
+import {
+  sendRequestToAddComment,
+  sendRequestToGetComments,
+} from 'src/store/comment/comment.actions';
 import {
   sendRequestToDeletePost,
   sendRequestToLikePost,
@@ -13,6 +17,8 @@ import {
   selectMyUser,
   selectUser,
 } from 'src/store/user/user-data/user-data.selector';
+import { MyprofileTabCommentAddDialogComponent } from '../myprofile-tab-comment-add-dialog/myprofile-tab-comment-add-dialog.component';
+import { CommentInsertDto } from 'src/models/comment.types';
 
 @Component({
   selector: 'app-myprofile-tab-post-item',
@@ -21,13 +27,15 @@ import {
 })
 export class MyprofileTabPostItemComponent implements OnInit {
   @Input() post: PostWithLikedAndCount | null = null;
-  constructor(private readonly store: Store) {}
-
   user: UserGetDto | null = null;
+
+  constructor(private readonly store: Store, private dialog: MatDialog) {}
+
   userInfo$ = this.store.select(selectMyUser);
-  user$ = this.store.select(selectMyUser).subscribe((user) => {
+  userSubscription = this.store.select(selectMyUser).subscribe((user) => {
     this.user = user;
   });
+
   ngOnInit(): void {
     this.store.dispatch(
       sendRequestToGetComments({ postId: this.post?.id ?? 0 })
@@ -64,6 +72,32 @@ export class MyprofileTabPostItemComponent implements OnInit {
   }
 
   deletePost(): void {
-    this.store.dispatch(sendRequestToDeletePost({postId: this.post?.id ?? 0}));
+    this.store.dispatch(
+      sendRequestToDeletePost({ postId: this.post?.id ?? 0 })
+    );
+  }
+
+  handleAddCommentDialog(): void {
+    const dialogRef = this.dialog.open(MyprofileTabCommentAddDialogComponent, {
+      width: '600px',
+    });
+
+    dialogRef.afterClosed().subscribe((commentText) => {
+      console.log(commentText);
+      if (commentText) {
+        const commentInsertDto = {
+          ...commentText,
+          postRelatedToId: this.post?.id ?? 0,
+          userCommentedId: this.user?.id ?? 0,
+        };
+
+        console.log(commentInsertDto instanceof CommentInsertDto);
+        if (commentInsertDto) {
+          this.store.dispatch(
+            sendRequestToAddComment({ commentInsert: commentInsertDto })
+          );
+        }
+      }
+    });
   }
 }
