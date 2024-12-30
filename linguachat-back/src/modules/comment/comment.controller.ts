@@ -3,6 +3,8 @@ import { CommentService } from './comment.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { CommentGetDto, CommentInsertDto, CommentInterface, NullComment } from 'src/models/comment.types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { DeleteResult } from 'typeorm/driver/mongodb/typings';
+import { ReturnMessage } from 'src/models/models.type';
 
 @UseGuards(JwtAuthGuard)
 @Controller('comment')
@@ -55,7 +57,7 @@ export class CommentController {
 
     @HttpCode(HttpStatus.OK)
     @Delete('/delete/:id')
-    async deleteComment(@Param('id') id: string): Promise<string> {
+    async deleteComment(@Param('id') id: string): Promise<ReturnMessage> {
         return await this.commentService.deleteComment(
             parseInt(id, 0)
         ).catch(error => {

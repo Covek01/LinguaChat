@@ -5,6 +5,7 @@ import { Comment } from './comment.entity';
 import { User } from 'src/modules/user/user.entity';
 import { Post } from 'src/modules/post/post.entity';
 import { CommentGetDto } from 'src/models/comment.types';
+import { ReturnMessage } from 'src/models/models.type';
 
 @Injectable()
 export class CommentService {
@@ -111,7 +112,7 @@ export class CommentService {
     return commentGetDto;
   }
 
-  async deleteComment(commentId: number): Promise<string> {
+  async deleteComment(commentId: number): Promise<ReturnMessage> {
     await this.dataSource
       .createQueryBuilder()
       .delete()
@@ -119,7 +120,7 @@ export class CommentService {
       .where('id = :commentId', { commentId })
       .execute();
 
-    return 'Comment deleted successfully';
+    return new ReturnMessage('Comment deleted successfully');
   }
 
   async getCommentsOfPost(postId: number): Promise<CommentGetDto[]> {

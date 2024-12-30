@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { CommentGetDto, CommentInsertDto, CommentInterface } from 'src/models/comment.types';
+import { ReturnMessage } from 'src/models/models.type';
 
 @Injectable({
   providedIn: 'root'
@@ -36,8 +37,8 @@ export class CommentService {
     );
   }
 
-  deleteComment(id: number): Observable<string> {
-    return this.http.delete<string>(
+  deleteComment(id: number): Observable<ReturnMessage> {
+    return this.http.delete<ReturnMessage>(
       `${this.baseAddress}/${this.basePath}/delete/${id}`
     );
   }
