@@ -3,10 +3,10 @@
     <p>{{userInfo?.username}}</p>
 </div>
 <mat-card appearance="raised" class="m-2">
-    <mat-card-header>
-        <mat-icon *ngIf="post?.type === 'Question'" color="primary" [inline]="true">help_center</mat-icon>
-        <mat-icon *ngIf="post?.type === 'Lesson'" color="primary" [inline]="true">cast_for_education</mat-icon>
-        <p>
+    <mat-card-header class="flex space-x-2">
+        <mat-icon *ngIf="post?.type === 'Question'" color="primary">help_center</mat-icon>
+        <mat-icon *ngIf="post?.type === 'Lesson'" color="primary">cast_for_education</mat-icon>
+        <p class="font-semibold">
             {{post?.title}}
         </p>
     </mat-card-header>
