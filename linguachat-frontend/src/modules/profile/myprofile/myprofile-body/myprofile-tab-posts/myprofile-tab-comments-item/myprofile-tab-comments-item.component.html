@@ -6,7 +6,8 @@
     </div>
     <button mat-icon-button color="primary" class="!rounded-none"
     *ngIf="this.user?.id ?? 0 === comment?.userCommented?.id ?? -1"
-    (click)="deleteComment()">
+    (click)="deleteComment()"
+    aria-label="Delete a comment">
         <mat-icon>delete</mat-icon>
     </button>
 </div>

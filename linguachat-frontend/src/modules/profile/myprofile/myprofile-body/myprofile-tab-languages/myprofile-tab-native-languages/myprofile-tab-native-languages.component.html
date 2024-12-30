@@ -1,0 +1,35 @@
+<div *ngIf="nativeLanguages$ | async as nativeLanguages">
+<table mat-table [dataSource]="nativeLanguages">
+
+    <!--- Note that these columns can be defined in any order.
+          The actual rendered columns are set as a property on the row definition" -->
+   
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+    </ng-container>
+
+     <!-- Actions Column -->
+     <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef>Actions</th>
+        <td mat-cell *matCellDef="let element">
+            <button mat-button color="primary" class="!rounded-none"
+            aria-label="Delete a comment">
+                <mat-icon>delete</mat-icon>
+                <p>Remove</p>
+            </button>
+        </td>
+      </ng-container>
+  
+    <!-- Popularity Column -->
+    <ng-container matColumnDef="popularity">
+      <th mat-header-cell *matHeaderCellDef> Popularity </th>
+      <td mat-cell *matCellDef="let element"> {{element.popularity}} </td>
+    </ng-container>
+    
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+  
