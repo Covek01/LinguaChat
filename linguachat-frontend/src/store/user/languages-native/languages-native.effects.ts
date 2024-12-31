@@ -57,10 +57,9 @@ export class LanguagesNativeEffects {
       ofType(LanguagesNativeActions.sendRequestToAddLanguageNative),
       exhaustMap((action) =>
         this.userService
-          .insertLanguageLearning(
+          .insertLanguageNative(
             action.userId,
             action.languageId,
-            action.level
           )
           .pipe(
             tap((response) => console.log('Response:', response)),
@@ -82,12 +81,12 @@ export class LanguagesNativeEffects {
       ofType(LanguagesNativeActions.sendRequestToDeleteLanguageNative),
       exhaustMap((action) =>
         this.userService
-          .removeLanguageLearning(action.userId, action.languageId)
+          .removeLanguageNative(action.userId, action.languageId)
           .pipe(
             tap((response) => console.log('Response:', response)),
-            map((language) => {
+            map(() => {
               return LanguagesNativeActions.getResponseToDeleteLanguageNative(
-                { id: language.id }
+                { id: action.languageId }
               );
             }),
             catchError((error) =>

@@ -4,7 +4,8 @@
 </div>
 <div class="flex justify-end">
     <button mat-raised-button color="primary"
-    aria-label="Add a language native">
+    aria-label="Add a language native"
+    (click)="handleAddNativeLanguageDialog()">
         <mat-icon>add</mat-icon>
         <p>Add</p>
     </button>
@@ -26,7 +27,8 @@
         <th mat-header-cell *matHeaderCellDef>Actions</th>
         <td mat-cell *matCellDef="let element">
             <button mat-button color="primary"
-            aria-label="Delete a language native">
+            aria-label="Delete a language native"
+            (click)="deleteNativeLanguageForUser(element.id)">
                 <mat-icon>delete</mat-icon>
                 <p>Remove</p>
             </button>

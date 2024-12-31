@@ -5,7 +5,7 @@ import { allLanguagesAdapter } from './all-languages.state';
 //get languages learning by user
 export const sendRequestToGetAllLanguages = createAction(
   '[All Languages] Send Request To Get All Languages',
-  props<{ id: number }>()
+  emptyProps
 );
 
 export const getResponseForAllLanguages = createAction(

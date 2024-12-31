@@ -77,10 +77,18 @@ export class UserService {
     );
   }
 
-  insertLanguageNative(userId: number, languageId: number): Observable<string> {
-    return this.http.post<string>(
+  insertLanguageNative(userId: number, languageId: number): Observable<LanguageInterface> {
+    return this.http.post<LanguageInterface>(
       `${this.baseAddress}/${this.basePath}/insertLanguageNative/${userId}/${languageId}`,
       ''
+    );
+  }
+  removeLanguageNative(userId: number, languageId: number): Observable<string> {
+    return this.http.delete(
+      `${this.baseAddress}/${this.basePath}/removeLanguageNative/${userId}/${languageId}`,
+      {
+        responseType: 'text'
+      }
     );
   }
 

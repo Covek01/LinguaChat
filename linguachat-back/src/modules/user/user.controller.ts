@@ -171,8 +171,23 @@ export class UserController {
     async insertLanguageNative(
         @Param('userId') userId: string,
         @Param('languageId') languageId: string
-        ) : Promise<string> {
+        ) : Promise<LanguageInterface> {
         return await this.userService.insertLanguageNative(parseInt(userId, 0), parseInt(languageId, 0))
+                    .catch( error => {
+                        console.log("Error with adding native language");
+                        console.log(error);
+
+                        throw new Error(error);
+                    });
+    }
+
+    @HttpCode(HttpStatus.OK)
+    @Delete('/removeLanguageNative/:userId/:languageId')
+    async removeLanguageNative(
+        @Param('userId') userId: string,
+        @Param('languageId') languageId: string
+        ) : Promise<string> {
+        return await this.userService.removeLanguageNative(parseInt(userId, 0), parseInt(languageId, 0))
                     .catch( error => {
                         console.log("Error with adding native language");
                         console.log(error);

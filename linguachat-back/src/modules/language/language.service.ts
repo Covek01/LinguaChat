@@ -7,86 +7,95 @@ import { UserLearningLanguage } from '../user/UserLearningLanguage.entity';
 
 @Injectable()
 export class LanguageService {
-    constructor(@InjectDataSource('postgresConnection') private dataSource: DataSource){}
+  constructor(
+    @InjectDataSource('postgresConnection') private dataSource: DataSource,
+  ) {}
 
-    async addLanguage(name: string) : Promise<string> {
-        const result : InsertResult = await this.dataSource
-                            .getRepository(Language)
-                            .insert({
-                                name: name,
-                                popularity: 0
-                            });
+  async addLanguage(name: string): Promise<string> {
+    const result: InsertResult = await this.dataSource
+      .getRepository(Language)
+      .insert({
+        name: name,
+        popularity: 0,
+      });
 
-        return "Language successfully added";
-    }
+    return 'Language successfully added';
+  }
 
-    async getLanguage(languageId: number) : Promise<LanguageInterface> {
-        const result : Language = await this.dataSource
-                            .getRepository(Language)
-                            .findOne({
-                                where: {
-                                    id: languageId
-                                }
-                            });
-        
-        const language : LanguageInterface = {...result};
-        return language;
-    }
+  async getLanguage(languageId: number): Promise<LanguageInterface> {
+    const result: Language = await this.dataSource
+      .getRepository(Language)
+      .findOne({
+        where: {
+          id: languageId,
+        },
+      });
 
-    async deleteLanguage(id: number) : Promise<string> {
-        const result : DeleteResult = await this.dataSource
-                            .createQueryBuilder()
-                            .delete()
-                            .where('id = :id', {id: id})
-                            .execute();
+    const language: LanguageInterface = { ...result };
+    return language;
+  }
 
-        return "Language successfully deleted";
-    }
+  async deleteLanguage(id: number): Promise<string> {
+    const result: DeleteResult = await this.dataSource
+      .createQueryBuilder()
+      .delete()
+      .where('id = :id', { id: id })
+      .execute();
 
-    async deleteLanguageByName(languageName: string) : Promise<string> {
-        const result : DeleteResult = await this.dataSource
-                            .createQueryBuilder()
-                            .delete()
-                            .where('name = :name', {name: languageName})
-                            .execute();
+    return 'Language successfully deleted';
+  }
 
-        return "Language successfully deleted";
-    }
+  async deleteLanguageByName(languageName: string): Promise<string> {
+    const result: DeleteResult = await this.dataSource
+      .createQueryBuilder()
+      .delete()
+      .where('name = :name', { name: languageName })
+      .execute();
 
-    async updateLanguage(language: LanguageInterface) : Promise<string> {
-        const result : DeleteResult = await this.dataSource
-                            .getRepository(Language)
-                            .update(language.id, {
-                                name: language.name, 
-                            });
-        return "Language successfully deleted";
-    }
+    return 'Language successfully deleted';
+  }
 
-    async getLanguagesUserIsLearning(userId: number) : Promise<Language[]> {
-        const userLearningLanguages: UserLearningLanguage[] = await this.dataSource
-                    .getRepository(UserLearningLanguage)
-                    .createQueryBuilder('userLearningLanguage')
-                    .leftJoinAndSelect('userLearningLanguage.language', 'language')
-                    .where('userLearningLanguage.user_id = :userId', {userId})
-                    .getMany();
+  async updateLanguage(language: LanguageInterface): Promise<string> {
+    const result: DeleteResult = await this.dataSource
+      .getRepository(Language)
+      .update(language.id, {
+        name: language.name,
+      });
+    return 'Language successfully deleted';
+  }
 
-        const learnedLanguages: Language[] = userLearningLanguages.map(userLearningLanguage => 
-            userLearningLanguage.language
-        );
-        return learnedLanguages;
-    }
+  async getLanguagesUserIsLearning(userId: number): Promise<Language[]> {
+    const userLearningLanguages: UserLearningLanguage[] = await this.dataSource
+      .getRepository(UserLearningLanguage)
+      .createQueryBuilder('userLearningLanguage')
+      .leftJoinAndSelect('userLearningLanguage.language', 'language')
+      .where('userLearningLanguage.user_id = :userId', { userId })
+      .getMany();
 
-    async getNativeLanguagesForUser(userId: number) : Promise<Language[]> {
-        const languages: Language[] = await this.dataSource
-                    .getRepository(Language)
-                    .createQueryBuilder('language')
-                    .innerJoin('language.nativeBy', 'user')
-                    .where('user.id = :userId', { userId })
-                    .getMany();
+    const learnedLanguages: Language[] = userLearningLanguages.map(
+      (userLearningLanguage) => userLearningLanguage.language,
+    );
+    return learnedLanguages;
+  }
 
+  async getAllLanguages(): Promise<Language[]> {
+    const allLanguages: Language[] = await this.dataSource
+      .getRepository(Language)
+      .createQueryBuilder('language')
+      .getMany();
 
-        console.log(languages);  
-        return languages;
-    }
+    return allLanguages;
+  }
 
+  async getNativeLanguagesForUser(userId: number): Promise<Language[]> {
+    const languages: Language[] = await this.dataSource
+      .getRepository(Language)
+      .createQueryBuilder('language')
+      .innerJoin('language.nativeBy', 'user')
+      .where('user.id = :userId', { userId })
+      .getMany();
+
+    console.log(languages);
+    return languages;
+  }
 }

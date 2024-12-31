@@ -6,7 +6,7 @@ const { selectIds, selectEntities, selectAll, selectTotal } =
   allLanguagesAdapter.getSelectors();
 
 export const allLanguagesState =
-  createFeatureSelector<AllLanguagesState>('languagesNative');
+  createFeatureSelector<AllLanguagesState>('allLanguages');
 
 // select the array of connected user ids
 export const selecAllLanguagesIds = createSelector(
@@ -21,7 +21,7 @@ export const selecAllLanguagesEntities = createSelector(
 );
 
 // select the array of connected users
-export const selecAllLanguagesNative = createSelector(
+export const selectAllLanguagesList = createSelector(
   allLanguagesState,
   selectAll
 );

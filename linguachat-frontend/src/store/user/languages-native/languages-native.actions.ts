@@ -20,7 +20,7 @@ export const getResponseForLanguagesNative = createAction(
 //add user language learning by user
 export const sendRequestToAddLanguageNative = createAction(
   '[Languages Native] Send Request To Add Language Native',
-  props<{ userId: number; languageId: number; level: string }>()
+  props<{ userId: number; languageId: number }>()
 );
 
 export const getResponseToAddLanguageNative = createAction(

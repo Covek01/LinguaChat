@@ -35,6 +35,12 @@ export class LanguageService {
     );
   }
 
+  getAllLanguages(): Observable<Language[]> {
+    return this.http.get<Language[]>(
+      `${this.baseAddress}/${this.basePath}/getAllLanguages`
+    );
+  }
+
   getLanguagesIAmLearning(): Observable<Language[]> {
     return this.http.get<Language[]>(
       `${this.baseAddress}/${this.basePath}/getLanguagesIAmLearning`

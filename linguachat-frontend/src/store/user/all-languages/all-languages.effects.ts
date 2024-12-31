@@ -17,8 +17,8 @@ export class AllLanguagesEffects {
     this.actions$.pipe(
       ofType(AllLanguagesActions.sendRequestToGetAllLanguages),
       exhaustMap((action) =>
-        this.languageService.getLanguagesUserIsLearning(action.id).pipe(
-          tap((response) => console.log('Response:', response)),
+        this.languageService.getAllLanguages().pipe(
+          tap((response) => console.log('All Language Response:', response)),
           map((languages) => {
             return AllLanguagesActions.getResponseForAllLanguages({
               languages,

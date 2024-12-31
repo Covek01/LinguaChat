@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { sendRequestToGetAllLanguages } from 'src/store/user/all-languages/all-languages.actions';
 import { sendRequestToGetBlockedUsers } from 'src/store/user/blocked-users/blocked-users.actions';
 import { sendRequestToGetLanguagesLearning, sendRequestToGetMyLanguagesLearning } from 'src/store/user/languages-learning/languages-learning.actions';
 import { sendRequestToGetLanguagesNativeByMe } from 'src/store/user/languages-native/languages-native.actions';
@@ -23,7 +24,7 @@ export class MyprofileComponent implements OnInit {
     this.store.dispatch(sendRequestToGetMyLanguagesLearning());
     this.store.dispatch(sendRequestToGetLanguagesNativeByMe());
     this.store.dispatch(sendRequestToGetBlockedUsers());
-    console.log('Dispatching sendRequestToGetPostsByMe');
     this.store.dispatch(sendRequestToGetPostsByMe());
+    this.store.dispatch(sendRequestToGetAllLanguages());
   }
 }
