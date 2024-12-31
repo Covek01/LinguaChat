@@ -16,7 +16,7 @@ export const selectLanguagesNativeIds = createSelector(
 );
 
 // select the dictionary of connected user entities
-export const selectBlockedUserEntities = createSelector(
+export const selectLanguagesNativeEntities = createSelector(
   languageNativeState,
   selectEntities
 );

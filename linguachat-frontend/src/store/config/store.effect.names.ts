@@ -9,6 +9,7 @@ import { LanguagesLearningEffects } from '../user/languages-learning/languages-l
 import { LanguagesNativeEffects } from '../user/languages-native/languages-native.effects';
 import { PostEffects } from '../user/post/user-post.effects';
 import { CommentEffects } from '../comment/comment.effects';
+import { AllLanguagesEffects } from '../user/all-languages/all-languages.effects';
 
 export const ngEffectsNames = EffectsModule.forRoot([
   DarkModeEffects,
@@ -20,5 +21,6 @@ export const ngEffectsNames = EffectsModule.forRoot([
   LanguagesLearningEffects,
   LanguagesNativeEffects,
   PostEffects,
-  CommentEffects
+  CommentEffects,
+  AllLanguagesEffects
 ]);
