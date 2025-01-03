@@ -22,3 +22,8 @@ export class ReturnMessage implements ReturnMessageInterface {
     this.message = message;
   }
 }
+
+export interface Flag {
+  country: string;
+  key: string;
+}

@@ -13,6 +13,7 @@ import { languagesNativeReducer } from '../user/languages-native/languages-nativ
 import { postReducer } from '../user/post/user-post.reducer';
 import { commentReducer } from '../comment/comment.reducer';
 import { allLanguagesReducer } from '../user/all-languages/all-languages.reducer';
+import { flagsReducer } from '../flags/flags.reducer';
 
 //it's stateName - reducer configuration
 export const ngStoreNames = StoreModule.forRoot({
@@ -27,5 +28,6 @@ export const ngStoreNames = StoreModule.forRoot({
   languagesNative: languagesNativeReducer,
   posts: postReducer,
   comments: commentReducer,
-  allLanguages: allLanguagesReducer
+  allLanguages: allLanguagesReducer,
+  flags: flagsReducer,
 });
