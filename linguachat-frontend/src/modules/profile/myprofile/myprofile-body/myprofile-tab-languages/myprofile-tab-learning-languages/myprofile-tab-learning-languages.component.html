@@ -4,12 +4,13 @@
 </div>
 <div class="flex justify-end">
 <button mat-raised-button color="primary"
-aria-label="Add a language native">
+aria-label="Add a language native"
+(click)="handleAddLearningLanguageDialog()">
     <mat-icon>add</mat-icon>
     <p>Add</p>
 </button>
 </div>
-<div *ngIf="languagesLearning$ | async as languagesLearning; else loading">
+<div *ngIf="learningLanguages$ | async as languagesLearning; else loading">
 <table mat-table [dataSource]="languagesLearning">
 
 <!--- Note that these columns can be defined in any order.
@@ -26,7 +27,8 @@ aria-label="Add a language native">
     <th mat-header-cell *matHeaderCellDef>Actions</th>
     <td mat-cell *matCellDef="let element">
         <button mat-button color="primary"
-        aria-label="Delete a language native">
+        aria-label="Delete a language native"
+        (click)="deleteLearningLanguageForUser(element.id)">
             <mat-icon>delete</mat-icon>
             <p>Remove</p>
         </button>

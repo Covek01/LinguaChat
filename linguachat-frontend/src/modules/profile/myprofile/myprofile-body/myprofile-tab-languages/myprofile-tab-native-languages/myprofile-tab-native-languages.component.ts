@@ -32,7 +32,6 @@ export class MyprofileTabNativeLanguagesComponent {
   nativeLanguages$ = this.store.select(selectAllLanguagesNative);
 
   handleAddNativeLanguageDialog(): void {
-    console.log('DIALOZIIIII')
     const dialogRef = this.dialog.open(
       MyprofileTabNativeLanguagesAddDialogComponent,
       {

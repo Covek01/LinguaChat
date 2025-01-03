@@ -20,14 +20,14 @@ export class MyprofileTabNativeLanguagesAddDialogComponent {
 
   nativeLanguagesMap: Map<number, LanguageInterface> | null = null;
 
-  postForm: FormGroup;
+  addLanguageForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<MyprofileTabNativeLanguagesAddDialogComponent>,
     private fb: FormBuilder,
     private readonly store: Store
   ) {
-    this.postForm = this.fb.group({
+    this.addLanguageForm = this.fb.group({
       language: ['', [Validators.required]],
     });
   }
@@ -55,7 +55,6 @@ export class MyprofileTabNativeLanguagesAddDialogComponent {
 
   availableLanguagesNativeToAddSubscription =
     this.availableLanguagesNativeToAdd$.subscribe((languages) => {
-      console.log('AVAILABLE LANGUAGES: ' + languages)
       this.availableLanguages = languages;
     });
 
@@ -70,15 +69,24 @@ export class MyprofileTabNativeLanguagesAddDialogComponent {
   }
 
   onSubmit(): void {
-    if (this.postForm.valid) {
-      const chosenLanguageToAdd: LanguageInterface | null =
-        this.availableLanguages?.find(
-          (language) => language.name === this.postForm.value.language
-        ) ?? null;
-      if (!chosenLanguageToAdd) {
-        return;
-      }
-      this.dialogRef.close(chosenLanguageToAdd);
-    }
+    console.log('VALUE OF LANGUAGE IS: ')
+    const chosenLanguageToAdd: LanguageInterface = this.addLanguageForm.value.language;
+    this.dialogRef.close(chosenLanguageToAdd);
+
+    // console.log(this.addLanguageForm.value)
+    // if (this.addLanguageForm.valid) {
+    //   const chosenLanguageToAdd: LanguageInterface | null =
+    //     this.availableLanguages?.find(
+    //       (language) => language.name === this.addLanguageForm.value.language
+    //     ) ?? null;
+    //   if (!chosenLanguageToAdd) {
+    //     return;
+    //   }
+    //   this.dialogRef.close(chosenLanguageToAdd);
+    // }
+  }
+
+  displayLanguage(language: LanguageInterface): string {
+    return language ? language.name : '';
   }
 }

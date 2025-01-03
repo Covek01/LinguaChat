@@ -1,6 +1,6 @@
 <h1 mat-dialog-title>Add Native Language</h1>
 <div mat-dialog-content>
-  <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="flex flex-col space-y-4 justify-start">
+  <form [formGroup]="addLanguageForm" (ngSubmit)="onSubmit()" class="flex flex-col space-y-4 justify-start">
     <mat-form-field class="w-1/2">
       <mat-label>Language</mat-label>
       <input type="text"
@@ -9,8 +9,8 @@
              matInput
              formControlName="language"
              [matAutocomplete]="languages">
-      <mat-autocomplete autoActiveFirstOption #languages="matAutocomplete" >
-          <mat-option [value]="language.name" *ngFor="let language of this.availableLanguages">
+      <mat-autocomplete autoActiveFirstOption #languages="matAutocomplete" [displayWith]="displayLanguage">
+          <mat-option [value]="language" *ngFor="let language of this.availableLanguages">
             {{language.name}}
           </mat-option>
       </mat-autocomplete>
@@ -20,5 +20,5 @@
 </div>
 <div mat-dialog-actions align="end">
   <button mat-stroked-button color="primary" (click)="onNoClick()">Cancel</button>
-  <button mat-flat-button color="primary" [disabled]="postForm.invalid" (click)="onSubmit()">Add Native Language</button>
+  <button mat-flat-button color="primary" [disabled]="addLanguageForm.invalid" (click)="onSubmit()">Add Native Language</button>
 </div>
