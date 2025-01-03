@@ -17,6 +17,7 @@ import { AuthGuard } from '../auth/auth.guard';
 import {
   Language,
   LanguageInterface,
+  LanguageWithLearningLevel,
   NullLanguage,
 } from 'src/models/language.types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
@@ -136,7 +137,7 @@ export class LanguageController {
   @Get('/getLanguagesUserIsLearning/:id')
   async getLanguagesUserIsLearning(
     @Param('id') id: string,
-  ): Promise<Language[]> {
+  ): Promise<LanguageWithLearningLevel[]> {
     try {
       return await this.languageService.getLanguagesUserIsLearning(
         parseInt(id, 10),
@@ -151,7 +152,7 @@ export class LanguageController {
 
   @HttpCode(HttpStatus.OK)
   @Get('/getLanguagesIAmLearning')
-  async getLanguagesIAmLearning(@Request() request): Promise<Language[]> {
+  async getLanguagesIAmLearning(@Request() request): Promise<LanguageWithLearningLevel[]> {
     try {
       const myid = request.user.id;
       return await this.languageService.getLanguagesUserIsLearning(myid);

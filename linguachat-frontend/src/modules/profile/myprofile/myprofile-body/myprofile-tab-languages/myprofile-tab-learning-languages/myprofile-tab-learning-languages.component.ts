@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { LanguageInterface } from 'src/models/language.types';
+import { LanguageInterface, LanguageWithLearningLevel } from 'src/models/language.types';
 import { UserGetDto } from 'src/models/user.types';
 import { selectLanguagesLearning } from 'src/store/user/languages-learning/languages-learning.selector';
 import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
@@ -14,7 +14,7 @@ import { sendRequestToAddLanguageLearning, sendRequestToDeleteLanguageLearning }
   styleUrls: ['./myprofile-tab-learning-languages.component.sass'],
 })
 export class MyprofileTabLearningLanguagesComponent {
-  displayedColumns: string[] = ['name', 'popularity', 'actions'];
+  displayedColumns: string[] = ['name', 'popularity', 'level', 'actions'];
   myUser: UserGetDto | null = null;
   constructor(private readonly store: Store, private dialog: MatDialog) {}
 
@@ -22,11 +22,11 @@ export class MyprofileTabLearningLanguagesComponent {
     this.myUser = user;
   });
 
-  learningLanguage: LanguageInterface[] | null = null;
+  learningLanguages: LanguageWithLearningLevel[] | null = null;
   learningLanguagesSubscription$ = this.store
     .select(selectLanguagesLearning)
     .subscribe((learningLanguages) => {
-      this.learningLanguage = learningLanguages;
+      this.learningLanguages = learningLanguages;
     });
 
   learningLanguages$ = this.store.select(selectLanguagesLearning);

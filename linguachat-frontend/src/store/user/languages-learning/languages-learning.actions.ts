@@ -1,5 +1,5 @@
 import { createAction, emptyProps, props } from '@ngrx/store';
-import { LanguageInterface } from 'src/models/language.types';
+import { LanguageInterface, LanguageWithLearningLevel } from 'src/models/language.types';
 
 //get languages learning by user
 
@@ -15,7 +15,7 @@ export const sendRequestToGetLanguagesLearning = createAction(
 
 export const getResponseForLanguagesLearning = createAction(
   '[Languages Learning] Get Response For Getting Languages Learning',
-  props<{ languages: LanguageInterface[] }>()
+  props<{ languages: LanguageWithLearningLevel[] }>()
 );
 
 //add user language learning by user
@@ -26,7 +26,7 @@ export const sendRequestToAddLanguageLearning = createAction(
 
 export const getResponseToAddLanguageLearning = createAction(
   '[Languages Learning] Get Response For Adding Language Learning',
-  props<{ language: LanguageInterface }>()
+  props<{ language: LanguageWithLearningLevel }>()
 );
 
 //delete language learning by user

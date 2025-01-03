@@ -16,7 +16,10 @@ import { AuthGuard } from '../auth/auth.guard';
 import { Blocking } from './blocking.entity';
 import { Language } from '../language/language.entity';
 import { UserLearningLanguage } from './UserLearningLanguage.entity';
-import { LanguageInterface } from 'src/models/language.types';
+import {
+  LanguageInterface,
+  LanguageWithLearningLevel,
+} from 'src/models/language.types';
 
 @Injectable()
 export class UserService {
@@ -187,7 +190,6 @@ export class UserService {
       .of(userId)
       .remove(language_id);
 
-
     return 'Native language removed successfully';
   }
 
@@ -195,7 +197,7 @@ export class UserService {
     userId: number,
     language_id: number,
     level: string,
-  ): Promise<LanguageInterface> {
+  ): Promise<LanguageWithLearningLevel> {
     const user: User = await this.dataSource.getRepository(User).findOne({
       where: {
         id: userId,
@@ -233,7 +235,15 @@ export class UserService {
     language.popularity = languageLearning;
     await this.dataSource.manager.save(language);
 
-    return language;
+    const languageWithLevelLearning: LanguageWithLearningLevel =
+      new LanguageWithLearningLevel(
+        language.id,
+        language.name,
+        language.popularity,
+        level,
+      );
+
+    return languageWithLevelLearning;
   }
 
   async removeLanguageLearning(

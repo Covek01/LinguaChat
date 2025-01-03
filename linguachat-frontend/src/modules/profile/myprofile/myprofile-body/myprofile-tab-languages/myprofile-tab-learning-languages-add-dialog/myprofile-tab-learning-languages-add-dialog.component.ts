@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs';
-import { LanguageInterface } from 'src/models/language.types';
+import { LanguageInterface, LanguageWithLearningLevel } from 'src/models/language.types';
 import { UserGetDto } from 'src/models/user.types';
 import { selectAllLanguagesList } from 'src/store/user/all-languages/all-languages.selector';
 import {
@@ -21,7 +21,7 @@ export class MyprofileTabLearningLanguagesAddDialogComponent {
   addLearningLanguageForm: FormGroup;
   myUser: UserGetDto | null = null;
   knowledgeLevels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-  learningLanguagesMap: Map<number, LanguageInterface> | null = null;
+  learningLanguagesMap: Map<number, LanguageWithLearningLevel> | null = null;
   availableLanguages: LanguageInterface[] | null = null;
 
   constructor(
@@ -39,11 +39,10 @@ export class MyprofileTabLearningLanguagesAddDialogComponent {
   languagesLearningSubscription = this.store
     .select(selectLanguagesLearning)
     .subscribe((learningLanguages) => {
-      const map = new Map<number, LanguageInterface>();
+      const map = new Map<number, LanguageWithLearningLevel>();
       learningLanguages.forEach((learningLanguage) => {
         map.set(learningLanguage.id, learningLanguage);
       });
-      console.log(map);
       this.learningLanguagesMap = map;
     });
   availableLanguagesLearningToAdd$ = this.store

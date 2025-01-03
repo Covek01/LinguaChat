@@ -40,7 +40,6 @@ export class MyprofileTabNativeLanguagesAddDialogComponent {
       natives.forEach((native) => {
         map.set(native.id, native);
       });
-      console.log(map);
       this.nativeLanguagesMap = map;
     });
   availableLanguagesNativeToAdd$ = this.store
@@ -69,7 +68,6 @@ export class MyprofileTabNativeLanguagesAddDialogComponent {
   }
 
   onSubmit(): void {
-    console.log('VALUE OF LANGUAGE IS: ')
     const chosenLanguageToAdd: LanguageInterface = this.addLanguageForm.value.language;
     this.dialogRef.close(chosenLanguageToAdd);
 

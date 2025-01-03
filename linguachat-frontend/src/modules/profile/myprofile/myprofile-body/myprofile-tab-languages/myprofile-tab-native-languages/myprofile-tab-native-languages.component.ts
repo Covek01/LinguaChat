@@ -40,7 +40,6 @@ export class MyprofileTabNativeLanguagesComponent {
     );
 
     dialogRef.afterClosed().subscribe((languageToAdd) => {
-      console.log(languageToAdd);
       if (languageToAdd) {
         this.store.dispatch(
           sendRequestToAddLanguageNative({

@@ -18,7 +18,7 @@ export class LanguagesNativeEffects {
     this.actions$.pipe(
       ofType(LanguagesNativeActions.sendRequestToGetLanguagesNative),
       exhaustMap((action) =>
-        this.languageService.getLanguagesUserIsLearning(action.id).pipe(
+        this.languageService.getNativeLanguagesForUser(action.id).pipe(
           tap((response) => console.log('Response:', response)),
           map((languages) => {
             return LanguagesNativeActions.getResponseForLanguagesNative({

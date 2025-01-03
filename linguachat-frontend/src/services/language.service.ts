@@ -1,7 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
-import { Language } from "src/models/language.types";
+import { Language, LanguageWithLearningLevel } from "src/models/language.types";
 import { servicesPaths } from "./config/services-paths.config";
 import { Injectable } from "@angular/core";
 
@@ -29,8 +29,8 @@ export class LanguageService {
     );
   }
   
-  getLanguagesUserIsLearning(id: number): Observable<Language[]> {
-    return this.http.get<Language[]>(
+  getLanguagesUserIsLearning(id: number): Observable<LanguageWithLearningLevel[]> {
+    return this.http.get<LanguageWithLearningLevel[]>(
       `${this.baseAddress}/${this.basePath}/getLanguagesUserIsLearning/${id}`
     );
   }
@@ -41,8 +41,8 @@ export class LanguageService {
     );
   }
 
-  getLanguagesIAmLearning(): Observable<Language[]> {
-    return this.http.get<Language[]>(
+  getLanguagesIAmLearning(): Observable<LanguageWithLearningLevel[]> {
+    return this.http.get<LanguageWithLearningLevel[]>(
       `${this.baseAddress}/${this.basePath}/getLanguagesIAmLearning`
     );
   }

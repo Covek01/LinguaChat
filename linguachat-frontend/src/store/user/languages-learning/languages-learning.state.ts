@@ -1,9 +1,9 @@
 import { createEntityAdapter } from '@ngrx/entity';
-import { Language, LanguageInterface } from 'src/models/language.types';
+import { Language, LanguageInterface, LanguageWithLearningLevel } from 'src/models/language.types';
 import { LanguagesLearningState } from './languages-learning.types';
 
 export const langaugesLearningAdapter =
-  createEntityAdapter<LanguageInterface>();
+  createEntityAdapter<LanguageWithLearningLevel>();
 
 export const initialStateLanguagesLearning: LanguagesLearningState =
   langaugesLearningAdapter.getInitialState();
