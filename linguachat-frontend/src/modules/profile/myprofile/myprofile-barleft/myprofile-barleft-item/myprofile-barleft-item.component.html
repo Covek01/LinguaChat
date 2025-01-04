@@ -1,6 +1,8 @@
 <mat-list-item role="listitem">
     <button mat-button>
+        <mat-icon color="primary">person</mat-icon>
         <span class="mr-5">{{user.username}}</span>
-        <span>{{user.country}}</span>
+        <span class="fi" [ngClass]="user.userFlagKey"></span>
+        <span class="ml-1">{{this.user.country}}</span>
     </button>
 </mat-list-item>

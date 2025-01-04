@@ -7,10 +7,10 @@
         <div class="m-8">
             <div class="flex align-middle">
                 <mat-icon color="primary" >location_on</mat-icon>
-                <span></span>
                 <p class="inline">Country</p>
             </div>
-            <p>{{userInfo.country}}</p>
+            <span class="fi" [ngClass]="this.userFlagKey"></span>
+            <span class="ml-1">{{userInfo.country}}</span>
         </div>
         <div class="m-8">
             <div class="flex align-middle">

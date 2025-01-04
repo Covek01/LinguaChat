@@ -21,6 +21,7 @@ import { MyprofileTabPostsModule } from './myprofile-tab-posts/myprofile-tab-pos
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MyprofileTabLanguagesModule } from './myprofile-tab-languages/myprofile-tab-languages.module';
 
+
 @NgModule({
   declarations: [
     MyprofileBodyComponent,

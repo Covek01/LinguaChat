@@ -8,13 +8,17 @@ const { selectIds, selectEntities, selectAll, selectTotal } =
 export const flagsState = createFeatureSelector<FlagsState>('flags');
 
 // select the array of Flags ids
-export const selecFlagsIds = createSelector(flagsState, selectIds);
+export const selectFlagsIds = createSelector(flagsState, selectIds);
 
 // select the dictionary of Flags entities
-export const selecFlagsEntities = createSelector(flagsState, selectEntities);
+export const selectFlagsEntities = createSelector(flagsState, selectEntities);
+export const selectFlagsEntityById = (id: number) =>
+  createSelector(flagsState, (state: FlagsState) => {
+    return state.entities[id];
+  });
 
 // select the array of Flags
 export const selectFlagsList = createSelector(flagsState, selectAll);
 
 // select the total Flags count
-export const selecFlagsTotal = createSelector(flagsState, selectTotal);
+export const selectFlagsTotal = createSelector(flagsState, selectTotal);

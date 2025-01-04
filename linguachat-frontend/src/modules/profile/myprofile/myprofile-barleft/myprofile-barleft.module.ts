@@ -5,6 +5,8 @@ import { MyprofileBarleftComponent } from './myprofile-barleft/myprofile-barleft
 import { MatListModule } from '@angular/material/list';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [MyprofileBarleftItemComponent, MyprofileBarleftComponent],
@@ -13,6 +15,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatListModule,
     MatProgressSpinnerModule,
     MatButtonModule,
+    MatIconModule,
   ],
   exports: [MyprofileBarleftComponent, MyprofileBarleftItemComponent],
 })
