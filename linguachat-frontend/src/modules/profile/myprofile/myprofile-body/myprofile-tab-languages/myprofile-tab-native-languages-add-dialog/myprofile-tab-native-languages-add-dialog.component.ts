@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -14,7 +14,7 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   templateUrl: './myprofile-tab-native-languages-add-dialog.component.html',
   styleUrls: ['./myprofile-tab-native-languages-add-dialog.component.sass'],
 })
-export class MyprofileTabNativeLanguagesAddDialogComponent {
+export class MyprofileTabNativeLanguagesAddDialogComponent implements OnDestroy {
   myUser: UserGetDto | null = null;
   availableLanguages: LanguageInterface[] | null = null;
 
@@ -30,6 +30,11 @@ export class MyprofileTabNativeLanguagesAddDialogComponent {
     this.addLanguageForm = this.fb.group({
       language: ['', [Validators.required]],
     });
+  }
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
+    this.languagesNativeSubscription.unsubscribe();
+    this.availableLanguagesNativeToAddSubscription.unsubscribe();
   }
 
   languagesNative$ = this.store.select(selectAllLanguagesNative);

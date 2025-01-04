@@ -22,6 +22,7 @@ import { DateAdapter } from '@angular/material/core';
 import { MyprofileModule } from 'src/modules/profile/myprofile/myprofile.module';
 import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 import { MatInputModule } from '@angular/material/input';
+import { UserProfileModule } from 'src/modules/profile/user-profile/user-profile.module';
 
 @NgModule({
   declarations: [
@@ -34,12 +35,13 @@ import { MatInputModule } from '@angular/material/input';
     LoginModule,
     BrowserAnimationsModule,
     SignupModule,
-    MyprofileModule,
     ngStoreNames,
     ngEffectsNames,
     HttpClientModule,
     StoreDevtoolsModule.instrument(ngReduxDevtoolsConfig),
-    MatInputModule
+    MatInputModule,
+    MyprofileModule,
+    UserProfileModule,
   ],
   providers: [
     CookieService,

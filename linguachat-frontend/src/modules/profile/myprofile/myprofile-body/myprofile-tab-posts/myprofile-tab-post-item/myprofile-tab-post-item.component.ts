@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { distinctUntilChanged } from 'rxjs';
@@ -25,11 +25,15 @@ import { CommentInsertDto } from 'src/models/comment.types';
   templateUrl: './myprofile-tab-post-item.component.html',
   styleUrls: ['./myprofile-tab-post-item.component.sass'],
 })
-export class MyprofileTabPostItemComponent implements OnInit {
+export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
   @Input() post: PostWithLikedAndCount | null = null;
   user: UserGetDto | null = null;
 
   constructor(private readonly store: Store, private dialog: MatDialog) {}
+
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
+  }
 
   userInfo$ = this.store.select(selectMyUser);
   userSubscription = this.store.select(selectMyUser).subscribe((user) => {

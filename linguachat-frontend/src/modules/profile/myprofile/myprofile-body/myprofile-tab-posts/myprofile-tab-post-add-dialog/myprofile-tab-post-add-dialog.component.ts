@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -21,7 +21,7 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   templateUrl: './myprofile-tab-post-add-dialog.component.html',
   styleUrls: ['./myprofile-tab-post-add-dialog.component.sass'],
 })
-export class MyprofileTabPostAddDialogComponent {
+export class MyprofileTabPostAddDialogComponent implements OnDestroy {
   myUser: UserGetDto | null = null;
   postLanguages: LanguageInterface[] | null = null;
   postForm: FormGroup;
@@ -40,6 +40,10 @@ export class MyprofileTabPostAddDialogComponent {
       type: ['Type', Validators.required],
       language: ['', [Validators.required]],
     });
+  }
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
+    this.languagesSubscription.unsubscribe();
   }
 
   languagesLearning$ = this.store.select(selectLanguagesLearning);

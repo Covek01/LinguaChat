@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
@@ -17,7 +17,7 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   templateUrl: './myprofile-tab-learning-languages-add-dialog.component.html',
   styleUrls: ['./myprofile-tab-learning-languages-add-dialog.component.sass'],
 })
-export class MyprofileTabLearningLanguagesAddDialogComponent {
+export class MyprofileTabLearningLanguagesAddDialogComponent implements OnDestroy {
   addLearningLanguageForm: FormGroup;
   myUser: UserGetDto | null = null;
   knowledgeLevels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
@@ -33,6 +33,11 @@ export class MyprofileTabLearningLanguagesAddDialogComponent {
       language: ['', [Validators.required]],
       level: ['', [Validators.required]],
     });
+  }
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
+    this.languagesLearningSubscription.unsubscribe();
+    this.availableLanguagesNativeToAddSubscription.unsubscribe();
   }
 
   languagesLearning$ = this.store.select(selectLanguagesLearning);

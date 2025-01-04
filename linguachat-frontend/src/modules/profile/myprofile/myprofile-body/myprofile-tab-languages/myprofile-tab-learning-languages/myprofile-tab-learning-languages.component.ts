@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
 import { LanguageInterface, LanguageWithLearningLevel } from 'src/models/language.types';
@@ -13,17 +13,21 @@ import { sendRequestToAddLanguageLearning, sendRequestToDeleteLanguageLearning }
   templateUrl: './myprofile-tab-learning-languages.component.html',
   styleUrls: ['./myprofile-tab-learning-languages.component.sass'],
 })
-export class MyprofileTabLearningLanguagesComponent {
+export class MyprofileTabLearningLanguagesComponent implements OnDestroy {
   displayedColumns: string[] = ['name', 'popularity', 'level', 'actions'];
   myUser: UserGetDto | null = null;
   constructor(private readonly store: Store, private dialog: MatDialog) {}
+
+  ngOnDestroy(): void {
+    this.learningLanguagesSubscription.unsubscribe();
+  }
 
   myUserSubscription = this.store.select(selectMyUser).subscribe((user) => {
     this.myUser = user;
   });
 
   learningLanguages: LanguageWithLearningLevel[] | null = null;
-  learningLanguagesSubscription$ = this.store
+  learningLanguagesSubscription = this.store
     .select(selectLanguagesLearning)
     .subscribe((learningLanguages) => {
       this.learningLanguages = learningLanguages;

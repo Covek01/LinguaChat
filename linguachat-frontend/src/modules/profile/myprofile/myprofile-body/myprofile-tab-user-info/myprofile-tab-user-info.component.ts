@@ -5,7 +5,10 @@ import { DatePipe } from '@angular/common';
 import { UserGetDto } from 'src/models/user.types';
 import { MatDialog } from '@angular/material/dialog';
 import { MyprofileUpdateDialogComponent } from '../myprofile-update-dialog/myprofile-update-dialog.component';
-import { sendRequestToGetMyUser, sendRequestToUpdateMyUser } from 'src/store/user/user-data/user-data.actions';
+import {
+  sendRequestToGetMyUser,
+  sendRequestToUpdateMyUser,
+} from 'src/store/user/user-data/user-data.actions';
 import { selectFlagsEntities } from 'src/store/flags/flags.selector';
 import { Dictionary } from '@ngrx/entity';
 import { Flag } from 'src/models/models.type';
@@ -16,7 +19,7 @@ import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
   templateUrl: './myprofile-tab-user-info.component.html',
   styleUrls: ['./myprofile-tab-user-info.component.sass'],
 })
-export class MyprofileTabUserInfoComponent implements OnDestroy  {
+export class MyprofileTabUserInfoComponent implements OnDestroy {
   constructor(private readonly store: Store, private dialog: MatDialog) {}
 
   user: UserGetDto = new UserGetDto();
@@ -28,8 +31,7 @@ export class MyprofileTabUserInfoComponent implements OnDestroy  {
       this.userFlagKey = `fi-${
         this.flagsDictionary![this.user.country]?.key ?? ''
       }`.toLowerCase();
-    }
-    else {
+    } else {
       this.store.dispatch(sendRequestToGetFlags());
     }
   });
@@ -68,8 +70,6 @@ export class MyprofileTabUserInfoComponent implements OnDestroy  {
       }
     });
   }
-
-
 
   handleDeleteProfile() {}
 
