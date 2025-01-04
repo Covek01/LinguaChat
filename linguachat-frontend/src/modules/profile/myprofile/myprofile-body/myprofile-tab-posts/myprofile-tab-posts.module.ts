@@ -29,7 +29,7 @@ import { MyprofileTabCommentAddDialogComponent } from './myprofile-tab-comment-a
     MyprofileTabCommentsItemComponent,
     MyprofileTabPostAddDialogComponent,
     MyprofileTabCommentAddComponent,
-    MyprofileTabCommentAddDialogComponent
+    MyprofileTabCommentAddDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -46,8 +46,13 @@ import { MyprofileTabCommentAddDialogComponent } from './myprofile-tab-comment-a
     MatDialogModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
   ],
-  exports: [MyprofileTabPostsComponent, MyprofileTabCommentsComponent],
+  exports: [
+    MyprofileTabPostsComponent,
+    MyprofileTabCommentsComponent,
+    MyprofileTabPostItemComponent,
+    MyprofileTabCommentsItemComponent
+  ],
 })
 export class MyprofileTabPostsModule {}

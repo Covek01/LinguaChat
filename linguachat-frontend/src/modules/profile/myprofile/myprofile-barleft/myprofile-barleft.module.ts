@@ -16,6 +16,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatProgressSpinnerModule,
     MatButtonModule,
     MatIconModule,
+    MatTooltipModule
   ],
   exports: [MyprofileBarleftComponent, MyprofileBarleftItemComponent],
 })

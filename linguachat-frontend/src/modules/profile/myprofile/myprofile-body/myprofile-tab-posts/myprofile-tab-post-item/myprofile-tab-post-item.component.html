@@ -1,20 +1,20 @@
-<div *ngIf="userInfo$ | async as userInfo" class="flex align-middle ml-4">
+<div *ngIf="post && post.createdBy as createdBy" class="flex align-middle ml-4">
     <mat-icon color="primary">person</mat-icon>
-    <p>{{userInfo?.username}}</p>
+    <p>{{createdBy.username}}</p>
 </div>
-<mat-card appearance="raised" class="m-2">
+<mat-card appearance="raised" class="m-2" *ngIf="post && post.createdBy as createdBy">
     <mat-card-header class="flex space-x-2">
         <mat-icon *ngIf="post?.type === 'Question'" color="primary">help_center</mat-icon>
         <mat-icon *ngIf="post?.type === 'Lesson'" color="primary">cast_for_education</mat-icon>
         <p class="font-semibold">
-            {{post?.title}}
+            {{post.title}}
         </p>
     </mat-card-header>
     <!-- <mat-card-subtitle >
         {{post?.type}}
     </mat-card-subtitle> -->
     <mat-card-content class="min-h-16 mt-2 mb-4">
-        {{post?.text}}
+        {{post.text}}
     </mat-card-content> 
     <mat-card-actions align="end">
         <button mat-flat-button color="primary" (click)="likeOrUnlikePost()">
@@ -31,13 +31,15 @@
                 <mat-icon [inline]="true">comment</mat-icon>
                 <span>Comment</span>
         </button>
-        <button mat-icon-button class="rounded-sm" color="warn" (click)="deletePost()">
+        <button mat-icon-button class="rounded-sm"
+        color="warn" (click)="deletePost()"
+        *ngIf="post.createdBy ">
             <mat-icon>delete</mat-icon>
         </button>
     </mat-card-actions>
     <mat-card-footer class="m-2 font-light">
         <span>Post created: </span>
-        {{post?.time | date: 'yyyy-MM-dd'}}
+        {{post.time | date: 'yyyy-MM-dd'}}
     </mat-card-footer>
     <mat-expansion-panel>
         <mat-expansion-panel-header>
