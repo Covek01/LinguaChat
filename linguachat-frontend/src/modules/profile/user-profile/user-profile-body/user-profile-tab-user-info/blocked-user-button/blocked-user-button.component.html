@@ -1,0 +1,6 @@
+<button mat-flat-button color="warn"
+    [disabled]="isUserBlocked"
+    (click)="blockUser(blockerId, blockedId)">
+        <mat-icon>block</mat-icon>
+        <p>Block User</p>
+</button>

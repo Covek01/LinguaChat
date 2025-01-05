@@ -15,7 +15,7 @@ export const getResponseForBlockedUsers = createAction(
 //add blocked user
 export const sendRequestToAddBlockedUser = createAction(
   '[User Blocks] Send Request To Add Blocked User',
-  props<{ myId: number; blockedId: number }>
+  props<{ myId: number; blockedId: number }>()
 );
 
 export const getResponseForAddingBlockedUser = createAction(
@@ -26,12 +26,12 @@ export const getResponseForAddingBlockedUser = createAction(
 //remove blocked user
 export const sendRequestToRemoveBlockedUser = createAction(
   '[User Blocks] Send Request To Remove Blocked User',
-  props<{ myId: number; blockedId: number }>
+  props<{ myId: number; blockedId: number }>()
 );
 
 export const getResponseForRemovingBlockedUser = createAction(
   '[User Blocks] Get Response For Removing Blocked Users',
-  emptyProps
+  props<{ userId: number }>()
 );
 
 export const getError = createAction(

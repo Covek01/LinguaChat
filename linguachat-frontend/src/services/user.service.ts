@@ -39,16 +39,19 @@ export class UserService {
     );
   }
 
-  block(myid: number, id: number): Observable<string> {
-    return this.http.post<string>(
+  block(myid: number, id: number): Observable<UserGetDto> {
+    return this.http.post<UserGetDto>(
       `${this.baseAddress}/${this.basePath}/block/${myid}/${id}`,
       ''
     );
   }
 
   unblock(myid: number, id: number): Observable<string> {
-    return this.http.delete<string>(
-      `${this.baseAddress}/${this.basePath}/unblock/${myid}/${id}`
+    return this.http.delete(
+      `${this.baseAddress}/${this.basePath}/unblock/${myid}/${id}`,
+      {
+        responseType: 'text'
+      }
     );
   }
 

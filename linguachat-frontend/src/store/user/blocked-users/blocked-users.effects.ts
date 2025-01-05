@@ -24,4 +24,38 @@ export class BlockedUserEffects {
       )
     )
   );
+
+  addBlockedUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BlockedUsersActions.sendRequestToAddBlockedUser),
+      exhaustMap((action) =>
+        this.userService.block(action.myId, action.blockedId).pipe(
+          tap((response) => console.log('User Response:', response)),
+          map((user) => {
+            return BlockedUsersActions.getResponseForAddingBlockedUser({ user });
+          }),
+          catchError((error) =>
+            of(BlockedUsersActions.getError({ error: error }))
+          )
+        )
+      )
+    )
+  );
+
+  removeBlockedUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(BlockedUsersActions.sendRequestToRemoveBlockedUser),
+      exhaustMap((action) =>
+        this.userService.unblock(action.myId, action.blockedId).pipe(
+          tap((response) => console.log('User Response:', response)),
+          map(() => {
+            return BlockedUsersActions.getResponseForRemovingBlockedUser({ userId: action.blockedId });
+          }),
+          catchError((error) =>
+            of(BlockedUsersActions.getError({ error: error }))
+          )
+        )
+      )
+    )
+  );
 }

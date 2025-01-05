@@ -62,13 +62,9 @@
         </div>
 
     </mat-card-actions>
-    <mat-card-actions align="end" *ngIf="blockedIds$ | async as blockedIds">
-        <button mat-flat-button color="warn"
-        *ngIf="checkWhetherUserIsBlocked(blockedIds, userInfo.id); else blocked"
-        >
-            <mat-icon>block</mat-icon>
-            <p>Block User</p>
-        </button>
+    <mat-card-actions align="end" *ngIf="myUserInfo$ | async as myUserInfo">
+            <app-blocked-user-button [isUserBlocked]="isUserBlocked$ | async"
+            [blockerId]="myUserInfo.id" [blockedId]="userInfo.id"></app-blocked-user-button>
     </mat-card-actions>
 </mat-card>
 
@@ -78,7 +74,8 @@
 </ng-template>  
 
 <ng-template #blocked>
-    <button mat-flat-button color="warn">
+    <button mat-flat-button color="warn"
+    disabled="true">
             <mat-icon>block</mat-icon>
             <p>Block User</p>
         </button>

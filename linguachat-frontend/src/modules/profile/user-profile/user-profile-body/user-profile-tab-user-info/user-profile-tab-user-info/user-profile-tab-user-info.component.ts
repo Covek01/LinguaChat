@@ -1,8 +1,8 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, map, Observable } from 'rxjs';
 import { Flag } from 'src/models/models.type';
 import {
   User,
@@ -11,6 +11,7 @@ import {
 } from 'src/models/user.types';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
 import { selectFlagsEntities } from 'src/store/flags/flags.selector';
+import { sendRequestToAddBlockedUser } from 'src/store/user/blocked-users/blocked-users.actions';
 import { selectBlockedUserIds } from 'src/store/user/blocked-users/blocked-users.selector';
 import {
   sendRequestToAddConnectedUser,
@@ -28,8 +29,10 @@ import {
   templateUrl: './user-profile-tab-user-info.component.html',
   styleUrls: ['./user-profile-tab-user-info.component.sass'],
 })
-export class UserProfileTabUserInfoComponent implements OnDestroy {
+export class UserProfileTabUserInfoComponent implements OnDestroy, OnInit {
   constructor(private readonly store: Store) {}
+
+  ngOnInit(): void {}
 
   user: UserGetDto = new UserGetDto();
   flagsDictionary: Dictionary<Flag> | null = null;
@@ -40,8 +43,16 @@ export class UserProfileTabUserInfoComponent implements OnDestroy {
   userCountryKey$ = this.store.select(selectFlagsEntities);
   connectionsIds$: Observable<number[] | string[]> =
     this.store.select(selectConnectionsIds);
-  blockedIds$: Observable<number[] | string[]> =
-    this.store.select(selectBlockedUserIds);
+  blockedIds$: Observable<number[]> = this.store
+    .select(selectBlockedUserIds)
+    .pipe(map((ids) => ids.map((id) => Number(id))));
+
+    
+  isUserBlocked$ = combineLatest([this.myUserInfo$, this.blockedIds$]).pipe(
+    map(([myUserInfo, blockedIds]) => {
+      return blockedIds.includes(myUserInfo.id);
+    })
+  );
 
   userInfoCopySubscription = this.userInfo$.subscribe((user) => {
     this.user = user;
@@ -70,7 +81,9 @@ export class UserProfileTabUserInfoComponent implements OnDestroy {
   }
 
   blockUser(firstId: number, secondId: number): void {
-    // this.store.dispatch(sendRequestToAddBlock)
+    this.store.dispatch(
+      sendRequestToAddBlockedUser({ myId: firstId, blockedId: secondId })
+    );
   }
 
   checkWhetherUserIsConnected(
@@ -84,7 +97,8 @@ export class UserProfileTabUserInfoComponent implements OnDestroy {
     blockedIds: (number | string)[],
     id: number | string
   ) {
-    return blockedIds.includes(id);
+    const flag = blockedIds.includes(id);
+    return flag;
   }
 
   ngOnDestroy(): void {

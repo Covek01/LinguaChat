@@ -5,11 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import { BlockedUserButtonComponent } from './blocked-user-button/blocked-user-button.component';
 
 
 
 @NgModule({
-  declarations: [UserProfileTabUserInfoComponent],
+  declarations: [UserProfileTabUserInfoComponent, BlockedUserButtonComponent],
   imports: [
     CommonModule,
     MatIconModule,
