@@ -16,30 +16,17 @@ export class MyprofileBarleftItemComponent {
   @Input() user: UserGetDtoWithUserFlagKey = new UserGetDtoWithUserFlagKey();
   flagsMap: Dictionary<Flag> | null = null;
 
-  constructor(private readonly store: Store,  private readonly router: Router) {}
+  constructor(private readonly store: Store, private readonly router: Router) {}
 
   handleClickToViewUserProfile(): void {
-    console.log("I AM INVOKED MY FRIEND");
-      this.router.navigate([`/user/${this.user.id}`])
-        .then(nav => {
-          console.log(nav); // true if navigation is successful
-        }, err => {
-          console.log(err) // when there's an error
-        });
+    console.log('I AM INVOKED MY FRIEND');
+    this.router.navigate([`/user`, this.user.id]).then(
+      (nav) => {
+        console.log(nav); // true if navigation is successful
+      },
+      (err) => {
+        console.log(err); // when there's an error
+      }
+    );
   }
-  // userFlagKey: string = '';
-  // userCountryKey$ = this.store.select(selectFlagsEntities);
-  // userCountryKeySubscription = this.userCountryKey$.subscribe((flags) => {
-  //   this.flagsMap = flags;
-  //   console.log(flags);
-  // });
-
-  // myUserSubscription = this.store.select(selectMyUser).subscribe((user) => {
-  //   if (!this.flagsMap) {
-  //     return;
-  //   }
-  //   this.userFlagKey = `fi-${
-  //     this.flagsMap[this.user.country]?.key ?? ''
-  //   }`.toLowerCase();
-  // });
 }

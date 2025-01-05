@@ -25,7 +25,7 @@ export class MyprofileTabUserInfoComponent implements OnDestroy {
   user: UserGetDto = new UserGetDto();
   flagsDictionary: Dictionary<Flag> | null = null;
   userInfo$ = this.store.select(selectMyUser);
-  userInfoCopy$ = this.userInfo$.subscribe((user) => {
+  userInfoCopySubscription = this.userInfo$.subscribe((user) => {
     this.user = user;
     if (this.flagsDictionary) {
       this.userFlagKey = `fi-${
@@ -38,13 +38,6 @@ export class MyprofileTabUserInfoComponent implements OnDestroy {
 
   userFlagKey: string = '';
   userCountryKey$ = this.store.select(selectFlagsEntities);
-
-  // userCountryKeySubscription = this.userCountryKey$.subscribe((flags) => {
-  //   console.log(flags);
-  //   this.userFlagKey = `fi-${
-  //     flags[this.user.country]?.key ?? ''
-  //   }`.toLowerCase();
-  // });
 
   userCountryKeySubscription = this.userCountryKey$.subscribe((flags) => {
     console.log(flags);
@@ -75,5 +68,6 @@ export class MyprofileTabUserInfoComponent implements OnDestroy {
 
   ngOnDestroy(): void {
     this.userCountryKeySubscription.unsubscribe();
+    this.userInfoCopySubscription.unsubscribe();
   }
 }
