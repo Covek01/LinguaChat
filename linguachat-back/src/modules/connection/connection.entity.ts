@@ -4,6 +4,7 @@ import {
   Column,
   JoinColumn,
   ManyToOne,
+  DeleteDateColumn,
 } from 'typeorm';
 import { User } from '../user/user.entity';
 
@@ -33,4 +34,5 @@ export class Connection {
   })
   @JoinColumn({ name: 'second_id' })
   secondUser: User;
+
 }

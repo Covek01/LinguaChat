@@ -11,6 +11,7 @@ import {
 } from 'src/models/user.types';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
 import { selectFlagsEntities } from 'src/store/flags/flags.selector';
+import { selectBlockedUserIds } from 'src/store/user/blocked-users/blocked-users.selector';
 import {
   sendRequestToAddConnectedUser,
   sendRequestToDeleteConnectedUser,
@@ -39,6 +40,8 @@ export class UserProfileTabUserInfoComponent implements OnDestroy {
   userCountryKey$ = this.store.select(selectFlagsEntities);
   connectionsIds$: Observable<number[] | string[]> =
     this.store.select(selectConnectionsIds);
+  blockedIds$: Observable<number[] | string[]> =
+    this.store.select(selectBlockedUserIds);
 
   userInfoCopySubscription = this.userInfo$.subscribe((user) => {
     this.user = user;
@@ -66,13 +69,22 @@ export class UserProfileTabUserInfoComponent implements OnDestroy {
     );
   }
 
-  blockUser(firstId: number, secondId: number): void {}
+  blockUser(firstId: number, secondId: number): void {
+    // this.store.dispatch(sendRequestToAddBlock)
+  }
 
   checkWhetherUserIsConnected(
     connectionIds: (number | string)[],
     id: number | string
   ) {
     return connectionIds.includes(id);
+  }
+
+  checkWhetherUserIsBlocked(
+    blockedIds: (number | string)[],
+    id: number | string
+  ) {
+    return blockedIds.includes(id);
   }
 
   ngOnDestroy(): void {

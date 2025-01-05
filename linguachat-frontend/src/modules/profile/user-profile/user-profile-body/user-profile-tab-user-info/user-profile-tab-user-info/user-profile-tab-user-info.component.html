@@ -62,9 +62,10 @@
         </div>
 
     </mat-card-actions>
-    <mat-card-actions align="end">
+    <mat-card-actions align="end" *ngIf="blockedIds$ | async as blockedIds">
         <button mat-flat-button color="warn"
-        *ngIf="true">
+        *ngIf="checkWhetherUserIsBlocked(blockedIds, userInfo.id); else blocked"
+        >
             <mat-icon>block</mat-icon>
             <p>Block User</p>
         </button>
@@ -76,6 +77,9 @@
     <mat-spinner #loading class="ml-auto mr-auto"></mat-spinner>
 </ng-template>  
 
-<ng-template #disconnectButton>
-    <mat-spinner #loading class="ml-auto mr-auto"></mat-spinner>
+<ng-template #blocked>
+    <button mat-flat-button color="warn">
+            <mat-icon>block</mat-icon>
+            <p>Block User</p>
+        </button>
 </ng-template>  

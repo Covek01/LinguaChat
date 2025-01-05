@@ -48,7 +48,7 @@ export class ConnectionService {
         }
 
         const nameOfConnection: string =
-            (userFirst.name < userSecond.name) ? 
+            (userFirst.username < userSecond.username) ? 
                 `${userFirst.username}:${userSecond.username}` :
                 `${userSecond.username}:${userFirst.username}`
 
@@ -111,6 +111,8 @@ export class ConnectionService {
             .orWhere('secondUser.id = :userId', {userId})
             .getMany();
 
+        console.log('CONNECTIONS ' + connections.toString());
+
         if (!connections) {
             throw new Error(`Connections for user with ID ${userId} not found`);
         }
@@ -119,7 +121,6 @@ export class ConnectionService {
                 ...conn
             }
         });
-        console.log(connectionsDto)
         // const user: User | null = await this.dataSource
         //     .getRepository(User)
         //     .findOne({

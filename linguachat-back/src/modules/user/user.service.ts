@@ -20,6 +20,8 @@ import {
   LanguageInterface,
   LanguageWithLearningLevel,
 } from 'src/models/language.types';
+import { removePassHash } from 'src/utils/user.utils';
+import { Connection } from '../connection/connection.entity';
 
 @Injectable()
 export class UserService {
@@ -121,29 +123,52 @@ export class UserService {
     return user;
   }
 
-  async blockUser(blockerId: number, blockedId: number): Promise<string> {
-    const blocker: User = await this.dataSource.getRepository(User).findOne({
-      where: {
-        id: blockerId,
-      },
-    });
+  async blockUser(blockerId: number, blockedId: number): Promise<UserGetDto> {
+    return await this.dataSource
+      .transaction(async (transactionEntityManager) => {
+        transactionEntityManager
+          .createQueryBuilder()
+          .delete()
+          .from(Connection)
+          .where(
+            '(first_id = :firstId AND second_id = :secondId) OR (first_id = :secondId AND second_id = :firstId)',
+            { firstId: blockerId, secondId: blockedId },
+          )
+          .execute();
 
-    const blocked: User = await this.dataSource.getRepository(User).findOne({
-      where: {
-        id: blockedId,
-      },
-    });
-    const result: InsertResult = await this.dataSource
-      .createQueryBuilder()
-      .insert()
-      .into(Blocking)
-      .values({
-        user: blocker,
-        blockedUser: blocked,
+        const blocker: User = await this.dataSource
+          .getRepository(User)
+          .findOne({
+            where: {
+              id: blockerId,
+            },
+          });
+
+        const blocked: User = await this.dataSource
+          .getRepository(User)
+          .findOne({
+            where: {
+              id: blockedId,
+            },
+          });
+
+        const result: InsertResult = await this.dataSource
+          .createQueryBuilder()
+          .insert()
+          .into(Blocking)
+          .values({
+            user: blocker,
+            blockedUser: blocked,
+          })
+          .execute();
+
+        const blockedUser = removePassHash(blocked);
+
+        return blockedUser;
       })
-      .execute();
-
-    return `Blocking added successfully, blocker: ${blocker.id}, blocked: ${blocked.id}`;
+      .catch((error) => {
+        throw new Error(error);
+      });
   }
 
   async unblockUser(blockerId: number, blockedId: number): Promise<string> {
