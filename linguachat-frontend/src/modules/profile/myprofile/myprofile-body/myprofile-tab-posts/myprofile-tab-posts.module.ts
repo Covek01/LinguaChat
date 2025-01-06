@@ -52,7 +52,8 @@ import { MyprofileTabCommentAddDialogComponent } from './myprofile-tab-comment-a
     MyprofileTabPostsComponent,
     MyprofileTabCommentsComponent,
     MyprofileTabPostItemComponent,
-    MyprofileTabCommentsItemComponent
+    MyprofileTabCommentsItemComponent,
+    MyprofileTabCommentAddDialogComponent
   ],
 })
 export class MyprofileTabPostsModule {}

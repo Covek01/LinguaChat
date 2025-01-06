@@ -27,7 +27,7 @@ import { CommentInsertDto } from 'src/models/comment.types';
 })
 export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
   @Input() post: PostWithLikedAndCount | null = null;
-  user: UserGetDto | null = null;
+  myUser: UserGetDto | null = null;
 
   constructor(private readonly store: Store, private dialog: MatDialog) {}
 
@@ -37,7 +37,7 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
 
   userInfo$ = this.store.select(selectMyUser);
   userSubscription = this.store.select(selectMyUser).subscribe((user) => {
-    this.user = user;
+    this.myUser = user;
   });
 
   ngOnInit(): void {
@@ -60,7 +60,7 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
   likePost(): void {
     this.store.dispatch(
       sendRequestToLikePost({
-        userId: this.user?.id ?? 0,
+        userId: this.myUser?.id ?? 0,
         postId: this.post?.id ?? 0,
       })
     );
@@ -69,7 +69,7 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
   unlikePost(): void {
     this.store.dispatch(
       sendRequestToUnlikePost({
-        userId: this.user?.id ?? 0,
+        userId: this.myUser?.id ?? 0,
         postId: this.post?.id ?? 0,
       })
     );
@@ -92,7 +92,7 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
         const commentInsertDto = {
           ...commentText,
           postRelatedToId: this.post?.id ?? 0,
-          userCommentedId: this.user?.id ?? 0,
+          userCommentedId: this.myUser?.id ?? 0,
         };
 
         console.log(commentInsertDto instanceof CommentInsertDto);

@@ -16,7 +16,7 @@
     <mat-card-content class="min-h-16 mt-2 mb-4">
         {{post.text}}
     </mat-card-content> 
-    <mat-card-actions align="end">
+    <mat-card-actions align="end" *ngIf="post && post.createdBy as createdBy">
         <button mat-flat-button color="primary" (click)="likeOrUnlikePost()">
             <div *ngIf="post?.liked === true" class="flex align-middle">
                 <mat-icon  [inline]="true">thumb_up</mat-icon>
@@ -33,7 +33,7 @@
         </button>
         <button mat-icon-button class="rounded-sm"
         color="warn" (click)="deletePost()"
-        *ngIf="post.createdBy ">
+        *ngIf="createdBy.id === myUser?.id">
             <mat-icon>delete</mat-icon>
         </button>
     </mat-card-actions>

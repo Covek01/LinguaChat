@@ -5,7 +5,7 @@
         <span>{{comment?.userCommented?.username}}</span>
     </div>
     <button mat-icon-button color="primary" class="!rounded-none"
-    *ngIf="this.user?.id ?? 0 === comment?.userCommented?.id ?? -1"
+    *ngIf="this.user?.id === comment?.userCommented?.id"
     (click)="deleteComment()"
     aria-label="Delete a comment">
         <mat-icon>delete</mat-icon>

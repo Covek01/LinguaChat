@@ -1,11 +1,10 @@
 <mat-toolbar>
     <img src="assets/Lingua-cropped.png" class="h-full"/>
     <span class="w-11/12"></span>
-    <mat-slide-toggle [checked]="darkMode$ | async" (change)="toggleChanged($event)" color="primary">
+    <!-- <mat-slide-toggle [checked]="darkMode$ | async" (change)="toggleChanged($event)" color="primary">
         Dark Mode
-    </mat-slide-toggle>
+    </mat-slide-toggle> -->
     <div *ngIf="isUserLoggedIn">
-        <app-notifications />
         <app-actions (toggleSidenav)="requestToggleSidenav()"/>
     </div>
 </mat-toolbar>
