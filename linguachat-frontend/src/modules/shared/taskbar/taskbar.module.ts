@@ -13,9 +13,11 @@ import { NotificationsComponent } from './notifications/notifications.component'
 import { ActionsComponent } from './actions/actions.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
+import { ProfileSearchButtonComponent } from './profile-search-button/profile-search-button.component';
+import { FeedButtonComponent } from './feed-button/feed-button.component';
 
 @NgModule({
-  declarations: [TaskbarComponent, NotificationsComponent, ActionsComponent],
+  declarations: [TaskbarComponent, NotificationsComponent, ActionsComponent, ProfileSearchButtonComponent, FeedButtonComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
