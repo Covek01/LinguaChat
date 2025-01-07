@@ -7,6 +7,8 @@
         <mat-list-item *ngFor="let connectedUser of this.connectedUsers ?? []">
             <app-myprofile-barleft-item [user]="connectedUser"></app-myprofile-barleft-item>
         </mat-list-item>
+        <mat-divider color="primary"></mat-divider>
+
     </mat-list>
 </div>
 <ng-template #loading>

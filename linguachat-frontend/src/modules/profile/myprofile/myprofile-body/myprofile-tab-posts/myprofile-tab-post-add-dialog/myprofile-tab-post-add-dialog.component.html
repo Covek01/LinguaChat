@@ -33,7 +33,7 @@
              formControlName="language"
              [matAutocomplete]="languages">
       <mat-autocomplete autoActiveFirstOption #languages="matAutocomplete" >
-          <mat-option [value]="language.name" *ngFor="let language of this.postLanguages">
+          <mat-option [value]="language.name" *ngFor="let language of this.filteredLanguagesOptionsAfterInput$ | async">
             {{language.name}}
           </mat-option>
       </mat-autocomplete>
