@@ -23,6 +23,7 @@ import { MyprofileModule } from 'src/modules/profile/myprofile/myprofile.module'
 import { AuthInterceptor } from 'src/interceptors/auth.interceptor';
 import { MatInputModule } from '@angular/material/input';
 import { UserProfileModule } from 'src/modules/profile/user-profile/user-profile.module';
+import { ProfileSearchModule } from 'src/modules/profile-search/profile-search.module';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { UserProfileModule } from 'src/modules/profile/user-profile/user-profile
     MatInputModule,
     MyprofileModule,
     UserProfileModule,
+    ProfileSearchModule
   ],
   providers: [
     CookieService,

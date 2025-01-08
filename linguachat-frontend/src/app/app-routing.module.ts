@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, RouterOutlet, Routes } from '@angular/router';
+import { FeedComponent } from 'src/modules/feed/feed/feed.component';
 import { LoginComponent } from 'src/modules/login/login/login.component';
+import { ProfileSearchComponent } from 'src/modules/profile-search/profile-search/profile-search.component';
 import { MyprofileComponent } from 'src/modules/profile/myprofile/myprofile/myprofile.component';
 import { UserProfileComponent } from 'src/modules/profile/user-profile/user-profile/user-profile.component';
 import { TaskbarComponent } from 'src/modules/shared/taskbar/taskbar-component/taskbar.component';
@@ -21,6 +23,12 @@ const routes: Routes = [
       {path: 'myprofile', component: MyprofileComponent},
       {path: ':id', component: UserProfileComponent}
     ],
+  },
+  {
+    path: 'search', component: ProfileSearchComponent
+  },
+  {
+    path: 'feed', component: FeedComponent
   },
   {
     path:'', redirectTo: '/auth/login', pathMatch: 'full'
