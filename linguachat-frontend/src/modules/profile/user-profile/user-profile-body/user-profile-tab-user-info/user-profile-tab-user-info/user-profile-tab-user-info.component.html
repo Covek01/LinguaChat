@@ -49,13 +49,15 @@
         *ngIf="connectionsIds$ | async as connectionsIds">
             <button mat-flat-button color="primary"
             (click)="connectWithUser(myUserInfo.id, userInfo.id)" 
-            *ngIf="!checkWhetherUserIsConnected(connectionsIds, this.user.id)">
+            *ngIf="!checkWhetherUserIsConnected(connectionsIds, this.user.id)"
+            [disabled]="isUserBlocked$ | async">
                 <mat-icon>group_add</mat-icon>
                 <p>Connect</p>
             </button>
             <button #disconnectButton mat-stroked-button color="primary"
             (click)="disconnectFromUser(myUserInfo.id, userInfo.id)" 
-            *ngIf="checkWhetherUserIsConnected(connectionsIds, this.user.id)">
+            *ngIf="checkWhetherUserIsConnected(connectionsIds, this.user.id)"
+            [disabled]="isUserBlocked$ | async">
                 <mat-icon>group_remove</mat-icon>
                 <p>Disconnect</p>
             </button>

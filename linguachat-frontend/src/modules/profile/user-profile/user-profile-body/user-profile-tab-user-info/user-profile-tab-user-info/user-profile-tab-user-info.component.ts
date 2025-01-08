@@ -48,9 +48,9 @@ export class UserProfileTabUserInfoComponent implements OnDestroy, OnInit {
     .pipe(map((ids) => ids.map((id) => Number(id))));
 
     
-  isUserBlocked$ = combineLatest([this.myUserInfo$, this.blockedIds$]).pipe(
-    map(([myUserInfo, blockedIds]) => {
-      return blockedIds.includes(myUserInfo.id);
+  isUserBlocked$ = combineLatest([this.userInfo$, this.blockedIds$]).pipe(
+    map(([userInfo, blockedIds]) => {
+      return blockedIds.includes(userInfo.id);
     })
   );
 

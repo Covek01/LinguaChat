@@ -60,6 +60,24 @@ export class UserService {
     const blockedUsers: Blocking[] = await this.dataSource
       .getRepository(Blocking)
       .createQueryBuilder('blocking')
+      .leftJoinAndSelect('blocking.blockedUser', 'userWhoBlocked')
+      .where('blocking.userId = :userId', { userId })
+      .getMany();
+
+    const blockedUsersMapped = blockedUsers
+      .map((obj) => obj.blockedUser)
+      .map((objUser) => {
+        const { passHash, ...userWithoutPassHash } = objUser;
+        return userWithoutPassHash;
+      });
+    console.log(blockedUsers);
+    return blockedUsersMapped;
+  }
+
+  async getUsersWhoAreBlockedByUsera(userId: number): Promise<UserGetDto[]> {
+    const blockedUsers: Blocking[] = await this.dataSource
+      .getRepository(Blocking)
+      .createQueryBuilder('blocking')
       .leftJoinAndSelect('blocking.user', 'userWhoBlocked')
       .where('blocking.userId = :userId', { userId })
       .getMany();
