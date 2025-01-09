@@ -94,6 +94,42 @@ export class UserController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Post('/getHiddenUsers')
+  async getHiddenUsers(
+    @Param('id') id: string,
+  ): Promise<UserGetDto[]> {
+    try {
+      return await this.userService.getHiddenUsers(
+        parseInt(id, 10),
+      );
+    } catch (ex) {
+      console.log('Error with getting blocked user list');
+      console.log(ex);
+
+      throw new Error(ex);
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get('/getFilteredUsersByLanguage/:userId/:languageId')
+  async getFilteredUsersByLanguage(
+    @Param('userId') userId: string,
+    @Param('languageId') languageId: string,
+  ): Promise<UserGetDto[]> {
+    try {
+      return await this.userService.getFilteredUsersByLanguage(
+        parseInt(userId, 10),
+        parseInt(languageId, 10),
+      );
+    } catch (ex) {
+      console.log('Error with getting blocked user list');
+      console.log(ex);
+
+      throw new Error(ex);
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Get('/getUsersWhoAreBlockedByMe')
   async getUsersWhoAreBlockedByMe(@Request() request): Promise<UserGetDto[]> {
     try {

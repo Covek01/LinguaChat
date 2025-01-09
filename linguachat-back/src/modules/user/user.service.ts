@@ -60,7 +60,7 @@ export class UserService {
     const blockedUsers: Blocking[] = await this.dataSource
       .getRepository(Blocking)
       .createQueryBuilder('blocking')
-      .leftJoinAndSelect('blocking.blockedUser', 'userWhoBlocked')
+      .leftJoinAndSelect('blocking.blockedUser', 'blockedUser')
       .where('blocking.userId = :userId', { userId })
       .getMany();
 
@@ -74,22 +74,53 @@ export class UserService {
     return blockedUsersMapped;
   }
 
-  async getUsersWhoAreBlockedByUsera(userId: number): Promise<UserGetDto[]> {
+  async getHiddenUsers(userId: number): Promise<UserGetDto[]> {
     const blockedUsers: Blocking[] = await this.dataSource
       .getRepository(Blocking)
       .createQueryBuilder('blocking')
       .leftJoinAndSelect('blocking.user', 'userWhoBlocked')
+      .leftJoinAndSelect('blocking.blockedUser', 'blockedUser')
       .where('blocking.userId = :userId', { userId })
+      .orWhere('blocking.blockedId = :blockedUserId', { blockedUserId: userId })
       .getMany();
 
     const blockedUsersMapped = blockedUsers
-      .map((obj) => obj.user)
+      .map((blocking) =>
+        blocking.user.id === userId ? blocking.blockedUser : blocking.user,
+      )
       .map((objUser) => {
         const { passHash, ...userWithoutPassHash } = objUser;
         return userWithoutPassHash;
       });
     console.log(blockedUsers);
     return blockedUsersMapped;
+  }
+
+  async getFilteredUsersByLanguage(
+    userId: number,
+    languageId: number,
+  ): Promise<UserGetDto[]> {
+    const users: User[] = await this.dataSource
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.languagesNative', 'languageNative')
+      .leftJoinAndSelect('user.blockedUsers', 'blockedUser')
+      .leftJoinAndSelect('user.usersBlocking', 'userBlocking')
+      .where('languageNative.id = :languageId', { languageId })
+      .andWhere(
+        '(blockedUser.id IS NULL OR blockedUser.id != :userId) AND (userBlocking.id IS NULL OR userBlocking.id != :userId)',
+        {
+          userId,
+        },
+      )
+      .getMany();
+
+    const filteredUsers = users.map((user) => {
+      const { passHash, ...userWithoutPassHash } = user;
+      return userWithoutPassHash;
+    });
+    console.log(filteredUsers);
+    return filteredUsers;
   }
 
   async getByUsername(username: string): Promise<User> {

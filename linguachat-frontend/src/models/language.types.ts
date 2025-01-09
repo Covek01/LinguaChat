@@ -41,3 +41,7 @@ export const NullLanguage: LanguageInterface = {
   name: '',
   popularity: 0,
 };
+
+export interface LanguageIdList {
+  languagesIds: number[]
+}

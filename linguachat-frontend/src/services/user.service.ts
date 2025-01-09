@@ -2,13 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Language, LanguageInterface, LanguageWithLearningLevel } from 'src/models/language.types';
+import {
+  Language,
+  LanguageInterface,
+  LanguageWithLearningLevel,
+} from 'src/models/language.types';
 import { UserGetDto } from 'src/models/user.types';
 import { servicesPaths } from './config/services-paths.config';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
   private baseAddress: string;
@@ -21,13 +24,13 @@ export class UserService {
 
   myprofile(): Observable<UserGetDto> {
     return this.http.get<UserGetDto>(
-      `${this.baseAddress}/${this.basePath}/myprofile`,
+      `${this.baseAddress}/${this.basePath}/myprofile`
     );
   }
 
   get(id: number): Observable<UserGetDto> {
     return this.http.get<UserGetDto>(
-      `${this.baseAddress}/${this.basePath}/get/${id}`,
+      `${this.baseAddress}/${this.basePath}/get/${id}`
     );
   }
 
@@ -50,7 +53,7 @@ export class UserService {
     return this.http.delete(
       `${this.baseAddress}/${this.basePath}/unblock/${myid}/${id}`,
       {
-        responseType: 'text'
+        responseType: 'text',
       }
     );
   }
@@ -80,7 +83,10 @@ export class UserService {
     );
   }
 
-  insertLanguageNative(userId: number, languageId: number): Observable<LanguageInterface> {
+  insertLanguageNative(
+    userId: number,
+    languageId: number
+  ): Observable<LanguageInterface> {
     return this.http.post<LanguageInterface>(
       `${this.baseAddress}/${this.basePath}/insertLanguageNative/${userId}/${languageId}`,
       ''
@@ -90,19 +96,26 @@ export class UserService {
     return this.http.delete(
       `${this.baseAddress}/${this.basePath}/removeLanguageNative/${userId}/${languageId}`,
       {
-        responseType: 'text'
+        responseType: 'text',
       }
     );
   }
 
-  insertLanguageLearning(userId: number, languageId: number, level: string): Observable<LanguageWithLearningLevel> {
+  insertLanguageLearning(
+    userId: number,
+    languageId: number,
+    level: string
+  ): Observable<LanguageWithLearningLevel> {
     return this.http.post<LanguageWithLearningLevel>(
       `${this.baseAddress}/${this.basePath}/insertLanguageLearning/${userId}/${languageId}/${level}`,
       ''
     );
   }
 
-  removeLanguageLearning(userId: number, languageId: number): Observable<LanguageInterface> {
+  removeLanguageLearning(
+    userId: number,
+    languageId: number
+  ): Observable<LanguageInterface> {
     return this.http.delete<LanguageInterface>(
       `${this.baseAddress}/${this.basePath}/removeLanguageLearning/${userId}/${languageId}`
     );
@@ -114,5 +127,12 @@ export class UserService {
     );
   }
 
+  getFilteredUsersByLanguage(
+    userId: number,
+    languageId: number
+  ): Observable<UserGetDto[]> {
+    return this.http.get<UserGetDto[]>(
+      `${this.baseAddress}/${this.basePath}/getFilteredUsersByLanguage/${userId}/${languageId}`
+    );
+  }
 }
-
