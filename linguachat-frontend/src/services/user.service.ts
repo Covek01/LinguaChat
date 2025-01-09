@@ -135,4 +135,12 @@ export class UserService {
       `${this.baseAddress}/${this.basePath}/getFilteredUsersByLanguage/${userId}/${languageId}`
     );
   }
+
+  getFilteredUsersByLanguageByMe(
+    languageId: number
+  ): Observable<UserGetDto[]> {
+    return this.http.get<UserGetDto[]>(
+      `${this.baseAddress}/${this.basePath}/getFilteredUsersByLanguageByMe/${languageId}`
+    );
+  }
 }

@@ -111,6 +111,26 @@ export class UserController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Get('/getFilteredUsersByLanguageByMe/:languageId')
+  async getFilteredUsersByLanguageByMe(
+    @Request() request,
+    @Param('languageId') languageId: string,
+  ): Promise<UserGetDto[]> {
+    try {
+      const userId = request.user.id;
+      return await this.userService.getFilteredUsersByLanguage(
+        parseInt(userId, 10),
+        parseInt(languageId, 10),
+      );
+    } catch (ex) {
+      console.log('Error with getting blocked user list');
+      console.log(ex);
+
+      throw new Error(ex);
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Get('/getFilteredUsersByLanguage/:userId/:languageId')
   async getFilteredUsersByLanguage(
     @Param('userId') userId: string,

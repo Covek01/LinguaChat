@@ -11,6 +11,7 @@ import { PostEffects } from '../user/post/user-post.effects';
 import { CommentEffects } from '../comment/comment.effects';
 import { AllLanguagesEffects } from '../user/all-languages/all-languages.effects';
 import { FlagsEffects } from '../flags/flags.effects';
+import { FilteredUsersEffects } from '../filtered-users/filtered-users.effects';
 
 export const ngEffectsNames = EffectsModule.forRoot([
   DarkModeEffects,
@@ -24,5 +25,6 @@ export const ngEffectsNames = EffectsModule.forRoot([
   PostEffects,
   CommentEffects,
   AllLanguagesEffects,
-  FlagsEffects
+  FlagsEffects,
+  FilteredUsersEffects
 ]);

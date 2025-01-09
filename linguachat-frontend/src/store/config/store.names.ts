@@ -14,6 +14,7 @@ import { postReducer } from '../user/post/user-post.reducer';
 import { commentReducer } from '../comment/comment.reducer';
 import { allLanguagesReducer } from '../user/all-languages/all-languages.reducer';
 import { flagsReducer } from '../flags/flags.reducer';
+import { filteredUsersReducer } from '../filtered-users/filtered-users.reducer';
 
 //it's stateName - reducer configuration
 export const ngStoreNames = StoreModule.forRoot({
@@ -30,4 +31,5 @@ export const ngStoreNames = StoreModule.forRoot({
   comments: commentReducer,
   allLanguages: allLanguagesReducer,
   flags: flagsReducer,
+  filteredUsers: filteredUsersReducer,
 });
