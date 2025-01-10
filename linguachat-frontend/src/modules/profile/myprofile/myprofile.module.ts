@@ -7,7 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { MyprofileBodyModule } from './myprofile-body/myprofile-body.module';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [MyprofileComponent],
@@ -19,9 +19,8 @@ import {MatCardModule} from '@angular/material/card';
     MatListModule,
     MatIconModule,
     MyprofileBodyModule,
+    MatCardModule,
   ],
-  exports: [
-    MyprofileComponent,
-  ]
+  exports: [MyprofileComponent],
 })
 export class MyprofileModule {}
