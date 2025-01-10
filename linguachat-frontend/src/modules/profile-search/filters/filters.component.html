@@ -6,7 +6,7 @@
         </div>
     </mat-card-header>
     <mat-card-content>
-        <div class="flex space-x-20 align-middle">
+        <div class="flex">
             <form>
                 <mat-form-field >
                     <mat-label>Language</mat-label>
@@ -24,12 +24,14 @@
                     </mat-autocomplete>
                 </mat-form-field>
             </form>
-            <button mat-flat-button color="primary" class="!h-10">
-                <mat-icon>search</mat-icon>
-                <p>Filter</p>
-            </button>
         </div>
     </mat-card-content>
+    <mat-card-actions align="end">
+        <button mat-flat-button color="primary" class="!h-10">
+            <mat-icon>search</mat-icon>
+            <p>Filter</p>
+        </button>
+    </mat-card-actions>
 </mat-card>
 
 <!-- <div class="w-2/6 ml-auto mr-auto space-y-8 mt-8 py-4 px-8 rounded-lg light-gray">
