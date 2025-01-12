@@ -16,6 +16,10 @@ import { MyprofileBarleftModule } from '../profile/myprofile/myprofile-barleft/m
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { UserProfileBodyModule } from '../profile/user-profile/user-profile-body/user-profile-body.module';
+import { UserProfileTabUserInfoModule } from '../profile/user-profile/user-profile-body/user-profile-tab-user-info/user-profile-tab-user-info.module';
 
 @NgModule({
   declarations: [ProfileSearchComponent, ProfileSearchBodyComponent, FiltersComponent, FilteredProfilesComponent],
@@ -32,7 +36,10 @@ import { MatCardModule } from '@angular/material/card';
     MyprofileBarleftModule,
     MatInputModule,
     MatIconModule,
-    MatCardModule
+    MatCardModule,
+    FormsModule,
+    ReactiveFormsModule,
+    UserProfileTabUserInfoModule
 ],
 })
 export class ProfileSearchModule {}

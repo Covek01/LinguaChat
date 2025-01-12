@@ -147,12 +147,23 @@ export class UserGetDto {
 }
 
 export class UserGetDtoWithUserFlagKey extends UserGetDto {
-    userFlagKey: string;
+  userFlagKey: string;
 
-    constructor() {
-        super();
-        this.userFlagKey = '';
-    }
+  constructor() {
+    super();
+    this.userFlagKey = '';
+  }
+}
+
+export class UserGetDtoWithBlockedAndConnectedStatus extends UserGetDto {
+  blocked: boolean;
+  connected: boolean;
+
+  constructor() {
+    super();
+    this.blocked = false;
+    this.connected = false;
+  }
 }
 
 export class User implements UserInterface {

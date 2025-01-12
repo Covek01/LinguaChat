@@ -7,8 +7,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { BlockedUserButtonComponent } from './blocked-user-button/blocked-user-button.component';
 
-
-
 @NgModule({
   declarations: [UserProfileTabUserInfoComponent, BlockedUserButtonComponent],
   imports: [
@@ -18,6 +16,6 @@ import { BlockedUserButtonComponent } from './blocked-user-button/blocked-user-b
     MatCardModule,
     MatButtonModule,
   ],
-  exports: [UserProfileTabUserInfoComponent]
+  exports: [UserProfileTabUserInfoComponent, BlockedUserButtonComponent],
 })
-export class UserProfileTabUserInfoModule { }
+export class UserProfileTabUserInfoModule {}

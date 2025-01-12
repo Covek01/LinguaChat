@@ -9,7 +9,7 @@
              matInput
              formControlName="language"
              [matAutocomplete]="languages">
-      <mat-autocomplete autoActiveFirstOption #languages="matAutocomplete" >
+      <mat-autocomplete autoActiveFirstOption #languages="matAutocomplete" [displayWith]="displayLanguage">
           <mat-option [value]="language" *ngFor="let language of this.availableLanguages">
             {{language.name}}
           </mat-option>

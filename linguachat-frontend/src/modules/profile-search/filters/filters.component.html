@@ -7,8 +7,8 @@
     </mat-card-header>
     <mat-card-content>
         <div class="flex">
-            <form>
-                <mat-form-field >
+            <form [formGroup]="nativeLanguageForm" (ngSubmit)="filterUsers()">
+                <mat-form-field>
                     <mat-label>Language</mat-label>
                     <input type="text"
                         placeholder="Pick one"
@@ -17,8 +17,8 @@
                         formControlName="language"
                         [matAutocomplete]="languages"
                         class="w-2/3">
-                    <mat-autocomplete autoActiveFirstOption #languages="matAutocomplete" >
-                        <mat-option [value]="language.name" *ngFor="let language of this.filteredLanguagesOptionsAfterInput$ | async">
+                    <mat-autocomplete autoActiveFirstOption #languages="matAutocomplete" [displayWith]="displayLanguage">
+                        <mat-option [value]="language" *ngFor="let language of this.filteredLanguagesOptionsAfterInput$ | async">
                         {{language.name}}
                         </mat-option>
                     </mat-autocomplete>
@@ -27,7 +27,8 @@
         </div>
     </mat-card-content>
     <mat-card-actions align="end">
-        <button mat-flat-button color="primary" class="!h-10">
+        <button mat-flat-button color="primary" class="!h-10"
+        (click)="filterUsers()">
             <mat-icon>search</mat-icon>
             <p>Filter</p>
         </button>

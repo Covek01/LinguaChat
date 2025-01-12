@@ -173,6 +173,10 @@ export class UserService {
   }
 
   async blockUser(blockerId: number, blockedId: number): Promise<UserGetDto> {
+    if (blockerId === blockedId) {
+      throw new Error('IDS ARE THE SAME. An user cannot block himself')
+    }
+
     return await this.dataSource
       .transaction(async (transactionEntityManager) => {
         transactionEntityManager

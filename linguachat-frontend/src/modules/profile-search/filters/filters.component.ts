@@ -1,8 +1,13 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { LanguageInterface } from 'src/models/language.types';
+import {
+  sendRequestToGetFilteredUsers,
+  sendRequestToGetFilteredUsersByMe,
+} from 'src/store/filtered-users/filtered-users.actions';
 import {
   selectLanguagesLearning,
   selectLanguagesLearningEntities,
@@ -20,25 +25,30 @@ export class FiltersComponent {
   filteredLanguagesOptionsAfterInput$: Observable<LanguageInterface[]>;
   languagesLearning$ = this.store.select(selectLanguagesLearning);
 
-  constructor(private fb: FormBuilder, private readonly store: Store) {
+  constructor(private fb: FormBuilder, private readonly store: Store,
+    private snackBar: MatSnackBar
+  ) {
     this.nativeLanguageForm = this.fb.group({
       language: ['', [Validators.required]],
     });
 
-    this.filteredLanguagesOptionsAfterInput$ = this.nativeLanguageForm.valueChanges.pipe(
-      map((value) => {
-        console.log(value);
-        const a = this._filter(value.language);
-        console.log(a);
-        return a;
-      }) // Filter the language list
-    );
+    this.filteredLanguagesOptionsAfterInput$ =
+      this.nativeLanguageForm.valueChanges.pipe(
+        map((value) => {
+          if (typeof value.language !== 'string') {
+            return [];
+          }
+          const a = this._filter(value.language);
+          return a;
+        }) // Filter the language list
+      );
   }
 
-  availableLanguagesSubscription = this.languagesLearning$.subscribe(languages => {
-    this.availableLanguages = languages;
-  })
-
+  availableLanguagesSubscription = this.languagesLearning$.subscribe(
+    (languages) => {
+      this.availableLanguages = languages;
+    }
+  );
 
   private _filter(value: string): LanguageInterface[] {
     const filterValue = value.toLowerCase();
@@ -49,5 +59,19 @@ export class FiltersComponent {
     } else {
       return this.availableLanguages ?? [];
     }
+  }
+
+  filterUsers(): void {
+    console.log(this.nativeLanguageForm.value)
+    if (this.nativeLanguageForm.value.language.id) {
+      const languageId = this.nativeLanguageForm.value.language.id;
+      this.store.dispatch(sendRequestToGetFilteredUsersByMe({ languageId }));
+    } else {
+      this.snackBar.open('Language not selected!', 'Close')
+    }
+  }
+
+  displayLanguage(language: LanguageInterface): string {
+    return language ? language.name : '';
   }
 }
