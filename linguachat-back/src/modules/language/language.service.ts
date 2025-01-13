@@ -2,7 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import { DataSource, DeleteResult, InsertResult } from 'typeorm';
 import { Language } from './language.entity';
-import { LanguageInterface, LanguageWithLearningLevel, NullLanguage } from 'src/models/language.types';
+import {
+  LanguageInterface,
+  LanguageWithLearningLevel,
+  NullLanguage,
+} from 'src/models/language.types';
 import { UserLearningLanguage } from '../user/UserLearningLanguage.entity';
 
 @Injectable()
@@ -64,7 +68,9 @@ export class LanguageService {
     return 'Language successfully deleted';
   }
 
-  async getLanguagesUserIsLearning(userId: number): Promise<LanguageWithLearningLevel[]> {
+  async getLanguagesUserIsLearning(
+    userId: number,
+  ): Promise<LanguageWithLearningLevel[]> {
     const userLearningLanguages: UserLearningLanguage[] = await this.dataSource
       .getRepository(UserLearningLanguage)
       .createQueryBuilder('userLearningLanguage')
@@ -72,14 +78,13 @@ export class LanguageService {
       .where('userLearningLanguage.user_id = :userId', { userId })
       .getMany();
 
-    const learnedLanguages: LanguageWithLearningLevel[] = userLearningLanguages.map(
-      (userLearningLanguage) => {
+    const learnedLanguages: LanguageWithLearningLevel[] =
+      userLearningLanguages.map((userLearningLanguage) => {
         return {
           ...userLearningLanguage.language,
-          level: userLearningLanguage.level
-        }
-      }
-    );
+          level: userLearningLanguage.level,
+        };
+      });
     return learnedLanguages;
   }
 
@@ -98,6 +103,24 @@ export class LanguageService {
       .createQueryBuilder('language')
       .innerJoin('language.nativeBy', 'user')
       .where('user.id = :userId', { userId })
+      .getMany();
+
+    console.log(languages);
+    return languages;
+  }
+
+  async getNativeLanguagesForUserPagination(
+    userId: number,
+    limit: number,
+    offset: number,
+  ): Promise<Language[]> {
+    const languages: Language[] = await this.dataSource
+      .getRepository(Language)
+      .createQueryBuilder('language')
+      .innerJoin('language.nativeBy', 'user')
+      .where('user.id = :userId', { userId })
+      .limit(limit)
+      .offset(offset)
       .getMany();
 
     console.log(languages);

@@ -21,6 +21,7 @@ import {
   NullLanguage,
 } from 'src/models/language.types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
+import { off } from 'process';
 
 @UseGuards(JwtAuthGuard)
 @Controller('language')
@@ -107,6 +108,27 @@ export class LanguageController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Get('/getNativeLanguagesForUserPagination/:id/:limit/:offset')
+  async getNativeLanguagesForUserPagination(
+    @Param('id') id: string,
+    @Param('limit') limit: string,
+    @Param('offset') offset: string,
+  ): Promise<Language[]> {
+    try {
+      return await this.languageService.getNativeLanguagesForUserPagination(
+        parseInt(id, 10),
+        parseInt(limit, 10),
+        parseInt(offset, 10),
+      );
+    } catch (ex) {
+      console.log('Error with getting blocked user list');
+      console.log(ex);
+
+      throw new Error(ex);
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Get('/getAllLanguages')
   async getAllLanguages(): Promise<Language[]> {
     try {
@@ -152,7 +174,9 @@ export class LanguageController {
 
   @HttpCode(HttpStatus.OK)
   @Get('/getLanguagesIAmLearning')
-  async getLanguagesIAmLearning(@Request() request): Promise<LanguageWithLearningLevel[]> {
+  async getLanguagesIAmLearning(
+    @Request() request,
+  ): Promise<LanguageWithLearningLevel[]> {
     try {
       const myid = request.user.id;
       return await this.languageService.getLanguagesUserIsLearning(myid);

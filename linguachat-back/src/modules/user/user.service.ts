@@ -123,6 +123,37 @@ export class UserService {
     return filteredUsers;
   }
 
+  async getFilteredUsersByLanguagePagination(
+    userId: number,
+    languageId: number,
+    limit: number,
+    offset: number,
+  ): Promise<UserGetDto[]> {
+    const users: User[] = await this.dataSource
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.languagesNative', 'languageNative')
+      .leftJoinAndSelect('user.blockedUsers', 'blockedUser')
+      .leftJoinAndSelect('user.usersBlocking', 'userBlocking')
+      .where('languageNative.id = :languageId', { languageId })
+      .andWhere(
+        '(blockedUser.id IS NULL OR blockedUser.id != :userId) AND (userBlocking.id IS NULL OR userBlocking.id != :userId)',
+        {
+          userId,
+        },
+      )
+      .limit(limit)
+      .offset(offset)
+      .getMany();
+
+    const filteredUsers = users.map((user) => {
+      const { passHash, ...userWithoutPassHash } = user;
+      return userWithoutPassHash;
+    });
+    console.log(filteredUsers);
+    return filteredUsers;
+  }
+
   async getByUsername(username: string): Promise<User> {
     const user: User = await this.dataSource.getRepository(User).findOne({
       where: {
@@ -174,7 +205,7 @@ export class UserService {
 
   async blockUser(blockerId: number, blockedId: number): Promise<UserGetDto> {
     if (blockerId === blockedId) {
-      throw new Error('IDS ARE THE SAME. An user cannot block himself')
+      throw new Error('IDS ARE THE SAME. An user cannot block himself');
     }
 
     return await this.dataSource

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { act, Actions, createEffect, ofType } from '@ngrx/effects';
 import { UserService } from 'src/services/user.service';
 import * as FilteredUsersActions from './filtered-users.actions';
-import { catchError, exhaustMap, map, of, tap } from 'rxjs';
+import { catchError, exhaustMap, map, of, switchMap, tap } from 'rxjs';
 import { ConnectionService } from 'src/services/connection.service';
 
 @Injectable()
@@ -12,13 +12,13 @@ export class FilteredUsersEffects {
   getFilteredUsers$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FilteredUsersActions.sendRequestToGetFilteredUsers),
-      exhaustMap((action) =>
+      switchMap((action) =>
         this.userService
           .getFilteredUsersByLanguage(action.userId, action.languageId)
           .pipe(
             tap((response) => console.log('User Response:', response)),
             map((users) => {
-              return FilteredUsersActions.getResponseForCFilteredUsers({
+              return FilteredUsersActions.getResponseForFilteredUsers({
                 users,
               });
             }),
@@ -33,16 +33,41 @@ export class FilteredUsersEffects {
   getFilteredUsersByMe$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FilteredUsersActions.sendRequestToGetFilteredUsersByMe),
-      exhaustMap((action) =>
+      switchMap((action) =>
         this.userService.getFilteredUsersByLanguageByMe(action.languageId).pipe(
           tap((response) => console.log('User Response:', response)),
           map((users) => {
-            return FilteredUsersActions.getResponseForCFilteredUsers({ users });
+            return FilteredUsersActions.getResponseForFilteredUsers({ users });
           }),
           catchError((error) =>
             of(FilteredUsersActions.getError({ error: error }))
           )
         )
+      )
+    )
+  );
+
+  getFilteredUsersPaginationByMe$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FilteredUsersActions.sendRequestToGetFilteredUsersPaginationByMe),
+      switchMap((action) =>
+        this.userService
+          .getFilteredUsersByLanguagePaginationByMe(
+            action.languageId,
+            action.limit,
+            action.offset
+          )
+          .pipe(
+            tap((response) => console.log('User Response:', response)),
+            map((users) => {
+              return FilteredUsersActions.getResponseForFilteredUsers({
+                users,
+              });
+            }),
+            catchError((error) =>
+              of(FilteredUsersActions.getError({ error: error }))
+            )
+          )
       )
     )
   );

@@ -3,7 +3,6 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { filteredUsersAdapter } from './filtered-users.state';
 import { FilteredUsersState } from './filtered-users.types';
 
-
 const { selectIds, selectEntities, selectAll, selectTotal } =
   filteredUsersAdapter.getSelectors();
 
@@ -32,4 +31,18 @@ export const selectAllFilteredUsers = createSelector(
 export const selectFilteredUsersTotal = createSelector(
   selectFilteredUsersState,
   selectTotal
+);
+
+export const selectPaginatorSize = createSelector(
+  selectFilteredUsersState,
+  (filteredUsers) => {
+    return filteredUsers.paginatorSize;
+  }
+);
+
+export const selectFilteredLanguageId = createSelector(
+  selectFilteredUsersState,
+  (filteredUsers) => {
+    return filteredUsers.filteredLanguageId;
+  }
 );

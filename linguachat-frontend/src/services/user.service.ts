@@ -136,11 +136,19 @@ export class UserService {
     );
   }
 
-  getFilteredUsersByLanguageByMe(
-    languageId: number
-  ): Observable<UserGetDto[]> {
+  getFilteredUsersByLanguageByMe(languageId: number): Observable<UserGetDto[]> {
     return this.http.get<UserGetDto[]>(
       `${this.baseAddress}/${this.basePath}/getFilteredUsersByLanguageByMe/${languageId}`
+    );
+  }
+
+  getFilteredUsersByLanguagePaginationByMe(
+    languageId: number,
+    limit: number,
+    offset: number
+  ): Observable<UserGetDto[]> {
+    return this.http.get<UserGetDto[]>(
+      `${this.baseAddress}/${this.basePath}/getFilteredUsersByLanguagePaginationByMe/${languageId}/${limit}/${offset}`
     );
   }
 }

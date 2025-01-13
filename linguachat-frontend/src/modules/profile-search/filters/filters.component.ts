@@ -7,6 +7,7 @@ import { LanguageInterface } from 'src/models/language.types';
 import {
   sendRequestToGetFilteredUsers,
   sendRequestToGetFilteredUsersByMe,
+  setFilteredLanguageId,
 } from 'src/store/filtered-users/filtered-users.actions';
 import {
   selectLanguagesLearning,
@@ -66,6 +67,7 @@ export class FiltersComponent {
     if (this.nativeLanguageForm.value.language.id) {
       const languageId = this.nativeLanguageForm.value.language.id;
       this.store.dispatch(sendRequestToGetFilteredUsersByMe({ languageId }));
+      this.store.dispatch(setFilteredLanguageId({ languageId }));
     } else {
       this.snackBar.open('Language not selected!', 'Close')
     }

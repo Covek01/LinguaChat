@@ -150,6 +150,54 @@ export class UserController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Get('/getFilteredUsersByLanguagePagination/:userId/:languageId/:limit/:offset')
+  async getFilteredUsersByLanguagePagination(
+    @Param('userId') userId: string,
+    @Param('languageId') languageId: string,
+    @Param('limit') limit: string,
+    @Param('offset') offset: string,
+  ): Promise<UserGetDto[]> {
+    try {
+      return await this.userService.getFilteredUsersByLanguagePagination(
+        parseInt(userId, 10),
+        parseInt(languageId, 10),
+        parseInt(limit, 10),
+        parseInt(offset, 10),
+      );
+    } catch (ex) {
+      console.log('Error with getting blocked user list');
+      console.log(ex);
+
+      throw new Error(ex);
+    }
+  }
+
+
+  @HttpCode(HttpStatus.OK)
+  @Get('/getFilteredUsersByLanguagePaginationByMe/:languageId/:limit/:offset')
+  async getFilteredUsersByLanguagePaginationByMe(
+    @Request() request,
+    @Param('languageId') languageId: string,
+    @Param('limit') limit: string,
+    @Param('offset') offset: string,
+  ): Promise<UserGetDto[]> {
+    try {
+      const userId = request.user.id;
+      return await this.userService.getFilteredUsersByLanguagePagination(
+        parseInt(userId, 10),
+        parseInt(languageId, 10),
+        parseInt(limit, 10),
+        parseInt(offset, 10),
+      );
+    } catch (ex) {
+      console.log('Error with getting blocked user list');
+      console.log(ex);
+
+      throw new Error(ex);
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Get('/getUsersWhoAreBlockedByMe')
   async getUsersWhoAreBlockedByMe(@Request() request): Promise<UserGetDto[]> {
     try {

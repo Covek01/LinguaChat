@@ -66,10 +66,12 @@
         <!-- Paginator -->
         <mat-paginator
         [length]="dataSource?.length"
-        [pageSize]="5"
+        [pageSize]="10"
         [pageSizeOptions]="[5, 10, 20]"
         aria-label="Table Paginator"
-        color="primary">
+        color="primary"
+        (page)="changePage($event)"
+        >
         </mat-paginator>
     </div>
 </div>
