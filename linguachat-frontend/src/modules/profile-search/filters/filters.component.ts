@@ -1,14 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { map, Observable } from 'rxjs';
 import { LanguageInterface } from 'src/models/language.types';
 import {
+  sendRequestToGetCountByMe,
   sendRequestToGetFilteredUsers,
   sendRequestToGetFilteredUsersByMe,
+  sendRequestToGetFilteredUsersPaginationByMe,
   setFilteredLanguageId,
 } from 'src/store/filtered-users/filtered-users.actions';
+import { selectPaginatorSize } from 'src/store/filtered-users/filtered-users.selector';
 import {
   selectLanguagesLearning,
   selectLanguagesLearningEntities,
@@ -19,14 +22,17 @@ import {
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.sass'],
 })
-export class FiltersComponent {
+export class FiltersComponent implements OnDestroy {
   nativeLanguageForm: FormGroup;
   availableLanguages: LanguageInterface[] | null = null;
+  paginatorSize: number = 0;
 
   filteredLanguagesOptionsAfterInput$: Observable<LanguageInterface[]>;
   languagesLearning$ = this.store.select(selectLanguagesLearning);
 
-  constructor(private fb: FormBuilder, private readonly store: Store,
+  constructor(
+    private fb: FormBuilder,
+    private readonly store: Store,
     private snackBar: MatSnackBar
   ) {
     this.nativeLanguageForm = this.fb.group({
@@ -44,12 +50,22 @@ export class FiltersComponent {
         }) // Filter the language list
       );
   }
+  ngOnDestroy(): void {
+    this.availableLanguagesSubscription.unsubscribe();
+    this.paginatorSizeSubscription.unsubscribe();
+  }
 
   availableLanguagesSubscription = this.languagesLearning$.subscribe(
     (languages) => {
       this.availableLanguages = languages;
     }
   );
+
+  paginatorSizeSubscription = this.store
+    .select(selectPaginatorSize)
+    .subscribe((size) => {
+      this.paginatorSize = size;
+    });
 
   private _filter(value: string): LanguageInterface[] {
     const filterValue = value.toLowerCase();
@@ -63,13 +79,20 @@ export class FiltersComponent {
   }
 
   filterUsers(): void {
-    console.log(this.nativeLanguageForm.value)
+    console.log(this.nativeLanguageForm.value);
     if (this.nativeLanguageForm.value.language.id) {
       const languageId = this.nativeLanguageForm.value.language.id;
-      this.store.dispatch(sendRequestToGetFilteredUsersByMe({ languageId }));
+      this.store.dispatch(
+        sendRequestToGetFilteredUsersPaginationByMe({
+          languageId,
+          limit: 10,
+          offset: 0,
+        })
+      );
       this.store.dispatch(setFilteredLanguageId({ languageId }));
+      this.store.dispatch(sendRequestToGetCountByMe({ languageId }));
     } else {
-      this.snackBar.open('Language not selected!', 'Close')
+      this.snackBar.open('Language not selected!', 'Close');
     }
   }
 

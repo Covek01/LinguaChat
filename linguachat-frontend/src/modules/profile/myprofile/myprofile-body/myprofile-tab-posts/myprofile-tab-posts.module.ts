@@ -20,6 +20,7 @@ import { MyprofileTabPostAddDialogComponent } from './myprofile-tab-post-add-dia
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MyprofileTabCommentAddComponent } from './myprofile-tab-comment-add/myprofile-tab-comment-add.component';
 import { MyprofileTabCommentAddDialogComponent } from './myprofile-tab-comment-add-dialog/myprofile-tab-comment-add-dialog.component';
+import { TaskbarModule } from 'src/modules/shared/taskbar/taskbar.module';
 
 @NgModule({
   declarations: [
@@ -47,11 +48,13 @@ import { MyprofileTabCommentAddDialogComponent } from './myprofile-tab-comment-a
     MatInputModule,
     ReactiveFormsModule,
     MatAutocompleteModule,
+    TaskbarModule
   ],
   exports: [
     MyprofileTabPostsComponent,
     MyprofileTabCommentsComponent,
     MyprofileTabPostItemComponent,
+    MyprofileTabPostsComponent,
     MyprofileTabCommentsItemComponent,
     MyprofileTabCommentAddDialogComponent
   ],

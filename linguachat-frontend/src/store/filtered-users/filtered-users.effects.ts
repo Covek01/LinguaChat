@@ -30,6 +30,27 @@ export class FilteredUsersEffects {
     )
   );
 
+  getFilteredUsersCountByme$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(FilteredUsersActions.sendRequestToGetCountByMe),
+      switchMap((action) =>
+        this.userService
+          .getFilteredUsersByLanguageCountByMe(action.languageId)
+          .pipe(
+            tap((response) => console.log('User Response:', response)),
+            map((count) => {
+              return FilteredUsersActions.getResponseForGettingCount({
+                count,
+              });
+            }),
+            catchError((error) =>
+              of(FilteredUsersActions.getError({ error: error }))
+            )
+          )
+      )
+    )
+  );
+
   getFilteredUsersByMe$ = createEffect(() =>
     this.actions$.pipe(
       ofType(FilteredUsersActions.sendRequestToGetFilteredUsersByMe),

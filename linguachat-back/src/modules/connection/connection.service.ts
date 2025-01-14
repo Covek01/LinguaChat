@@ -154,8 +154,7 @@ export class ConnectionService {
             .createQueryBuilder('connection')
             .innerJoinAndSelect('connection.firstUser', 'firstUser')
             .innerJoinAndSelect('connection.secondUser', 'secondUser')
-            .where('firstUser.id = :userId', {userId})
-            .orWhere('secondUser.id = :userId', {userId})
+            .where('firstUser.id = :userId OR secondUser.id = :userId', {userId})
             .getMany();
 
         const connectedUsersOfUser = connections.map(conn => {

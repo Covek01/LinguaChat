@@ -1,4 +1,4 @@
-<mat-card class="w-2/6 ml-auto mr-auto space-y-8 mt-8 rounded-lg light-gray"
+<!-- <mat-card class="w-2/6 ml-auto mr-auto space-y-8 mt-8 rounded-lg light-gray"
 appearance="outlined">
     <mat-card-header>
         <div class="flex ml-4 space-x-2">
@@ -24,6 +24,13 @@ appearance="outlined">
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
+                <mat-form-field>
+                    <mat-label>Type</mat-label>
+                    <select matNativeControl required>
+                      <option value="Question">Volvo</option>
+                      <option value="Lesson">Saab</option>
+                    </select>
+                  </mat-form-field>
             </form>
         </div>
     </mat-card-content>
@@ -34,34 +41,4 @@ appearance="outlined">
             <p>Filter</p>
         </button>
     </mat-card-actions>
-</mat-card>
-
-<!-- <div class="w-2/6 ml-auto mr-auto space-y-8 mt-8 py-4 px-8 rounded-lg light-gray">
-    <div class="flex ml-4 space-x-2">
-        <mat-icon color="primary">person</mat-icon>
-        <h1 class="font-semibold">Search users by native language</h1>
-    </div>
-    <div class="flex space-x-10 align-middle">
-        <form>
-            <mat-form-field >
-                <mat-label>Language</mat-label>
-                <input type="text"
-                    placeholder="Pick one"
-                    aria-label="Language"
-                    matInput
-                    formControlName="language"
-                    [matAutocomplete]="languages"
-                    class="w-2/3">
-                <mat-autocomplete autoActiveFirstOption #languages="matAutocomplete" >
-                    <mat-option [value]="language.name" *ngFor="let language of this.filteredLanguagesOptionsAfterInput$ | async">
-                    {{language.name}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-        </form>
-        <button mat-flat-button color="primary" class="!h-10">
-            <mat-icon>search</mat-icon>
-            <p>Filter</p>
-        </button>
-    </div>
-</div> -->
+</mat-card> -->

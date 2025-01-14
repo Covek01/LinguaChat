@@ -32,6 +32,17 @@ export const setFilteredLanguageId = createAction(
   props<{ languageId: number }>()
 );
 
+//get users count
+export const sendRequestToGetCountByMe = createAction(
+  '[Filtered Users] Send Request To Get Count',
+  props<{ languageId: number }>()
+);
+
+export const getResponseForGettingCount = createAction(
+  '[Filtered Users] Get Response For Getting Count',
+  props<{ count: number }>()
+);
+
 export const getError = createAction(
   '[Filtered Users] Get Error',
   props<{ error: string }>()

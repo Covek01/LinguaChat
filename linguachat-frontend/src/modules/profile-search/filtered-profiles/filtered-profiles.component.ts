@@ -16,6 +16,7 @@ import {
 import {
   selectAllFilteredUsers,
   selectFilteredLanguageId,
+  selectFilteredUsersCount,
   selectFilteredUsersState,
   selectPaginatorSize,
 } from 'src/store/filtered-users/filtered-users.selector';
@@ -61,16 +62,7 @@ export class FilteredProfilesComponent implements OnInit, OnDestroy {
   flags$ = this.store.select(selectFlagsEntities);
   myUserInfo$ = this.store.select(selectMyUser);
 
-  filteredUsersWithMyUser$ = this.store.select(selectAllFilteredUsers);
-
-  filteredUsers$ = combineLatest([
-    this.filteredUsersWithMyUser$,
-    this.myUserInfo$,
-  ]).pipe(
-    map(([users, myUser]) => {
-      return users.filter((user) => user.id !== myUser.id);
-    })
-  );
+  filteredUsers$ = this.store.select(selectAllFilteredUsers);
 
   private connectionsIds$: Observable<number[]> = this.store
     .select(selectConnectionsIds)
@@ -111,6 +103,10 @@ export class FilteredProfilesComponent implements OnInit, OnDestroy {
 
   paginatorSize$ = this.store.select(selectPaginatorSize);
 
+  filteredUsersCount$ = this.store.select(selectFilteredUsersCount);
+
+
+  //subscriptions
   paginatorSizeSubscription = this.paginatorSize$.subscribe((size) => {
     this.paginatorSize = size;
   });
@@ -158,6 +154,7 @@ export class FilteredProfilesComponent implements OnInit, OnDestroy {
   changePage(event: PageEvent): void {
     console.log(event);
     this.store.dispatch(setPaginatorSize({ size: event.pageSize }));
+    console.log(event.pageSize);
     this.store.dispatch(
       sendRequestToGetFilteredUsersPaginationByMe({
         languageId: this.selectedLanguageId,

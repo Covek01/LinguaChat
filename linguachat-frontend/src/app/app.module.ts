@@ -25,6 +25,7 @@ import { MatInputModule } from '@angular/material/input';
 import { UserProfileModule } from 'src/modules/profile/user-profile/user-profile.module';
 import { ProfileSearchModule } from 'src/modules/profile-search/profile-search.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { FeedModule } from 'src/modules/feed/feed.module';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
     MyprofileModule,
     UserProfileModule,
     ProfileSearchModule,
+    FeedModule,
     MatSnackBarModule
   ],
   providers: [

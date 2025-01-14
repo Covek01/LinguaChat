@@ -151,4 +151,15 @@ export class UserService {
       `${this.baseAddress}/${this.basePath}/getFilteredUsersByLanguagePaginationByMe/${languageId}/${limit}/${offset}`
     );
   }
+
+  getFilteredUsersByLanguageCount(userId: number, languageId: number): Observable<number> {
+    const url = `${this.baseAddress}/${this.basePath}/getFilteredUsersByLanguageCount/${userId}/${languageId}`;
+    return this.http.get<number>(url);
+  }
+  
+  getFilteredUsersByLanguageCountByMe(languageId: number): Observable<number> {
+    const url = `${this.baseAddress}/${this.basePath}/getFilteredUsersByLanguageCountByMe/${languageId}`;
+    return this.http.get<number>(url);
+  }
+  
 }

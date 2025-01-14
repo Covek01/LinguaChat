@@ -13,6 +13,7 @@ import { plainToClass, plainToInstance } from 'class-transformer';
 import { removePassHash } from 'src/utils/user.utils';
 import { title } from 'process';
 import { ReturnMessage } from 'src/models/models.type';
+import { Connection } from '../connection/connection.entity';
 @Injectable()
 export class PostService {
   constructor(
@@ -145,7 +146,7 @@ export class PostService {
   }
 
   async deletePost(postId: number): Promise<ReturnMessage> {
-    console.log("TAKNUT SAM")
+    console.log('TAKNUT SAM');
     await this.dataSource
       .createQueryBuilder()
       .delete()
@@ -285,20 +286,61 @@ export class PostService {
       };
     });
 
-    // const postsReturn: Post[] | null = posts.map((post) => {
-    //   post.createdBy.passHash = '';
-    //   return post;
-    // });
-    // const postsDto: PostGetDto[] = posts.map((post) => {
-    //   return {
-    //     id: post.id,
-    //     text: post.text,
-    //     type: post.type,
-    //     time: post.time,
-    //     createdBy: post.createdBy,
-    //     language: post.language,
-    //   };
-    // });
+    return postsWithLiked;
+  }
+
+  async getPostsOfConnectedUsersWithLikedStatus(
+    myId: number,
+    limit: number,
+    offset: number,
+  ): Promise<PostWithLikedAndCount[]> {
+    const connections = await this.dataSource
+      .getRepository(Connection)
+      .createQueryBuilder('connection')
+      .innerJoinAndSelect('connection.firstUser', 'firstUser')
+      .innerJoinAndSelect('connection.secondUser', 'secondUser')
+      .where('firstUser.id = :userId OR secondUser.id = :userId', {
+        userId: myId,
+      })
+      .select(['connection.id', 'firstUser.id', 'secondUser.id'])
+      .getMany();
+
+    const connectedUserIds = connections.map((conn) => {
+      const connectedUserId =
+        conn.firstUser.id === myId ? conn.secondUser.id : conn.firstUser.id;
+
+      return connectedUserId;
+    });
+
+    const posts: Post[] | null = await this.dataSource
+      .getRepository(Post)
+      .createQueryBuilder('post')
+      .orderBy('post.time', 'DESC')
+      .innerJoinAndSelect('post.createdBy', 'createdBy')
+      .leftJoinAndSelect('post.likedByUsers', 'likedByUsers')
+      .where('createdBy.id IN (:...connectionIds)', { connectionIds: connectedUserIds })
+      .select(['post', 'createdBy', 'likedByUsers.id'])
+      .getMany();
+
+
+    if (!posts) {
+      throw new Error("Posts for this user don't exist");
+    }
+
+    const postsWithLiked = posts.map((post) => {
+      const isLiked = post.likedByUsers
+        .map((liked) => liked.id)
+        .some((currentId) => currentId === myId);
+      const likedCount = post.likedByUsers.length;
+      const retPost = {
+        ...post,
+        liked: isLiked,
+        likedCount: likedCount,
+      };
+      retPost.createdBy.passHash = '';
+
+      return retPost;
+    });
 
     return postsWithLiked;
   }

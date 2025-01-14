@@ -23,4 +23,10 @@ export const filteredUsersReducer = createReducer(
       filteredLanguageId: languageId,
     };
   }),
+  on(FilteredUsersActions.getResponseForGettingCount, (state, { count }) => {
+    return {
+      ...state,
+      userCount: count,
+    };
+  }),
 );

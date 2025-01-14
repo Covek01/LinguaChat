@@ -17,4 +17,5 @@ export const initialStateFilteredUsers: FilteredUsersState =
   filteredUsersAdapter.getInitialState({
     paginatorSize: 10,
     filteredLanguageId: 0,
+    userCount: 0,
   });

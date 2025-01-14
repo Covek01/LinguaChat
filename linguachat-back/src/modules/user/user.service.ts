@@ -103,6 +103,7 @@ export class UserService {
     const users: User[] = await this.dataSource
       .getRepository(User)
       .createQueryBuilder('user')
+      .orderBy('user.time', 'DESC')
       .leftJoinAndSelect('user.languagesNative', 'languageNative')
       .leftJoinAndSelect('user.blockedUsers', 'blockedUser')
       .leftJoinAndSelect('user.usersBlocking', 'userBlocking')
@@ -123,6 +124,32 @@ export class UserService {
     return filteredUsers;
   }
 
+  async getFilteredUsersByLanguageCount(
+    userId: number,
+    languageId: number,
+  ): Promise<number> {
+    const count: number = await this.dataSource
+      .getRepository(User)
+      .createQueryBuilder('user')
+      .orderBy('user.time', 'DESC')
+      .leftJoinAndSelect('user.languagesNative', 'languageNative')
+      .leftJoinAndSelect('user.blockedUsers', 'blockedUser')
+      .leftJoinAndSelect('user.usersBlocking', 'userBlocking')
+      .where('languageNative.id = :languageId AND user.id != :myUserId', {
+        languageId,
+        myUserId: userId,
+      })
+      .andWhere(
+        '(blockedUser.id IS NULL OR blockedUser.id != :userId) AND (userBlocking.id IS NULL OR userBlocking.id != :userId)',
+        {
+          userId,
+        },
+      )
+      .getCount();
+
+    return count;
+  }
+
   async getFilteredUsersByLanguagePagination(
     userId: number,
     languageId: number,
@@ -132,10 +159,14 @@ export class UserService {
     const users: User[] = await this.dataSource
       .getRepository(User)
       .createQueryBuilder('user')
+      .orderBy('user.since', 'DESC')
       .leftJoinAndSelect('user.languagesNative', 'languageNative')
       .leftJoinAndSelect('user.blockedUsers', 'blockedUser')
       .leftJoinAndSelect('user.usersBlocking', 'userBlocking')
-      .where('languageNative.id = :languageId', { languageId })
+      .where('languageNative.id = :languageId AND user.id != :myUserId', {
+        languageId,
+        myUserId: userId
+      })
       .andWhere(
         '(blockedUser.id IS NULL OR blockedUser.id != :userId) AND (userBlocking.id IS NULL OR userBlocking.id != :userId)',
         {

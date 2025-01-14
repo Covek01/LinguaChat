@@ -46,3 +46,10 @@ export const selectFilteredLanguageId = createSelector(
     return filteredUsers.filteredLanguageId;
   }
 );
+
+export const selectFilteredUsersCount = createSelector(
+  selectFilteredUsersState,
+  (filteredUsers) => {
+    return filteredUsers.userCount;
+  }
+);

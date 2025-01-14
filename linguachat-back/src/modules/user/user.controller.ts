@@ -150,6 +150,45 @@ export class UserController {
   }
 
   @HttpCode(HttpStatus.OK)
+  @Get('/getFilteredUsersByLanguageCount/:userId/:languageId')
+  async getFilteredUsersByLanguageCount(
+    @Param('userId') userId: string,
+    @Param('languageId') languageId: string,
+  ): Promise<number> {
+    try {
+      return await this.userService.getFilteredUsersByLanguageCount(
+        parseInt(userId, 10),
+        parseInt(languageId, 10),
+      );
+    } catch (ex) {
+      console.log('Error with getting count');
+      console.log(ex);
+
+      throw new Error(ex);
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Get('/getFilteredUsersByLanguageCountByMe/:languageId')
+  async getFilteredUsersByLanguageCountByMe(
+    @Request() request,
+    @Param('languageId') languageId: string,
+  ): Promise<number> {
+    try {
+      const userId = request.user.id;
+      return await this.userService.getFilteredUsersByLanguageCount(
+        parseInt(userId, 10),
+        parseInt(languageId, 10),
+      );
+    } catch (ex) {
+      console.log('Error with getting count');
+      console.log(ex);
+
+      throw new Error(ex);
+    }
+  }
+
+  @HttpCode(HttpStatus.OK)
   @Get('/getFilteredUsersByLanguagePagination/:userId/:languageId/:limit/:offset')
   async getFilteredUsersByLanguagePagination(
     @Param('userId') userId: string,
