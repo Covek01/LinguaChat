@@ -6,11 +6,6 @@
         <mat-list *ngFor="let userPost of userPosts">
             <app-myprofile-tab-post-item [post]="userPost" class="m-1"></app-myprofile-tab-post-item>
         </mat-list>
-        <!-- <mat-list *ngFor="let userPost of userPosts">
-            <mat-list-item>
-                <app-myprofile-tab-post-item [post]="userPost"></app-myprofile-tab-post-item>
-            </mat-list-item>
-        </mat-list> -->
     </mat-card-content>
     <mat-card-actions align="end">
         <button mat-raised-button color="primary" (click)="handleAddPostDialog()">

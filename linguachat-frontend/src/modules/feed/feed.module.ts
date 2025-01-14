@@ -18,6 +18,7 @@ import { UserProfileTabUserInfoModule } from '../profile/user-profile/user-profi
 import { MyprofileTabPostsModule } from '../profile/myprofile/myprofile-body/myprofile-tab-posts/myprofile-tab-posts.module';
 import { FeedFiltersComponent } from './feed-filters/feed-filters.component';
 import { PostsComponent } from './posts/posts.component';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [FeedComponent, FeedFiltersComponent, PostsComponent],
@@ -38,7 +39,8 @@ import { PostsComponent } from './posts/posts.component';
     FormsModule,
     ReactiveFormsModule,
     UserProfileTabUserInfoModule,
-    MyprofileTabPostsModule
+    MyprofileTabPostsModule,
+    MatListModule
   ],
 })
 export class FeedModule {}

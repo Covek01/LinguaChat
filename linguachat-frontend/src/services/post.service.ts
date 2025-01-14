@@ -101,4 +101,13 @@ export class PostService {
       }
     );
   }
+
+  getPostsOfConnectedUsersWithLikedStatusByMe(
+    limit: number,
+    offset: number
+  ): Observable<PostWithLikedAndCount[]> {
+    return this.http.get<PostWithLikedAndCount[]>(
+      `${this.baseAddress}/${this.basePath}/getPostsOfConnectedUsersWithLikedStatusByMe/${limit}/${offset}`,
+    );
+  }
 }

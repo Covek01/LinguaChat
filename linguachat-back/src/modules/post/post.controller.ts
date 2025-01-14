@@ -131,7 +131,7 @@ export class PostController {
 
   @HttpCode(HttpStatus.OK)
   @Get('/getPostsOfConnectedUsersWithLikedStatusByMe/:limit/:offset')
-  async getPostsOfConnectedUsersWithLikedStatus(
+  async getPostsOfConnectedUsersWithLikedStatusByMe(
     @Request() req,
     @Param('limit') limit,
     @Param('offset') offset,

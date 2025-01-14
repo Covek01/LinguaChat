@@ -1,17 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { UserService } from 'src/services/user.service';
 import * as PostActions from './user-post.actions';
 import { catchError, exhaustMap, map, of, tap } from 'rxjs';
 import { PostService } from 'src/services/post.service';
 
 @Injectable()
 export class PostEffects {
-  constructor(
-    private actions$: Actions,
-    private userService: UserService,
-    private postService: PostService
-  ) {}
+  constructor(private actions$: Actions, private postService: PostService) {}
 
   getPosts$ = createEffect(() =>
     this.actions$.pipe(
@@ -43,6 +38,28 @@ export class PostEffects {
           }),
           catchError((error) => of(PostActions.getError({ error: error })))
         )
+      )
+    )
+  );
+
+  addPaginatedPostsByMe$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PostActions.sendRequestToAddPaginatedPostsByMe),
+      exhaustMap((action) =>
+        this.postService
+          .getPostsOfConnectedUsersWithLikedStatusByMe(
+            action.limit,
+            action.offset
+          )
+          .pipe(
+            tap((response) => console.log('Post Response:', response)),
+            map((posts) => {
+              return PostActions.getResponseForAddingPaginatedPostsByMe({
+                posts,
+              });
+            }),
+            catchError((error) => of(PostActions.getError({ error: error })))
+          )
       )
     )
   );

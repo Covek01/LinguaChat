@@ -60,4 +60,7 @@ export const postReducer = createReducer(
 
     return state;
   }),
+  on(PostActions.getResponseForAddingPaginatedPostsByMe, (state, { posts }) => {
+    return userPostsAdapter.addMany(posts, state);
+  }),
 );
