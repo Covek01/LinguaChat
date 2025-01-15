@@ -318,8 +318,9 @@ export class PostService {
       .orderBy('post.time', 'DESC')
       .innerJoinAndSelect('post.createdBy', 'createdBy')
       .leftJoinAndSelect('post.likedByUsers', 'likedByUsers')
+      .innerJoinAndSelect('post.language', 'language')
       .where('createdBy.id IN (:...connectionIds)', { connectionIds: connectedUserIds })
-      .select(['post', 'createdBy', 'likedByUsers.id'])
+      .select(['post', 'createdBy', 'likedByUsers.id', 'language'])
       .getMany();
 
 

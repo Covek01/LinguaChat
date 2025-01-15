@@ -21,8 +21,6 @@ export const postReducer = createReducer(
   }),
   on(PostActions.getResponseToLikePost, (state, { userId, postId }) => {
     const post = state.entities[postId] ?? null;
-    console.log("RX PROVERA ZA POST UPDATE")
-    console.log(post) 
     if (post) {
       const postNew = {
         ...post,
@@ -42,8 +40,6 @@ export const postReducer = createReducer(
   }),
   on(PostActions.getResponseToUnlikePost, (state, { userId, postId }) => {
     const post = state.entities[postId] ?? null;
-    console.log("RX PROVERA ZA POST UPDATE")
-    console.log(post)
     if (post) {
       const postNew = {
         ...post,
@@ -62,5 +58,8 @@ export const postReducer = createReducer(
   }),
   on(PostActions.getResponseForAddingPaginatedPostsByMe, (state, { posts }) => {
     return userPostsAdapter.addMany(posts, state);
+  }),
+  on(PostActions.getResponseForGettingPaginatedPostsByMe, (state, { posts }) => {
+    return userPostsAdapter.setAll(posts, state);
   }),
 );

@@ -8,7 +8,10 @@ import { selectAllPosts } from 'src/store/user/post/user-post.selector';
   styleUrls: ['./posts.component.sass'],
 })
 export class PostsComponent {
+  private paginationLimit = 10;
+  private offset = 0;
+
   constructor(private readonly store: Store) {}
-  
+
   userPosts$ = this.store.select(selectAllPosts);
 }

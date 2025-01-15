@@ -1,3 +1,4 @@
+<mat-divider class="mb-4"></mat-divider>
 <mat-card>
     <mat-card-header>
         <mat-icon color="primary">summarize</mat-icon>
@@ -8,12 +9,13 @@
         </mat-list>
     </mat-card-content>
     <mat-card-actions align="end">
-        <button mat-raised-button color="primary">
-            <mat-icon>add</mat-icon>
-            <p>Older</p>
-        </button>
+        
     </mat-card-actions>
 </mat-card>
+<button mat-raised-button color="primary">
+    <mat-icon>add</mat-icon>
+    <p>Older</p>
+</button>
 <ng-template #loading>
     <mat-spinner #loading class="ml-auto mr-auto"></mat-spinner>
 </ng-template>  

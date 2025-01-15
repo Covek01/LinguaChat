@@ -1,6 +1,6 @@
 <mat-list-item role="listitem">
     <button mat-button matTooltip="Click to see the user's profile"
-    matTooltipPosition="right" (click)="handleClickToViewUserProfile()">
+    matTooltipPosition="right" (click)="handleClickToViewUserProfile()"z>
         <mat-icon color="primary">person</mat-icon>
         <span class="mr-5">{{user.username}}</span>
         <span class="fi" [ngClass]="user.userFlagKey"></span>

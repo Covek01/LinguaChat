@@ -38,6 +38,8 @@
         </button>
     </mat-card-actions>
     <mat-card-footer class="m-2 font-light">
+        <span class="font-semibold">{{post.language?.name ?? ''}}</span>
+        <span>, </span>
         <span>Post created: </span>
         {{post.time | date: 'yyyy-MM-dd'}}
     </mat-card-footer>

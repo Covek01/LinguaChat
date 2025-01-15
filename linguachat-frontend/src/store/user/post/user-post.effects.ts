@@ -64,6 +64,28 @@ export class PostEffects {
     )
   );
 
+  getFilteredPostsByMe$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PostActions.sendRequestToGetPaginatedPostsByMe),
+      exhaustMap((action) =>
+        this.postService
+          .getPostsOfConnectedUsersWithLikedStatusByMe(
+            action.limit,
+            action.offset
+          )
+          .pipe(
+            tap((response) => console.log('Post Response:', response)),
+            map((posts) => {
+              return PostActions.getResponseForGettingPaginatedPostsByMe({
+                posts,
+              });
+            }),
+            catchError((error) => of(PostActions.getError({ error: error })))
+          )
+      )
+    )
+  );
+
   addPost$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PostActions.sendRequestToAddPost),

@@ -23,8 +23,19 @@ export const getResponseForPosts = createAction(
 );
 
 //Filtered Post Pagination
-export const sendRequestToAddPaginatedPostsByMe = createAction(
+export const sendRequestToGetPaginatedPostsByMe = createAction(
   '[User Post] Send Request To Get Paginated Posts By Me',
+  props<{ limit: number; offset: number }>()
+);
+
+export const getResponseForGettingPaginatedPostsByMe = createAction(
+  '[User Post] Get Response For Getting Paginated Posts By Me',
+  props<{ posts: PostWithLikedAndCount[] }>()
+);
+
+//Filtered Post Pagination add
+export const sendRequestToAddPaginatedPostsByMe = createAction(
+  '[User Post] Send Request To Add Paginated Posts By Me',
   props<{ limit: number; offset: number }>()
 );
 
