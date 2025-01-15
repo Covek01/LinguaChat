@@ -1,14 +1,16 @@
-<div class="mx-auto relative top-12 h-3/5 w-3/5 flex flex-col">
+<div class="mx-auto h-3/5 w-3/5 mt-24 flex flex-col">
     <img src="assets/Lingua-cropped.png" class="h-1/3 mx-auto"/>
-    <div class="mt-16 flex flex-col justify-between w-1/2 h-72 self-center">
+    <div class="light-gray p-8 rounded-lg
+    mt-16 flex flex-col justify-between w-1/3 self-center">
         <p class="text-4xl self-center mb-8 font-semibold">Login</p>
         <mat-form-field class="block">
             <mat-label>Username</mat-label>
             <input matInput name="username" [(ngModel)] = "username">
         </mat-form-field>
-        <mat-form-field class="block">
+        <mat-form-field class="block" >
             <mat-label>Password</mat-label>
-            <input matInput name="password" [(ngModel)] = "password">
+            <input matInput name="password" type="password"
+            [(ngModel)] = "password">
         </mat-form-field>
         <button mat-flat-button color="primary" (click)="loginSubmit($event)">
             Login
