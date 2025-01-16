@@ -321,6 +321,8 @@ export class PostService {
       .innerJoinAndSelect('post.language', 'language')
       .where('createdBy.id IN (:...connectionIds)', { connectionIds: connectedUserIds })
       .select(['post', 'createdBy', 'likedByUsers.id', 'language'])
+      .limit(limit)
+      .offset(offset)
       .getMany();
 
 

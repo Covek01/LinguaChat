@@ -8,7 +8,7 @@ import { selectDarkModeEnabled } from 'src/store/dark-mode/dark-mode.selector';
 @Component({
   selector: 'app-taskbar',
   templateUrl: './taskbar.component.html',
-  styleUrls: ['./taskbar.component.scss']
+  styleUrls: ['./taskbar.component.sass']
 })
 export class TaskbarComponent {
   @Input() isUserLoggedIn: boolean = false;

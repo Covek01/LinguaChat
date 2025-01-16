@@ -1,8 +1,9 @@
-<mat-divider class="mb-4"></mat-divider>
-<mat-card>
-    <mat-card-header>
-        <mat-icon color="primary">summarize</mat-icon>
-    </mat-card-header>
+<mat-divider class="mb-4 my-primary-border border-2"></mat-divider>
+<mat-card appearance="outlined" class="!border-0">
+    <div class="flex mt-8 mb-8">
+        <mat-icon color="primary" class="mat-icona ml-8">summarize</mat-icon>
+        <h1 class=" text-3xl self-center">Post Feed</h1>
+    </div>
     <mat-card-content *ngIf="userPosts$ | async as userPosts; else loading">
         <mat-list *ngFor="let userPost of userPosts">
             <app-myprofile-tab-post-item [post]="userPost" class="m-1"></app-myprofile-tab-post-item>
@@ -12,10 +13,14 @@
         
     </mat-card-actions>
 </mat-card>
-<button mat-raised-button color="primary">
-    <mat-icon>add</mat-icon>
-    <p>Older</p>
-</button>
+<div class="flex justify-center pb-12">
+    <button mat-raised-button color="primary" class="w-1/4"
+    (click)="loadOlderPosts()">
+        <mat-icon>add</mat-icon>
+        <p>Older</p>
+    </button>
+</div>
+
 <ng-template #loading>
     <mat-spinner #loading class="ml-auto mr-auto"></mat-spinner>
 </ng-template>  
