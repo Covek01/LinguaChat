@@ -3,15 +3,8 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { User } from '../user/user.entity';
 import { DataSource } from 'typeorm';
 import { Language } from '../language/language.entity';
-import {
-  NullPost,
-  PostGetDto,
-  PostWithLikedAndCount,
-} from 'src/models/post.types';
+import { PostGetDto, PostWithLikedAndCount } from 'src/models/post.types';
 import { Post } from 'src/modules/post/post.entity';
-import { plainToClass, plainToInstance } from 'class-transformer';
-import { removePassHash } from 'src/utils/user.utils';
-import { title } from 'process';
 import { ReturnMessage } from 'src/models/models.type';
 import { Connection } from '../connection/connection.entity';
 @Injectable()
@@ -92,19 +85,6 @@ export class PostService {
       throw new Error(`Language with ID ${creatorId} not found`);
     }
 
-    // const result = await this.dataSource
-    //     .createQueryBuilder()
-    //     .insert()
-    //     .into(Post)
-    //     .values({
-    //         type: postType,
-    //         text: postText,
-    //         createdBy: creator,
-    //         language: language
-    //     })
-    //     .returning('*')
-    //     .execute();
-
     const insertedObject = {
       type: postType,
       title: postTitle,
@@ -146,7 +126,6 @@ export class PostService {
   }
 
   async deletePost(postId: number): Promise<ReturnMessage> {
-    console.log('TAKNUT SAM');
     await this.dataSource
       .createQueryBuilder()
       .delete()
@@ -268,8 +247,6 @@ export class PostService {
       .select(['post', 'createdBy', 'language', 'likedByUsers.id'])
       .getMany();
 
-    console.log(posts);
-
     if (!posts) {
       throw new Error("Posts for this user don't exist");
     }
@@ -319,12 +296,13 @@ export class PostService {
       .innerJoinAndSelect('post.createdBy', 'createdBy')
       .leftJoinAndSelect('post.likedByUsers', 'likedByUsers')
       .innerJoinAndSelect('post.language', 'language')
-      .where('createdBy.id IN (:...connectionIds)', { connectionIds: connectedUserIds })
+      .where('createdBy.id IN (:...connectionIds)', {
+        connectionIds: connectedUserIds,
+      })
       .select(['post', 'createdBy', 'likedByUsers.id', 'language'])
       .limit(limit)
       .offset(offset)
       .getMany();
-
 
     if (!posts) {
       throw new Error("Posts for this user don't exist");

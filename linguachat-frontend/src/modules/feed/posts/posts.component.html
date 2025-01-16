@@ -1,9 +1,9 @@
 <mat-divider class="mb-4 my-primary-border border-2"></mat-divider>
+<div class="flex mt-8 mb-8">
+    <mat-icon color="primary" class="mat-icona ml-8">summarize</mat-icon>
+    <h1 class=" text-3xl self-center">Post Feed</h1>
+</div>
 <mat-card appearance="outlined" class="!border-0">
-    <div class="flex mt-8 mb-8">
-        <mat-icon color="primary" class="mat-icona ml-8">summarize</mat-icon>
-        <h1 class=" text-3xl self-center">Post Feed</h1>
-    </div>
     <mat-card-content *ngIf="userPosts$ | async as userPosts; else loading">
         <mat-list *ngFor="let userPost of userPosts">
             <app-myprofile-tab-post-item [post]="userPost" class="m-1"></app-myprofile-tab-post-item>
@@ -13,9 +13,9 @@
         
     </mat-card-actions>
 </mat-card>
-<div class="flex justify-center pb-12">
+<div class="flex justify-center pb-12" *ngIf="userPostsCount$ | async as userPostsCount">
     <button mat-raised-button color="primary" class="w-1/4"
-    (click)="loadOlderPosts()">
+    (click)="loadOlderPosts()" [disabled]="userPostsCount > maxPostOnFeedNumber">
         <mat-icon>add</mat-icon>
         <p>Older</p>
     </button>
