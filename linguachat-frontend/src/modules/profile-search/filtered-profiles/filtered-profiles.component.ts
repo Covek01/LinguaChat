@@ -4,11 +4,7 @@ import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { combineLatest, map, Observable, tap } from 'rxjs';
 import { Flag } from 'src/models/models.type';
-import {
-  UserGetDto,
-  UserGetDtoWithBlockedAndConnectedStatus,
-  UserGetDtoWithUserFlagKey,
-} from 'src/models/user.types';
+import { UserGetDto, UserGetDtoWithUserFlagKey } from 'src/models/user.types';
 import {
   sendRequestToGetFilteredUsersPaginationByMe,
   setPaginatorSize,
@@ -17,7 +13,6 @@ import {
   selectAllFilteredUsers,
   selectFilteredLanguageId,
   selectFilteredUsersCount,
-  selectFilteredUsersState,
   selectPaginatorSize,
 } from 'src/store/filtered-users/filtered-users.selector';
 import { selectFlagsEntities } from 'src/store/flags/flags.selector';
@@ -28,10 +23,7 @@ import {
   sendRequestToDeleteConnectedUser,
 } from 'src/store/user/connections/connections.actions';
 import { selectConnectionsIds } from 'src/store/user/connections/connections.selector';
-import {
-  selectMyUser,
-  selectUser,
-} from 'src/store/user/user-data/user-data.selector';
+import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
 
 @Component({
   selector: 'app-filtered-profiles',
@@ -39,7 +31,7 @@ import {
   styleUrls: ['./filtered-profiles.component.sass'],
 })
 export class FilteredProfilesComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = [
+  public displayedColumns: string[] = [
     'username',
     'born',
     'country',
@@ -47,8 +39,8 @@ export class FilteredProfilesComponent implements OnInit, OnDestroy {
     'since',
     'actions',
   ];
-  paginatorSize: number = 10;
-  selectedLanguageId: number = 0;
+  private paginatorSize: number = 10;
+  private selectedLanguageId: number = 0;
 
   constructor(private readonly store: Store) {}
 
@@ -59,10 +51,20 @@ export class FilteredProfilesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {}
 
-  flags$ = this.store.select(selectFlagsEntities);
-  myUserInfo$ = this.store.select(selectMyUser);
+  //Observables
+  public flags$: Observable<Dictionary<Flag>> =
+    this.store.select(selectFlagsEntities);
+  public myUserInfo$: Observable<UserGetDto> = this.store.select(selectMyUser);
+  public filteredUsers$: Observable<UserGetDto[]> = this.store.select(
+    selectAllFilteredUsers
+  );
 
-  filteredUsers$ = this.store.select(selectAllFilteredUsers);
+  public paginatorSize$: Observable<number> =
+    this.store.select(selectPaginatorSize);
+
+  public filteredUsersCount$: Observable<number> = this.store.select(
+    selectFilteredUsersCount
+  );
 
   private connectionsIds$: Observable<number[]> = this.store
     .select(selectConnectionsIds)
@@ -72,14 +74,12 @@ export class FilteredProfilesComponent implements OnInit, OnDestroy {
     .select(selectBlockedUserIds)
     .pipe(map((ids) => ids.map((id) => Number(id))));
 
-  filteredUsersWithFlags$ = combineLatest([
-    this.filteredUsers$,
-    this.flags$,
-  ]).pipe(
-    map(([filteredUsers, flags]) => {
-      return this.addFlagsMapProperty(filteredUsers, flags);
-    })
-  );
+  filteredUsersWithFlags$: Observable<UserGetDtoWithUserFlagKey[]> =
+    combineLatest([this.filteredUsers$, this.flags$]).pipe(
+      map(([filteredUsers, flags]) => {
+        return this.addFlagsMapProperty(filteredUsers, flags);
+      })
+    );
 
   filteredUsersWithExtendedInfo$ = combineLatest([
     this.myUserInfo$,
@@ -101,23 +101,18 @@ export class FilteredProfilesComponent implements OnInit, OnDestroy {
     })
   );
 
-  paginatorSize$ = this.store.select(selectPaginatorSize);
-
-  filteredUsersCount$ = this.store.select(selectFilteredUsersCount);
-
-
   //subscriptions
-  paginatorSizeSubscription = this.paginatorSize$.subscribe((size) => {
+  private paginatorSizeSubscription = this.paginatorSize$.subscribe((size) => {
     this.paginatorSize = size;
   });
 
-  filteredLanguageSubscription = this.store
+  private filteredLanguageSubscription = this.store
     .select(selectFilteredLanguageId)
     .subscribe((languageId) => {
       this.selectedLanguageId = languageId;
     });
 
-  addFlagsMapProperty(
+  public addFlagsMapProperty(
     users: UserGetDto[],
     flagsDictionary: Dictionary<Flag>
   ): UserGetDtoWithUserFlagKey[] {
@@ -135,23 +130,23 @@ export class FilteredProfilesComponent implements OnInit, OnDestroy {
     }
   }
 
-  connectWithUser(firstId: number, secondId: number): void {
+  public connectWithUser(firstId: number, secondId: number): void {
     this.store.dispatch(sendRequestToAddConnectedUser({ firstId, secondId }));
   }
 
-  disconnectFromUser(firstId: number, secondId: number): void {
+  public disconnectFromUser(firstId: number, secondId: number): void {
     this.store.dispatch(
       sendRequestToDeleteConnectedUser({ firstId, secondId })
     );
   }
 
-  blockUser(firstId: number, secondId: number): void {
+  public blockUser(firstId: number, secondId: number): void {
     this.store.dispatch(
       sendRequestToAddBlockedUser({ myId: firstId, blockedId: secondId })
     );
   }
 
-  changePage(event: PageEvent): void {
+  public changePage(event: PageEvent): void {
     console.log(event);
     this.store.dispatch(setPaginatorSize({ size: event.pageSize }));
     console.log(event.pageSize);

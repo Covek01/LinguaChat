@@ -10,14 +10,14 @@ import { sendRequestToGetMyUser } from 'src/store/user/user-data/user-data.actio
   styleUrls: ['./feed.component.sass'],
 })
 export class FeedComponent implements OnInit {
-  private _paginationLimit: number = 10;
+  private paginationLimit: number = 10;
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(sendRequestToGetMyUser());
     this.store.dispatch(
       sendRequestToGetPaginatedPostsByMe({
-        limit: this._paginationLimit,
+        limit: this.paginationLimit,
         offset: 0,
       })
     );

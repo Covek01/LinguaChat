@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
-import { sendRequestToGetConnectedUsers, sendRequestToGetConnectedUsersByMe } from 'src/store/user/connections/connections.actions';
-import { sendRequestToGetLanguagesLearning, sendRequestToGetMyLanguagesLearning } from 'src/store/user/languages-learning/languages-learning.actions';
+import { sendRequestToGetConnectedUsersByMe } from 'src/store/user/connections/connections.actions';
+import { sendRequestToGetMyLanguagesLearning } from 'src/store/user/languages-learning/languages-learning.actions';
 import { sendRequestToGetMyUser } from 'src/store/user/user-data/user-data.actions';
 
 @Component({

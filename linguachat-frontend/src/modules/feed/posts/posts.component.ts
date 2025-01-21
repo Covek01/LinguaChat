@@ -14,24 +14,24 @@ import {
   styleUrls: ['./posts.component.sass'],
 })
 export class PostsComponent {
-  private _paginationLimit: number = 10;
-  private _offset: number = 0;
+  private paginationLimit: number = 10;
+  private offset: number = 0;
   public maxPostOnFeedNumber: number = 100;
 
-  constructor(private readonly _store: Store) {}
+  constructor(private readonly store: Store) {}
 
   public userPosts$: Observable<PostWithLikedAndCount[]> =
-    this._store.select(selectAllPosts);
+    this.store.select(selectAllPosts);
 
   public userPostsCount$: Observable<number> =
-    this._store.select(selectPostsTotal);
+    this.store.select(selectPostsTotal);
 
   public loadOlderPosts(): void {
-    this._offset += this._paginationLimit;
-    this._store.dispatch(
+    this.offset += this.paginationLimit;
+    this.store.dispatch(
       sendRequestToAddPaginatedPostsByMe({
-        limit: this._paginationLimit,
-        offset: this._offset,
+        limit: this.paginationLimit,
+        offset: this.offset,
       })
     );
   }

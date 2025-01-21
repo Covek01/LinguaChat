@@ -6,15 +6,12 @@ import { map, Observable } from 'rxjs';
 import { LanguageInterface } from 'src/models/language.types';
 import {
   sendRequestToGetCountByMe,
-  sendRequestToGetFilteredUsers,
-  sendRequestToGetFilteredUsersByMe,
   sendRequestToGetFilteredUsersPaginationByMe,
   setFilteredLanguageId,
 } from 'src/store/filtered-users/filtered-users.actions';
 import { selectPaginatorSize } from 'src/store/filtered-users/filtered-users.selector';
 import {
   selectLanguagesLearning,
-  selectLanguagesLearningEntities,
 } from 'src/store/user/languages-learning/languages-learning.selector';
 
 @Component({
@@ -23,12 +20,12 @@ import {
   styleUrls: ['./filters.component.sass'],
 })
 export class FiltersComponent implements OnDestroy {
-  nativeLanguageForm: FormGroup;
-  availableLanguages: LanguageInterface[] | null = null;
-  paginatorSize: number = 0;
+  public nativeLanguageForm: FormGroup;
+  public availableLanguages: LanguageInterface[] | null = null;
+  private paginatorSize: number = 0;
 
   filteredLanguagesOptionsAfterInput$: Observable<LanguageInterface[]>;
-  languagesLearning$ = this.store.select(selectLanguagesLearning);
+  languagesLearning$: Observable<LanguageInterface[]> = this.store.select(selectLanguagesLearning);
 
   constructor(
     private fb: FormBuilder,
@@ -78,7 +75,7 @@ export class FiltersComponent implements OnDestroy {
     }
   }
 
-  filterUsers(): void {
+  public filterUsers(): void {
     console.log(this.nativeLanguageForm.value);
     if (this.nativeLanguageForm.value.language.id) {
       const languageId = this.nativeLanguageForm.value.language.id;
@@ -96,7 +93,7 @@ export class FiltersComponent implements OnDestroy {
     }
   }
 
-  displayLanguage(language: LanguageInterface): string {
+  public displayLanguage(language: LanguageInterface): string {
     return language ? language.name : '';
   }
 }

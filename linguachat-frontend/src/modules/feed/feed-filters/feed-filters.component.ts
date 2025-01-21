@@ -9,7 +9,7 @@ import { LanguageInterface } from 'src/models/language.types';
   styleUrls: ['./feed-filters.component.sass'],
 })
 export class FeedFiltersComponent {
-  nativeLanguageForm: FormGroup;
+  public nativeLanguageForm: FormGroup;
 
   constructor(private fb: FormBuilder, private readonly store: Store) {
     this.nativeLanguageForm = this.fb.group({
@@ -18,12 +18,11 @@ export class FeedFiltersComponent {
     });
   }
 
-  
-  filterUsers(): void {
+  public filterUsers(): void {
     console.log(this.nativeLanguageForm.value);
   }
 
-  displayLanguage(language: LanguageInterface): string {
+  public displayLanguage(language: LanguageInterface): string {
     return language ? language.name : '';
   }
 }
