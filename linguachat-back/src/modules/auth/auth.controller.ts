@@ -1,8 +1,9 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards, Request } from '@nestjs/common';
+import { Body, Controller, HttpCode, HttpStatus, Post, UseGuards, Request, Res } from '@nestjs/common';
 import { SignInDto, UserInsertDto } from '../../models/user.types';
 import { AuthService } from './auth.service';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 import { LocalAuthGuard } from './local-auth.guard';
+import { Response } from 'express';
 
 @ApiTags("auth")
 @Controller('auth')
@@ -21,9 +22,23 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('login')
     @ApiBody({ type: SignInDto })
-    signIn(@Request() req) {
-        const a = this.authService.login(req.user);
-        return a;
+    async signIn(@Request() req, @Res() response: Response) {
+        try {
+            const token = await this.authService.login(req.user);
+            response.cookie('access_token', token.access_token, {
+                secure: false,
+                sameSite: 'none',
+            });
+            return response.status(200).json({
+                result: 'User logged in',
+                access_token: 'aaaaa'
+            });
+        } catch (ex) {
+            return response.status(500).json({
+                result: 'Error user logging in'
+            });
+        }
+
     }
 
     @HttpCode(HttpStatus.OK)

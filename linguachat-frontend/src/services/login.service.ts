@@ -15,7 +15,7 @@ export class LoginService {
     this.baseAddress = environment.postgresAddress;
   }
 
-  login(username: string, password: string): Observable<JwtToken> {
+  login(username: string, password: string): Observable<any> {
     const loginBody = {
       username: username,
       password: password
@@ -23,6 +23,9 @@ export class LoginService {
     return this.http.post<any>(
       `${this.baseAddress}/auth/login`,
       loginBody,
+      {
+        withCredentials: true
+      }
     )
   }
 

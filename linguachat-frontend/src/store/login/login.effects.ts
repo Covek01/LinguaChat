@@ -10,15 +10,21 @@ import { from, of } from 'rxjs';
 export class LoginEffects {
   constructor(private actions$: Actions, private loginService: LoginService) {}
 
-  login$ = createEffect(() => 
+  login$ = createEffect(() =>
     this.actions$.pipe(
-        ofType(LoginActions.sendLoginRequest),
-        exhaustMap((action) => 
-            this.loginService.login(action.request.username, action.request.password)
-            .pipe(
-                map(response => LoginActions.getLoginResponse({jwtToken: response.access_token})),
-                catchError(error => of(LoginActions.getLoginError({error: 'Login error'})))
+      ofType(LoginActions.sendLoginRequest),
+      exhaustMap((action) =>
+        this.loginService
+          .login(action.request.username, action.request.password)
+          .pipe(
+            map((response) =>
+              LoginActions.getLoginResponse({ jwtToken: response.access_token })
+            ),
+            catchError((error) =>
+              of(LoginActions.getLoginError({ error: 'Login error' }))
             )
+          )
+      )
     )
-    ))
+  );
 }

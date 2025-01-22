@@ -25,7 +25,7 @@ export class LoginFormComponent implements OnDestroy {
     .pipe(filter((token) => !!token))
     .subscribe((token) => {
       console.log('I AM INVOKED MY FRIEND');
-      localStorage.setItem('jwtToken', token);
+      // localStorage.setItem('jwtToken', token);
       this.router.navigate(['/user/myprofile']).then(
         (nav) => {
           console.log(nav); // true if navigation is successful
