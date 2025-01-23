@@ -6,6 +6,6 @@ export const initialStateLoginUser = {
 }
 
 export const initialStateLoginStatus: LoginResponse = {
-    jwtToken: '',
+    jwtToken: false,
     error: '',
 }

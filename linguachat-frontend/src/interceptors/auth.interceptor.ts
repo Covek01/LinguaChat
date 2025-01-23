@@ -3,23 +3,22 @@ import {
   HttpRequest,
   HttpHandler,
   HttpEvent,
-  HttpInterceptor
+  HttpInterceptor,
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { CookieService } from 'ngx-cookie-service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-
   constructor(private cookieService: CookieService) {}
 
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    // const jwtToken = localStorage.getItem('jwtToken');
+  intercept(
+    request: HttpRequest<unknown>,
+    next: HttpHandler
+  ): Observable<HttpEvent<unknown>> {
     const jwtToken = this.cookieService.get('access_token');
-    console.log('JWT TOKEN' + jwtToken);
-    console.log(jwtToken);
 
-    if (jwtToken) {
+    if (jwtToken && jwtToken !== '') {
       const authReq = request.clone({
         setHeaders: { Authorization: `Bearer ${jwtToken}` },
         withCredentials: true,
@@ -28,5 +27,15 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request);
+  }
+
+  isAuthenticated(): boolean {
+    const jwtToken = this.cookieService.get('access_token');
+
+    if (jwtToken) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }

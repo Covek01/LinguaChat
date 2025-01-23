@@ -2,7 +2,7 @@
     <mat-icon>more_vert</mat-icon>
 </button> 
 <mat-menu #actions="matMenu" color="primary">
-    <button mat-menu-item>
+    <button mat-menu-item (click)="handleLogout()">
         <mat-icon color="primary">logout</mat-icon>
         <p>Logout</p>
     </button>

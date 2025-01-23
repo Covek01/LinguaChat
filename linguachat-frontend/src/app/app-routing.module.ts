@@ -13,30 +13,37 @@ const routes: Routes = [
   {
     path: 'auth',
     children: [
-      {path: 'login', component: LoginComponent},
-      {path: 'signup', component: SignupComponent}
+      { path: 'login', component: LoginComponent },
+      { path: 'signup', component: SignupComponent },
     ],
   },
   {
     path: 'user',
     children: [
-      {path: 'myprofile', component: MyprofileComponent},
-      {path: ':id', component: UserProfileComponent}
+      { path: 'myprofile', component: MyprofileComponent },
+      { path: ':id', component: UserProfileComponent },
     ],
   },
   {
-    path: 'search', component: ProfileSearchComponent
+    path: 'search',
+    component: ProfileSearchComponent,
   },
   {
-    path: 'feed', component: FeedComponent
+    path: 'feed',
+    component: FeedComponent,
   },
   {
-    path:'', redirectTo: '/auth/login', pathMatch: 'full'
-  }
+    path: '',
+    redirectTo: '/auth/login',
+    pathMatch: 'full',
+  },
+  { path: '**', redirectTo: '/auth/login' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  imports: [RouterModule.forRoot(routes, {
+    onSameUrlNavigation: 'reload'
+  })],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

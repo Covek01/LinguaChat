@@ -27,4 +27,22 @@ export class LoginEffects {
       )
     )
   );
+
+  logout$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(LoginActions.sendLogoutRequest),
+      exhaustMap((action) =>
+        this.loginService
+          .logout()
+          .pipe(
+            map(() =>
+              LoginActions.getLogoutResponse()
+            ),
+            catchError((error) =>
+              of(LoginActions.getLoginError({ error: 'Login error' }))
+            )
+          )
+      )
+    )
+  );
 }

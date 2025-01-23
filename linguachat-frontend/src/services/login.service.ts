@@ -29,6 +29,16 @@ export class LoginService {
     )
   }
 
+  logout(): Observable<string> {
+    return this.http.delete(
+      `${this.baseAddress}/auth/logout`,
+      {
+        withCredentials: true,
+        responseType: 'text',
+      }
+    )
+  }
+
   signup(user: UserInsertDto): Observable<string> {
     return this.http.post(
       `${this.baseAddress}/auth/register`,

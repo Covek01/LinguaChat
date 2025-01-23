@@ -6,10 +6,14 @@ export const loginReducer = createReducer(
     initialStateLoginStatus,
     on(LoginActions.getLoginResponse, (state, { jwtToken }) => ({
         ...state,
-        jwtToken: jwtToken
+        jwtToken: true
     })),
     on(LoginActions.getLoginError, (state, { error }) => ({
         ...state,
         error: error
-    }))
+    })),
+    on(LoginActions.getLogoutResponse, (state) => ({
+        ...state,
+        jwtToken: false
+    })),
 )

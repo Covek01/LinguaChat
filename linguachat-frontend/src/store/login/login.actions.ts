@@ -1,4 +1,4 @@
-import { createAction, props } from "@ngrx/store"
+import { createAction, emptyProps, props } from "@ngrx/store"
 import { LoginRequest, LoginResponse } from "./login.types"
 import { UserGetDto } from "src/models/user.types"
 
@@ -15,6 +15,16 @@ export const sendLoginRequest = createAction(
 export const getLoginResponse = createAction(
     '[Login] Get Login Response',
     props<{jwtToken: string}>()
+)
+
+export const sendLogoutRequest = createAction(
+    '[Login] Send Logout Request',
+    emptyProps
+)
+
+export const getLogoutResponse = createAction(
+    '[Login] Get Logout Response',
+    emptyProps
 )
 
 export const getLoginError = createAction(
