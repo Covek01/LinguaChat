@@ -28,7 +28,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   constructor(private readonly store: Store, private route: ActivatedRoute) {
     //this.id = Number.parseInt(route.snapshot.paramMap.get('id') ?? '0');
     this.route.params.subscribe((params)=>{
-      console.log('updatedParams', params);
       const currId = Number.parseInt(params['id']);
       this.id = currId;
       this.store.dispatch(sendRequestToGetUser({ id: this.id }));

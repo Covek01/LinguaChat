@@ -1,14 +1,9 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { combineLatest, map, Observable, skip } from 'rxjs';
+import { combineLatest, map, Observable, skip, zip } from 'rxjs';
 import { Flag } from 'src/models/models.type';
-import {
-  User,
-  UserGetDto,
-  UserGetDtoWithUserFlagKey,
-} from 'src/models/user.types';
+import { UserGetDto } from 'src/models/user.types';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
 import { selectFlagsEntities } from 'src/store/flags/flags.selector';
 import { sendRequestToAddBlockedUser } from 'src/store/user/blocked-users/blocked-users.actions';
@@ -18,7 +13,6 @@ import {
   sendRequestToDeleteConnectedUser,
 } from 'src/store/user/connections/connections.actions';
 import { selectConnectionsIds } from 'src/store/user/connections/connections.selector';
-import { sendRequestToGetUser } from 'src/store/user/user-data/user-data.actions';
 import {
   selectMyUser,
   selectUser,
@@ -47,23 +41,37 @@ export class UserProfileTabUserInfoComponent implements OnDestroy, OnInit {
     .select(selectBlockedUserIds)
     .pipe(map((ids) => ids.map((id) => Number(id))));
 
-    
   isUserBlocked$ = combineLatest([this.userInfo$, this.blockedIds$]).pipe(
     map(([userInfo, blockedIds]) => {
       return blockedIds.includes(userInfo.id);
     })
   );
 
-  userInfoCopySubscription = this.userInfo$.subscribe((user) => {
-    this.user = user;
-    if (this.flagsDictionary) {
-      this.userFlagKey = `fi-${
-        this.flagsDictionary![this.user.country]?.key ?? ''
-      }`.toLowerCase();
-    } else {
-      this.store.dispatch(sendRequestToGetFlags());
-    }
-  });
+  userFlagValueSubscription$ = zip([this.userInfo$, this.userCountryKey$])
+    .pipe(
+      map(([userInfo, flagsDictionary]) => {
+        this.user = userInfo;
+        const returnedValue = `fi-${
+          flagsDictionary![this.user.country]?.key ?? ''
+        }`.toLowerCase();
+
+        return returnedValue;
+      })
+    )
+    .subscribe((classValue) => {
+      this.userFlagKey = classValue;
+    });
+
+  // userInfoCopySubscription = this.userInfo$.subscribe((user) => {
+  //   this.user = user;
+  //   if (this.flagsDictionary) {
+  //     this.userFlagKey = `fi-${
+  //       this.flagsDictionary![this.user.country]?.key ?? ''
+  //     }`.toLowerCase();
+  //   } else {
+  //     this.store.dispatch(sendRequestToGetFlags());
+  //   }
+  // });
 
   userCountryKeySubscription = this.userCountryKey$.subscribe((flags) => {
     console.log(flags);
@@ -103,6 +111,6 @@ export class UserProfileTabUserInfoComponent implements OnDestroy, OnInit {
 
   ngOnDestroy(): void {
     this.userCountryKeySubscription.unsubscribe();
-    this.userInfoCopySubscription.unsubscribe();
+    this.userFlagValueSubscription$.unsubscribe();
   }
 }
