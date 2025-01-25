@@ -25,8 +25,14 @@ export class UserProfileComponent implements OnInit, OnDestroy {
   id: number = 0;
   darkMode$ = this.store.select(selectDarkModeEnabled);
 
-  constructor(private readonly store: Store, route: ActivatedRoute) {
-    this.id = Number.parseInt(route.snapshot.paramMap.get('id') ?? '0');
+  constructor(private readonly store: Store, private route: ActivatedRoute) {
+    //this.id = Number.parseInt(route.snapshot.paramMap.get('id') ?? '0');
+    this.route.params.subscribe((params)=>{
+      console.log('updatedParams', params);
+      const currId = Number.parseInt(params['id']);
+      this.id = currId;
+      this.store.dispatch(sendRequestToGetUser({ id: this.id }));
+    });
   }
 
   userSubscription = this.store.select(selectUser).subscribe((user) => {
@@ -45,7 +51,6 @@ export class UserProfileComponent implements OnInit, OnDestroy {
     console.log(this.id);
     const id = this.id;
     this.store.dispatch(sendRequestToGetMyUser());
-    this.store.dispatch(sendRequestToGetUser({ id }));
     this.store.dispatch(sendRequestToGetFlags());
   }
 }
