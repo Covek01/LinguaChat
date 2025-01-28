@@ -34,7 +34,7 @@ const routes: Routes = [
     component: FeedComponent,
   },
   {
-    path: 'chat/:id',
+    path: 'chat',
     component: ChatComponent,
   },
   {

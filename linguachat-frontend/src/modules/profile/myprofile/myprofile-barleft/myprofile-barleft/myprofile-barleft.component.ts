@@ -65,4 +65,15 @@ export class MyprofileBarleftComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.connectedUsersSubscription.unsubscribe();
   }
+
+  handleClickToViewUserProfile(user: UserGetDtoWithUserFlagKey): void {
+    this.router.navigate([`/user`, user.id]).then(
+      (nav) => {
+        console.log(nav); // true if navigation is successful
+      },
+      (err) => {
+        console.log(err); // when there's an error
+      }
+    );
+  }
 }
