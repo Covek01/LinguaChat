@@ -27,6 +27,6 @@ export class ChatBoxComponent {
   userData$: Observable<UserGetDto> = this.store.select(selectUser);
 
   sendMessage(): void {
-    throw new Error('Method not implemented.');
+    this.messageForm.reset();
   }
 }
