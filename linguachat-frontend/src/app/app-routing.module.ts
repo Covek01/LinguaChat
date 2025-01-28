@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, RouterOutlet, Routes } from '@angular/router';
+import { ChatComponent } from 'src/modules/chat/chat/chat.component';
 import { FeedComponent } from 'src/modules/feed/feed/feed.component';
 import { LoginComponent } from 'src/modules/login/login/login.component';
 import { ProfileSearchComponent } from 'src/modules/profile-search/profile-search/profile-search.component';
@@ -31,6 +32,10 @@ const routes: Routes = [
   {
     path: 'feed',
     component: FeedComponent,
+  },
+  {
+    path: 'chat/:id',
+    component: ChatComponent,
   },
   {
     path: '',

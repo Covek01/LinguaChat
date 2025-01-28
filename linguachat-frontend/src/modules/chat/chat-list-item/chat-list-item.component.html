@@ -1,0 +1,13 @@
+<div class="flex justify-around">
+    <mat-list-item>
+        <mat-icon matListItemIcon color="primary">person</mat-icon>
+        <p matListItemTitle>{{user?.username ?? 'unknown'}}</p>
+        <div matListItemLine>
+            <span class="fi" [ngClass]="user?.userFlagKey ?? ''"></span>
+            <span class="ml-1">{{user?.country ?? ''}}</span>
+        </div>
+    </mat-list-item>
+    <button mat-flat-button color="primary" class="self-center">
+        Chat
+    </button>
+</div>

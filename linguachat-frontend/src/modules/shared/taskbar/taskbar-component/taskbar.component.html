@@ -6,10 +6,10 @@
     </mat-slide-toggle> -->
     <div *ngIf="isUserLoggedIn" class="space-x-2">
         <div class="flex space-x-2 align-middle">
-
         </div>
         <app-profile-search-button></app-profile-search-button>
         <app-feed-button></app-feed-button>
+        <app-chat-button></app-chat-button>
         <app-actions (toggleSidenav)="requestToggleSidenav()"/>
     </div>
 </mat-toolbar>

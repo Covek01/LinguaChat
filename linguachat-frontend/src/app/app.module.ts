@@ -26,6 +26,7 @@ import { UserProfileModule } from 'src/modules/profile/user-profile/user-profile
 import { ProfileSearchModule } from 'src/modules/profile-search/profile-search.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FeedModule } from 'src/modules/feed/feed.module';
+import { ChatModule } from 'src/modules/chat/chat.module';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { FeedModule } from 'src/modules/feed/feed.module';
     UserProfileModule,
     ProfileSearchModule,
     FeedModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    ChatModule,
   ],
   providers: [
     CookieService,

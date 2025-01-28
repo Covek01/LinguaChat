@@ -15,9 +15,10 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import { ProfileSearchButtonComponent } from './profile-search-button/profile-search-button.component';
 import { FeedButtonComponent } from './feed-button/feed-button.component';
+import { ChatButtonComponent } from './chat-button/chat-button.component';
 
 @NgModule({
-  declarations: [TaskbarComponent, NotificationsComponent, ActionsComponent, ProfileSearchButtonComponent, FeedButtonComponent],
+  declarations: [TaskbarComponent, NotificationsComponent, ActionsComponent, ProfileSearchButtonComponent, FeedButtonComponent, ChatButtonComponent],
   imports: [
     CommonModule,
     MatToolbarModule,
