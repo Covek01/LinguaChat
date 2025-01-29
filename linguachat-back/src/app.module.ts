@@ -15,6 +15,8 @@ import { jwtConfig } from 'config/jwt-config';
 import { MailModule } from './mail/mail.module';
 import { ConnectionModule } from './modules/connection/connection.module';
 import { PassportModule } from '@nestjs/passport';
+import { RedisModule } from '@nestjs-modules/ioredis';
+import { configRedis } from 'config/redis.config';
 
 
 
