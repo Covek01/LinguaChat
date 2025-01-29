@@ -15,18 +15,24 @@ import { jwtConfig } from 'config/jwt-config';
 import { MailModule } from './mail/mail.module';
 import { ConnectionModule } from './modules/connection/connection.module';
 import { PassportModule } from '@nestjs/passport';
-import { RedisModule } from '@nestjs-modules/ioredis';
 import { configRedis } from 'config/redis.config';
-
-
-
+import { ChatModule } from './modules/chat/chat.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(configFile), 
-      JwtModule.registerAsync(jwtConfig),
-      TypeOrmModule.forRoot({...configTypeOrm, name: 'postgresConnection'}),
-      PassportModule,
-      CommentModule, PostModule, LanguageModule, UserModule, AuthModule, MailModule, ConnectionModule],
+  imports: [
+    ConfigModule.forRoot(configFile),
+    JwtModule.registerAsync(jwtConfig),
+    TypeOrmModule.forRoot({ ...configTypeOrm, name: 'postgresConnection' }),
+    PassportModule,
+    CommentModule,
+    PostModule,
+    LanguageModule,
+    UserModule,
+    AuthModule,
+    MailModule,
+    ConnectionModule,
+    ChatModule
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

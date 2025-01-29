@@ -1,6 +1,6 @@
 export interface Message {
-    from: string,
-    to: string,
+    fromId: number,
+    toId: number,
     room: string,
     message: string,
 }

@@ -14,11 +14,11 @@ async function bootstrap() {
   });
 
   const config = new DocumentBuilder()
-  .setTitle('Linguachat API')
-  .setDescription('API')
-  .setVersion('1.0')
-  .addTag('Backend')
-  .build();
+    .setTitle('Linguachat API')
+    .setDescription('API')
+    .setVersion('1.0')
+    .addTag('Backend')
+    .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
 
