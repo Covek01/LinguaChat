@@ -7,8 +7,9 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Message } from 'src/models/message.types';
 import { ChatService } from './chat.service';
+import { chatConfig }  from './chat.config';
 
-@WebSocketGateway()
+@WebSocketGateway(chatConfig.port)
 export class ChatGateway {
   @WebSocketServer()
   server: Server;
@@ -20,7 +21,7 @@ export class ChatGateway {
     this.server
       .to(this.chatService.getKeyOfConnectedUser(message.toId))
       .emit('receive-message', message);
-      
+
     return message;
   }
 
