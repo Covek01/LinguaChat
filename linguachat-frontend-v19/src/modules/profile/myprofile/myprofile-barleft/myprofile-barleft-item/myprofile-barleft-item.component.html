@@ -1,0 +1,7 @@
+    <button mat-button matTooltip="Click to see the user's profile"
+    matTooltipPosition="right" (click)="handleClickToViewUserProfile()">
+            <mat-icon color="primary" class="ml-0">person</mat-icon>
+            <span class="mr-5">{{user.username}}</span>
+            <span class="fi" [ngClass]="user.userFlagKey"></span>
+            <span class="ml-1">{{this.user.country}}</span>
+    </button>

@@ -1,0 +1,4 @@
+<div [ngClass]="{'dark-theme' : darkMode$ | async}">
+    <app-taskbar [isUserLoggedIn]="true"></app-taskbar>
+    <app-user-profile-body></app-user-profile-body>
+</div>

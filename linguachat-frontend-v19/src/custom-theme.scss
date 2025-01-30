@@ -1,0 +1,57 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$linguachat-front-primary: mat.define-palette(mat.$deep-purple-palette, A200);
+$linguachat-front-accent: mat.define-palette(mat.$yellow-palette, A700, A200, A400);
+$linguachat-front-primary-dark: mat.define-palette(mat.$deep-purple-palette, A200);
+$linguachat-front-accent-dark: mat.define-palette(mat.$yellow-palette, A700, A200, A400);
+
+
+
+// The warn palette is optional (defaults to red).
+$linguachat-front-warn: mat.define-palette(mat.$red-palette, A700);
+
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$linguachat-light-theme: mat.define-light-theme((
+  color: (
+    primary: $linguachat-front-primary,
+    accent: $linguachat-front-accent,
+    warn: $linguachat-front-warn,
+  ),
+));
+
+
+$linguachat-dark-theme: mat.define-dark-theme((
+  color: (
+    primary: $linguachat-front-primary-dark,
+    accent: $linguachat-front-accent-dark,
+    warn: $linguachat-front-warn,
+  ),
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($linguachat-light-theme);
+
+.dark-theme {
+  background-color: #141414; 
+  color: #F5F5F5; 
+  @include mat.all-component-colors($linguachat-dark-theme);
+}
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
