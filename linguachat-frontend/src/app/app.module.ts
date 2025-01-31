@@ -27,6 +27,7 @@ import { ProfileSearchModule } from 'src/modules/profile-search/profile-search.m
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FeedModule } from 'src/modules/feed/feed.module';
 import { ChatModule } from 'src/modules/chat/chat.module';
+import { ChatSocket } from 'src/sockets/chat.socket';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { ChatModule } from 'src/modules/chat/chat.module';
     CookieService,
     provideHttpClient(),
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    ChatSocket,
   ],
   bootstrap: [AppComponent]
 })

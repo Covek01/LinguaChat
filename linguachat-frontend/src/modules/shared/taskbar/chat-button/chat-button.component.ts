@@ -10,7 +10,7 @@ export class ChatButtonComponent {
   constructor(private readonly router: Router) {}
 
   navigateChat(): void {
-    this.router.navigate([`/chat/0`]).then(
+    this.router.navigate([`/chat`]).then(
       (nav) => {
         console.log(nav);
       },
