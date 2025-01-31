@@ -21,32 +21,33 @@ export class ChatGateway {
   constructor(private readonly chatService: ChatService) {}
 
   @SubscribeMessage('send-message')
-  handleSendMessage(client: Socket, @MessageBody() message: Message): Message {
+  handleSendMessage(client: Socket, message: Message): Message {
     const receiver: Socket = this.server.sockets.sockets.get(
       this.chatService.getKeyOfConnectedUser(message.toId),
     );
 
-    this.server.to(receiver.id).emit('receive-message', message);
+    receiver.emit('receive-message', message);
+    client.emit('sent-message', message);
 
     return message;
   }
 
   @SubscribeMessage('join')
-  handleJoin(client: Socket, @MessageBody() userId: number): void {
+  handleJoin(client: Socket, userId: number): void {
     try {
       this.server.sockets.sockets.set(
         this.chatService.getKeyOfConnectedUser(userId),
         client,
       );
-      console.log('CALLED')
-      this.server.emit('joined');
+
+      client.emit('joined', userId);
     } catch (err) {
-      this.server.to(client.id).emit('error', err);
+      client.emit('error', err);
     }
   }
 
   @SubscribeMessage('leave')
-  handleLeave(client: Socket, @MessageBody() userId: number): string {
+  handleLeave(client: Socket, userId: number): string {
     this.server.sockets.sockets.delete(
       this.chatService.getKeyOfConnectedUser(userId),
     );

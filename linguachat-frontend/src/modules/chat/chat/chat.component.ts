@@ -1,11 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { interval, Observable, takeUntil } from 'rxjs';
+import { interval, Observable, skip, takeUntil } from 'rxjs';
 import { ChatService } from 'src/services/chat.service';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
 import { sendRequestToGetConnectedUsersByMe } from 'src/store/user/connections/connections.actions';
-import { sendRequestToGetUser } from 'src/store/user/user-data/user-data.actions';
+import {
+  sendRequestToGetMyUser,
+  sendRequestToGetUser,
+} from 'src/store/user/user-data/user-data.actions';
+import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
 
 @Component({
   selector: 'app-chat',
@@ -33,7 +37,6 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.chatService.disconnect();
-
   }
 
   // emitEveryFiveSecs$: Observable<number> = interval(5000);
@@ -50,7 +53,15 @@ export class ChatComponent implements OnInit, OnDestroy {
   //   }
   // );
 
+  joinSubscription$ = this.store
+    .select(selectMyUser)
+    .pipe(skip(1))
+    .subscribe((user) => {
+      this.chatService.join(user.id);
+    });
+
   ngOnInit(): void {
+    this.store.dispatch(sendRequestToGetMyUser());
     this.store.dispatch(sendRequestToGetConnectedUsersByMe());
     this.store.dispatch(sendRequestToGetFlags());
     this.chatService.connect();

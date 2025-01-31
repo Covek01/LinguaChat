@@ -28,6 +28,14 @@ export class ChatService {
     return message;
   }
 
+  join(userId: number) {
+    this.socket.emit('join', userId);
+  }
+
+  leave(userId: number) {
+    this.socket.emit('leave', userId);
+  }
+
   isMessage(message: Message | string): boolean {
     return typeof message !== 'string' && 'toId' in message; 
   }
