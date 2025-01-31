@@ -2,8 +2,10 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { filter, Observable } from 'rxjs';
+import { Message } from 'src/models/message.types';
 import { UserGetDto } from 'src/models/user.types';
+import { ChatService } from 'src/services/chat.service';
 import { selectMyUser, selectUser } from 'src/store/user/user-data/user-data.selector';
 
 @Component({
@@ -18,7 +20,8 @@ export class ChatBoxComponent implements OnDestroy {
   constructor(
     private readonly store: Store,
     private fb: FormBuilder,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly chatService: ChatService
   ) {
     this.messageForm = this.fb.group({
       text: ['', [Validators.required]],
@@ -27,6 +30,14 @@ export class ChatBoxComponent implements OnDestroy {
 
 
   userData$: Observable<UserGetDto> = this.store.select(selectUser);
+
+
+
+  receivedMessages$ = this.chatService.onEvent('receive-message').pipe(
+    filter((message: Message | string) => this.chatService.isMessage(message))
+    
+  )
+
 
 
   myDataSubscription$ = this.store.select(selectMyUser).subscribe(user => {

@@ -27,4 +27,8 @@ export class ChatService {
 
     return message;
   }
+
+  isMessage(message: Message | string): boolean {
+    return typeof message !== 'string' && 'toId' in message; 
+  }
 }

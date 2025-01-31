@@ -15,13 +15,12 @@ import { selectAllConnections } from 'src/store/user/connections/connections.sel
 export class ChatListComponent {
   constructor(private readonly store: Store) {}
 
+  //flags
   connectedUsers$: Observable<UserGetDto[]> =
     this.store.select(selectAllConnections);
 
   flagsDictionary$: Observable<Dictionary<Flag>> =
     this.store.select(selectFlagsEntities);
-
-
 
   conectedUsersWithFlags$: Observable<UserGetDtoWithUserFlagKey[]> =
     combineLatest([this.connectedUsers$, this.flagsDictionary$]).pipe(
@@ -36,4 +35,6 @@ export class ChatListComponent {
     );
 
 
+
+    
 }
