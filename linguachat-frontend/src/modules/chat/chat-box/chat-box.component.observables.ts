@@ -1,4 +1,5 @@
 import { Injectable, OnDestroy } from '@angular/core';
+import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import {
   combineLatest,
@@ -11,8 +12,12 @@ import {
   tap,
 } from 'rxjs';
 import { Message } from 'src/models/message.types';
-import { UserGetDto } from 'src/models/user.types';
+import { User, UserGetDto } from 'src/models/user.types';
 import { ChatService } from 'src/services/chat.service';
+import { addMessage } from 'src/store/chat/chats.actions';
+import { selectChatEntities } from 'src/store/chat/chats.selector';
+import { chatsAdapter } from 'src/store/chat/chats.state';
+import { Chat } from 'src/store/chat/chats.types';
 import { selectAllBlockedUsers } from 'src/store/user/blocked-users/blocked-users.selector';
 import { selectAllConnections } from 'src/store/user/connections/connections.selector';
 import {
@@ -23,6 +28,7 @@ import {
 @Injectable()
 export class ChatBoxObservables implements OnDestroy {
   public myUserInfo: UserGetDto = new UserGetDto();
+  public userData: UserGetDto = new UserGetDto();
 
   constructor(
     private readonly store: Store,
@@ -40,6 +46,16 @@ export class ChatBoxObservables implements OnDestroy {
     selectAllBlockedUsers
   );
 
+  public messages$: Observable<Message[]> = this.store
+    .select(selectChatEntities)
+    .pipe(
+      map((chatDictionary: Dictionary<Chat>): Message[] => {
+        const chat: Chat | undefined = chatDictionary[this.userData.id];
+
+        return chat?.messages ?? [];
+      })
+    );
+
   //created observables
 
   public userNotConnected$: Observable<UserGetDto> = combineLatest([
@@ -48,7 +64,7 @@ export class ChatBoxObservables implements OnDestroy {
   ]).pipe(
     skipWhile(([userData, connectedUsers]) => {
       return connectedUsers.length < 1 || userData.id === 0;
-    }), 
+    }),
     skipWhile(([userData, connectedUsers]) => {
       const isUserConnected: boolean = connectedUsers
         .map((user) => user.id)
@@ -91,18 +107,30 @@ export class ChatBoxObservables implements OnDestroy {
   );
 
   private newMessagesSubscription$ = this.newMessages$.subscribe((message) => {
-    //add message to ng store
+    const userIdToAddMessage =
+      message.toId === this.userData.id ? message.toId : message.fromId;
+    this.store.dispatch(
+      addMessage({ userId: userIdToAddMessage, message: message })
+    );
   });
 
-  private sentMessagesSubscription$ = this.sentMessages$.subscribe((message) => {
-    //add message to ng store
-  });
+  private sentMessagesSubscription$ = this.sentMessages$.subscribe(
+    (message) => {
+      //add message to ng store
+    }
+  );
 
   private myDataSubscription$ = this.store
     .select(selectMyUser)
-    .subscribe((user) => {
+    .subscribe((user: UserGetDto) => {
       this.myUserInfo = user;
     });
+
+  private userDataSubscription$ = this.userData$.subscribe(
+    (userData: UserGetDto) => {
+      this.userData = userData;
+    }
+  );
 
   ngOnDestroy(): void {
     this.myDataSubscription$.unsubscribe();

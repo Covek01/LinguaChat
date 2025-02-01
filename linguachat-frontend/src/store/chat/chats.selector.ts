@@ -6,19 +6,19 @@ import { ChatsState } from './chats.types';
 const { selectIds, selectEntities, selectAll, selectTotal } =
   chatsAdapter.getSelectors();
 
-export const commentState = createFeatureSelector<ChatsState>('chats');
+export const chatsState = createFeatureSelector<ChatsState>('chats');
 
 // select the array of comments ids
-export const selectCommentIds = createSelector(commentState, selectIds);
+export const selectChatIds = createSelector(chatsState, selectIds);
 
 // select the dictionary of comment entities
-export const selectCommentEntities = createSelector(
-  commentState,
+export const selectChatEntities = createSelector(
+  chatsState,
   selectEntities
 );
 
 // select the array of comments
-export const selectAllComments = createSelector(commentState, selectAll);
+export const selectAllChats = createSelector(chatsState, selectAll);
 
 // select the total comments count
-export const selectCommentsTotal = createSelector(commentState, selectTotal);
+export const selectChatsTotal = createSelector(chatsState, selectTotal);

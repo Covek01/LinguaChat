@@ -2,27 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import {
-  combineLatest,
-  filter,
-  map,
-  merge,
-  Observable,
-  pluck,
-  skipWhile,
-  takeUntil,
-  takeWhile,
-  tap,
-} from 'rxjs';
 import { Message } from 'src/models/message.types';
-import { User, UserGetDto } from 'src/models/user.types';
 import { ChatService } from 'src/services/chat.service';
-import { selectAllBlockedUsers } from 'src/store/user/blocked-users/blocked-users.selector';
-import { selectAllConnections } from 'src/store/user/connections/connections.selector';
-import {
-  selectMyUser,
-  selectUser,
-} from 'src/store/user/user-data/user-data.selector';
 import { ChatBoxObservables } from './chat-box.component.observables';
 
 @Component({
@@ -31,7 +12,7 @@ import { ChatBoxObservables } from './chat-box.component.observables';
   styleUrls: ['./chat-box.component.sass'],
   providers: [ChatBoxObservables],
 })
-export class ChatBoxComponent implements OnInit, OnDestroy {
+export class ChatBoxComponent {
   public messageForm: FormGroup;
 
   constructor(
@@ -45,13 +26,7 @@ export class ChatBoxComponent implements OnInit, OnDestroy {
       text: ['', [Validators.required]],
     });
   }
-  ngOnDestroy(): void {
-    
-  }
 
-  ngOnInit(): void {
-    // Subscribe to sentMessages$ to trigger the observable
-  }
 
 
   sendMessage(receiverId: number): void {

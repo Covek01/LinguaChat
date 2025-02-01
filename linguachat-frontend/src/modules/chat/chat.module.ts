@@ -17,9 +17,10 @@ import { ChatListItemComponent } from './chat-list-item/chat-list-item.component
 import { MatListModule } from '@angular/material/list';
 import { ChatBoxObservables } from './chat-box/chat-box.component.observables';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MessageListComponent } from './message-list/message-list.component';
 
 @NgModule({
-  declarations: [ChatComponent, ChatListComponent, ChatBoxComponent, ChatListItemComponent],
+  declarations: [ChatComponent, ChatListComponent, ChatBoxComponent, ChatListItemComponent, MessageListComponent],
   imports: [
     CommonModule,
     TaskbarModule,

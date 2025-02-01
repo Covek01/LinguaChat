@@ -1,6 +1,5 @@
 import { createEntityAdapter } from '@ngrx/entity';
 import { Chat, ChatsState } from './chats.types';
-import { select } from '@ngrx/store';
 
 
 export function selectConnectedUserId(chat: Chat) {

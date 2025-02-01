@@ -1,11 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { interval, Observable, skip, takeUntil } from 'rxjs';
+import { interval, map, Observable, skip, skipWhile, takeUntil } from 'rxjs';
+import { UserGetDto } from 'src/models/user.types';
 import { ChatService } from 'src/services/chat.service';
+import { sendRequestToGetMessages } from 'src/store/chat/chats.actions';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
 import { sendRequestToGetBlockedUsers } from 'src/store/user/blocked-users/blocked-users.actions';
 import { sendRequestToGetConnectedUsersByMe } from 'src/store/user/connections/connections.actions';
+import {
+  selectAllConnections,
+  selectConnectionsIds,
+} from 'src/store/user/connections/connections.selector';
 import {
   sendRequestToGetMyUser,
   sendRequestToGetUser,
@@ -62,11 +68,27 @@ export class ChatComponent implements OnInit, OnDestroy {
       this.chatService.join(user.id);
     });
 
+  getChatsSubscription$ = this.store
+    .select(selectAllConnections)
+    .pipe(
+      skipWhile((connectedUserIds) => {
+        return connectedUserIds.length === 0;
+      })
+    )
+    .subscribe((connectedUsers) => {
+      const connectedusersIds = connectedUsers.map((user) => user.id);
+
+      this.store.dispatch(
+        sendRequestToGetMessages({ connectedUsersIds: connectedusersIds })
+      );
+    });
+
   ngOnInit(): void {
     this.store.dispatch(sendRequestToGetMyUser());
     this.store.dispatch(sendRequestToGetConnectedUsersByMe());
     this.store.dispatch(sendRequestToGetBlockedUsers());
     this.store.dispatch(sendRequestToGetFlags());
+
     this.chatService.connect();
 
     this.route.queryParams.subscribe((params) => {
