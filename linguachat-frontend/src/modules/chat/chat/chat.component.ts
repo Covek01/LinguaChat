@@ -37,6 +37,7 @@ export class ChatComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.chatService.disconnect();
+    this.joinSubscription$.unsubscribe();
   }
 
   // emitEveryFiveSecs$: Observable<number> = interval(5000);

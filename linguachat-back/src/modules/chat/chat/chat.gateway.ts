@@ -25,8 +25,10 @@ export class ChatGateway {
     const receiver: Socket = this.server.sockets.sockets.get(
       this.chatService.getKeyOfConnectedUser(message.toId),
     );
-
-    receiver.emit('receive-message', message);
+    console.log(receiver);
+    if (receiver !== null && receiver !== undefined) {
+      receiver.emit('receive-message', message);
+    }
     client.emit('sent-message', message);
 
     return message;
