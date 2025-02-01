@@ -24,10 +24,7 @@ export class AuthInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     const jwtToken = this.cookieService.get('access_token');
-    console.log('TOKEENNNNNNN');
-    console.log(jwtToken);
 
-    console.log(request.url);
     // if (
     //   !jwtToken &&
     //   request.url !== this.loginRequestUrl &&

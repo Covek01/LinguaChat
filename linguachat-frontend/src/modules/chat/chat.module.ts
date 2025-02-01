@@ -16,6 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { ChatListItemComponent } from './chat-list-item/chat-list-item.component';
 import { MatListModule } from '@angular/material/list';
 import { ChatBoxObservables } from './chat-box/chat-box.component.observables';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [ChatComponent, ChatListComponent, ChatBoxComponent, ChatListItemComponent],
@@ -32,7 +33,8 @@ import { ChatBoxObservables } from './chat-box/chat-box.component.observables';
     FormsModule,
     ReactiveFormsModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatToolbarModule
   ],
 
 })

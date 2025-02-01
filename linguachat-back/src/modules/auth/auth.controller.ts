@@ -40,7 +40,7 @@ export class AuthController {
         secure: true,
         sameSite: 'none',
         httpOnly: false,
-        maxAge: 1000 * 10
+        maxAge: 1000 * 60 * 360
       });
 
       return response.status(200).json({
