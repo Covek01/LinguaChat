@@ -37,8 +37,10 @@ export class AuthController {
     try {
       const token = await this.authService.login(req.user);
       response.cookie('access_token', token.access_token, {
-        secure: false,
+        secure: true,
         sameSite: 'none',
+        httpOnly: false,
+        maxAge: 1000 * 10
       });
 
       return response.status(200).json({

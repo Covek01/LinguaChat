@@ -5,7 +5,6 @@ import { mailermodule } from './mailermodule.config';
 
 @Module({
   imports: [
-    MailerModule.forRoot(mailermodule),
   ],
   providers: [MailService],
   exports: [MailService], // 👈 export for DI

@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { interval, Observable, skip, takeUntil } from 'rxjs';
 import { ChatService } from 'src/services/chat.service';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
+import { sendRequestToGetBlockedUsers } from 'src/store/user/blocked-users/blocked-users.actions';
 import { sendRequestToGetConnectedUsersByMe } from 'src/store/user/connections/connections.actions';
 import {
   sendRequestToGetMyUser,
@@ -64,6 +65,7 @@ export class ChatComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(sendRequestToGetMyUser());
     this.store.dispatch(sendRequestToGetConnectedUsersByMe());
+    this.store.dispatch(sendRequestToGetBlockedUsers());
     this.store.dispatch(sendRequestToGetFlags());
     this.chatService.connect();
 

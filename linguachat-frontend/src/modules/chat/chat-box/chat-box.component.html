@@ -1,5 +1,5 @@
 
-<div class="h-9/10" *ngIf="this.userData$ | async as userData; else loading">
+<div class="h-9/10" *ngIf="this.chatBoxObservables.userData$| async as userData; else loading">
     <div class="flex justify-between">
         <div class="flex">
             <mat-icon color="primary">person</mat-icon>
