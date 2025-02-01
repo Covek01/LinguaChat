@@ -1,48 +1,49 @@
 import { createAction, emptyProps, props } from '@ngrx/store';
 import { CommentGetDto, CommentInsertDto, CommentInterface } from 'src/models/comment.types';
+import { Message } from 'src/models/message.types';
 import { PostInsertDto, PostInterface } from 'src/models/post.types';
 
 //get comments of post
-export const sendRequestToGetComments = createAction(
+export const sendRequestToGetMessages = createAction(
   '[Chat] Send Request To Get Chats',
-  props<{ postId: number }>()
+  props<{ connectedUsersIds: number[] }>()
 );
 
-export const getResponseForComments = createAction(
+export const getResponseForMessages = createAction(
   '[Chat] Get Response For Getting Chats',
   props<{ comments: CommentGetDto[] }>()
 );
 
-//add comment
-export const sendRequestToAddComment = createAction(
-  '[Chat] Send Request To Add Message',
-  props<{ commentInsert: CommentInsertDto }>()
+//add message
+export const addMessage = createAction(
+  '[Chat] Add Message',
+  props<{ userId: number, message: Message }>()
 );
 
 export const getResponseToAddComment = createAction(
-  '[Chat] Get Response For Adding Comment Of Post',
+  '[Chat] Get Response For Adding Messages',
   props<{ comment: CommentGetDto }>()
 );
 
-//delete comment
+//load older messages
 export const sendRequestToDeleteComment = createAction(
-  '[Chat] Send Request To Delete Comment',
-  props<{ commentId: number }>()
+  '[Chat] Send Request Load Older Messages',
+  props<{ userId: number, offset: number, limit: number }>()
 );
 
 export const getResponseToDeleteComment = createAction(
-  '[Chat] Get Response For Deleting Comment',
-  props<{ commentId: number }>()
+  '[Chat] Get Response For Loading Older Messages',
+  props<{ messages: Message[] }>()
 );
 
 //delete comments of post
 export const sendRequestToDeleteCommentsOfPost = createAction(
-  '[Chat] Send Request To Delete Comments Of Post',
+  '[Chat] Send Request To Delete Message',
   props<{ postId: number }>()
 );
 
 export const getResponseToDeleteCommentsOfPost = createAction(
-  '[Chat] Get Response For Deleting Comments Of Post',
+  '[Chat] Get Response For Deleting Message',
   props<{ commentId: number }>()
 );
 

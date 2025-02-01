@@ -48,7 +48,8 @@
                 class=""/>
             </mat-form-field>
         </form>
-        <button mat-flat-button color="primary" (click)="sendMessage(userData.id)">Send</button>
+        <button mat-flat-button color="primary" [disabled]="messageForm.invalid"
+        (click)="sendMessage(userData.id)">Send</button>
         </mat-card-actions>
     </mat-card>
 </div>

@@ -1,16 +1,29 @@
 import { createReducer, on } from '@ngrx/store';
-import * as CommentActions from './chats.actions';
-import { PostWithLikedAndCount } from 'src/models/post.types';
+import * as ChatsActions from './chats.actions';
+import { chatsAdapter, initialStateChats } from './chats.state';
+import { Chat } from './chats.types';
 
-// export const chatsReducer = createReducer(
-//   initialStateUserComments,
-//   on(CommentActions.getResponseForComments, (state, { comments }) => {
-//     return commentsAdapter.addMany(comments, state);
-//   }),
-//   on(CommentActions.getResponseToAddComment, (state, { comment }) => {
-//     return commentsAdapter.addOne(comment, state);
-//   }),
-//   on(CommentActions.getResponseToDeleteComment, (state, { commentId }) => {
-//     return commentsAdapter.removeOne(commentId, state);
-//   })
-// );
+export const chatsReducer = createReducer(
+  initialStateChats,
+  on(ChatsActions.addMessage, (state, { userId, message }) => {
+    const chat = state.entities[userId];
+    if (chat === undefined) {
+      return {
+        ...state,
+      };
+    }
+
+    const newChat: Chat = {
+      ...chat,
+      messages: [...chat.messages, message],
+    };
+    
+    return chatsAdapter.updateOne(
+      {
+        id: userId,
+        changes: newChat,
+      },
+      state
+    );
+  })
+);

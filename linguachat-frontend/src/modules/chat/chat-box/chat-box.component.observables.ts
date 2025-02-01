@@ -47,13 +47,19 @@ export class ChatBoxObservables implements OnDestroy {
     this.connectedUsers$,
   ]).pipe(
     skipWhile(([userData, connectedUsers]) => {
+      return connectedUsers.length < 1 || userData.id === 0;
+    }), 
+    skipWhile(([userData, connectedUsers]) => {
       const isUserConnected: boolean = connectedUsers
         .map((user) => user.id)
         .includes(userData.id);
 
       return isUserConnected;
     }),
-    map(([userData, connectedUsers]) => userData)
+    map(([userData, connectedUsers]) => {
+      const a = 1;
+      return userData;
+    })
   );
 
   public receivedMessages$: Observable<Message> = this.chatService
