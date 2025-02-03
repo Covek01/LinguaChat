@@ -17,12 +17,17 @@ import { ConnectionModule } from './modules/connection/connection.module';
 import { PassportModule } from '@nestjs/passport';
 import { configRedis } from 'config/redis.config';
 import { ChatModule } from './modules/chat/chat.module';
+import { RedisModule } from '@nestjs-modules/ioredis';
 
 @Module({
   imports: [
     ConfigModule.forRoot(configFile),
     JwtModule.registerAsync(jwtConfig),
     TypeOrmModule.forRoot({ ...configTypeOrm, name: 'postgresConnection' }),
+    RedisModule.forRoot({
+      type: 'single',
+      url: 'redis://localhost:6379',
+    }),
     PassportModule,
     CommentModule,
     PostModule,
