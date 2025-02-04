@@ -6,6 +6,10 @@ export function selectConnectedUserId(chat: Chat) {
   return chat.connectedUserId;
 }
 
+export function selectChatKey(chat: Chat) {
+  return chat.chatKey;
+}
+
 export const chatsAdapter = createEntityAdapter<Chat>({
   selectId: selectConnectedUserId
 });

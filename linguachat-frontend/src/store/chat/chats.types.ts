@@ -5,6 +5,7 @@ import { PostInterface } from 'src/models/post.types';
 
 export interface Chat {
   connectedUserId: number;
+  chatKey: string;
   messages: Message[];
 }
 

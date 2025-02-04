@@ -5,12 +5,13 @@ import { Store } from '@ngrx/store';
 import { Message } from 'src/models/message.types';
 import { ChatService } from 'src/services/chat.service';
 import { ChatBoxObservables } from './chat-box.component.observables';
+import { ChatUtils } from '../chat.utils';
 
 @Component({
   selector: 'app-chat-box',
   templateUrl: './chat-box.component.html',
   styleUrls: ['./chat-box.component.sass'],
-  providers: [ChatBoxObservables],
+  providers: [ChatBoxObservables, ChatUtils],
 })
 export class ChatBoxComponent {
   public messageForm: FormGroup;
@@ -20,25 +21,31 @@ export class ChatBoxComponent {
     private fb: FormBuilder,
     private readonly router: Router,
     private readonly chatService: ChatService,
-    public chatBoxObservables: ChatBoxObservables
+    public chatBoxObservables: ChatBoxObservables,
+    private readonly chatUtils: ChatUtils
   ) {
     this.messageForm = this.fb.group({
       text: ['', [Validators.required]],
     });
   }
 
-
-
   sendMessage(receiverId: number): void {
     if (!this.chatBoxObservables.myUserInfo) {
       return;
     }
 
+    const roomName = this.chatUtils.getNameOfRoom(
+      this.chatBoxObservables.myUserInfo.username,
+      this.chatBoxObservables.userData.username
+    );
+
+    console.log(roomName);
+
     const senderId = this.chatBoxObservables.myUserInfo?.id ?? 0;
     const messageToSend: Message = {
       fromId: senderId,
       toId: receiverId,
-      room: '',
+      room: roomName,
       message: this.messageForm.value.text,
     };
 

@@ -9,8 +9,6 @@ import {
   PostUpdateDto,
   PostWithLikedAndCount,
 } from 'src/models/post.types';
-import { emptyProps } from '@ngrx/store';
-import { NgTemplateOutlet } from '@angular/common';
 
 @Injectable({
   providedIn: 'root',
