@@ -48,33 +48,16 @@ export class ChatBoxObservables implements OnDestroy {
 
   public chatDictionary$ = this.store.select(selectChatEntities);
 
+
+  //created observables
+
   public messages$ = combineLatest([this.userData$, this.chatDictionary$]).pipe(
     map(([userData, chatDictionary]): Message[] => {
-      console.log(userData);
-
       const chat: Chat | undefined = chatDictionary[userData.id];
-
-      console.log(chat);
 
       return chat?.messages ?? [];
     })
   );
-
-  // public messages$: Observable<Message[]> = this.store
-  //   .select(selectChatEntities)
-  //   .pipe(
-  //     map((chatDictionary: Dictionary<Chat>): Message[] => {
-  //       console.log(this.userData);
-
-  //       const chat: Chat | undefined = chatDictionary[this.userData.id];
-
-  //       console.log(chat);
-
-  //       return chat?.messages ?? [];
-  //     })
-  //   );
-
-  //created observables
 
   public userNotConnected$: Observable<UserGetDto> = combineLatest([
     this.userData$,

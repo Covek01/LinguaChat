@@ -1,5 +1,4 @@
-<div class="p-4">
-    <p *ngFor="let message of messages">
-        {{message.message}}
-    </p>
+<div class="p-4" *ngFor="let message of messages">
+    <app-my-message *ngIf="message.fromId === myUser.id"></app-my-message>
+    <app-not-my-message *ngIf="message.fromId !== myUser.id"></app-not-my-message>
 </div>
