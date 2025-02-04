@@ -1,4 +1,4 @@
-<div class="h-9/10" *ngIf="this.chatBoxObservables.userData$| async as userData; else loading">
+<div class="h-9/10" *ngIf="this.chatBoxObservables.userData$ | async as userData; else loading">
     <mat-toolbar class="flex justify-between">
         <div class="flex self-center text-lg space-x-2">
             <mat-icon color="primary" class="self-center">person</mat-icon>
@@ -25,7 +25,7 @@
         <mat-card-header>
             Messages
         </mat-card-header>
-        <mat-card-content class="min-heee">
+        <mat-card-content class="min-h-128">
             <app-message-list *ngIf="this.chatBoxObservables.messages$ | async as messages" [messages]="messages"></app-message-list>
         </mat-card-content>
         <mat-card-actions>

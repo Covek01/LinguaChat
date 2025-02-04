@@ -46,15 +46,33 @@ export class ChatBoxObservables implements OnDestroy {
     selectAllBlockedUsers
   );
 
-  public messages$: Observable<Message[]> = this.store
-    .select(selectChatEntities)
-    .pipe(
-      map((chatDictionary: Dictionary<Chat>): Message[] => {
-        const chat: Chat | undefined = chatDictionary[this.userData.id];
+  public chatDictionary$ = this.store.select(selectChatEntities);
 
-        return chat?.messages ?? [];
-      })
-    );
+  public messages$ = combineLatest([this.userData$, this.chatDictionary$]).pipe(
+    map(([userData, chatDictionary]): Message[] => {
+      console.log(userData);
+
+      const chat: Chat | undefined = chatDictionary[userData.id];
+
+      console.log(chat);
+
+      return chat?.messages ?? [];
+    })
+  );
+
+  // public messages$: Observable<Message[]> = this.store
+  //   .select(selectChatEntities)
+  //   .pipe(
+  //     map((chatDictionary: Dictionary<Chat>): Message[] => {
+  //       console.log(this.userData);
+
+  //       const chat: Chat | undefined = chatDictionary[this.userData.id];
+
+  //       console.log(chat);
+
+  //       return chat?.messages ?? [];
+  //     })
+  //   );
 
   //created observables
 
@@ -81,7 +99,6 @@ export class ChatBoxObservables implements OnDestroy {
   public receivedMessages$: Observable<Message> = this.chatService
     .onEvent('receive-message')
     .pipe(
-      tap((message) => console.log(message)),
       filter((message: Message | string): message is Message =>
         this.chatService.isMessage(message)
       ),
@@ -91,18 +108,12 @@ export class ChatBoxObservables implements OnDestroy {
   public sentMessages$: Observable<Message> = this.chatService
     .onEvent('sent-message')
     .pipe(
-      tap((message) => {
-        console.log(message);
-      }),
       filter((message: Message | string): message is Message =>
         this.chatService.isMessage(message)
       )
     );
 
   public newMessages$ = merge(this.sentMessages$, this.receivedMessages$).pipe(
-    tap((message) => {
-      console.log(message);
-    }),
     takeUntil(this.userNotConnected$)
   );
 
@@ -136,5 +147,6 @@ export class ChatBoxObservables implements OnDestroy {
     this.myDataSubscription$.unsubscribe();
     this.newMessagesSubscription$.unsubscribe();
     this.sentMessagesSubscription$.unsubscribe();
+    this.userDataSubscription$.unsubscribe();
   }
 }

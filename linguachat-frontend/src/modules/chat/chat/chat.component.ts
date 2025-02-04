@@ -85,9 +85,6 @@ export class ChatComponent implements OnInit, OnDestroy {
   getChats$ = zip([this.connectedUsers$, this.myUser$])
     .pipe(take(1))
     .subscribe(([connectedUsers, myUser]) => {
-      console.log(connectedUsers);
-      console.log(myUser);
-
       connectedUsers.forEach((connectedUser) => {
         const chatKey: string = this.chatUtils.getNameOfRoom(
           myUser.username,
@@ -120,7 +117,6 @@ export class ChatComponent implements OnInit, OnDestroy {
       }
 
       const userId = parseInt(params['userId']);
-      console.log(userId);
 
       this.store.dispatch(sendRequestToGetUser({ id: userId }));
     });

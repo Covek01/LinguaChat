@@ -28,6 +28,7 @@ export class ChatBoxComponent {
       text: ['', [Validators.required]],
     });
   }
+  
 
   sendMessage(receiverId: number): void {
     if (!this.chatBoxObservables.myUserInfo) {
