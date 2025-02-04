@@ -28,7 +28,6 @@ export class ChatBoxComponent {
       text: ['', [Validators.required]],
     });
   }
-  
 
   sendMessage(receiverId: number): void {
     if (!this.chatBoxObservables.myUserInfo) {
@@ -39,8 +38,6 @@ export class ChatBoxComponent {
       this.chatBoxObservables.myUserInfo.username,
       this.chatBoxObservables.userData.username
     );
-
-    console.log(roomName);
 
     const senderId = this.chatBoxObservables.myUserInfo?.id ?? 0;
     const messageToSend: Message = {

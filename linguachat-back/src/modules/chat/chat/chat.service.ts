@@ -32,7 +32,7 @@ export class ChatService {
 
     const messages: Message[] = messagesString.map(
       (messageString: string): Message => JSON.parse(messageString),
-    );
+    ).reverse();
 
     return messages;
   }

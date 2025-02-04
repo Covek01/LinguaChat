@@ -1,4 +1,8 @@
-<div class="p-4" *ngFor="let message of messages">
-    <app-my-message *ngIf="message.fromId === myUser.id"></app-my-message>
-    <app-not-my-message *ngIf="message.fromId !== myUser.id"></app-not-my-message>
+<div class="p-4 overflow-y-scroll h-512">
+    <div class="p-1" *ngFor="let message of messages">
+        <app-my-message *ngIf="message.fromId === myUser.id" 
+        [message]="message"></app-my-message>
+        <app-not-my-message *ngIf="message.fromId !== myUser.id"
+        [message]="message"></app-not-my-message>
+    </div>
 </div>

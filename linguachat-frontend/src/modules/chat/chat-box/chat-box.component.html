@@ -1,3 +1,58 @@
+<!-- <div class="h-5/6" *ngIf="this.chatBoxObservables.userData$ | async as userData; else loading">
+    <mat-toolbar class="flex justify-between">
+        <div class="flex self-center text-lg space-x-2">
+            <mat-icon color="primary" class="self-center">person</mat-icon>
+            <p class="self-center">{{userData.username}}</p>
+        </div>
+        <div class="space-x-2">
+            <button mat-flat-button color="primary" class="self-center">
+                <mat-icon>person</mat-icon>
+                <p>Profile</p>
+            </button>
+            <button mat-flat-button color="warn" class="self-center">
+                <mat-icon>block</mat-icon>
+                <p>Block</p>
+            </button>
+        </div>
+    </mat-toolbar>
+    <div class="rounded-lg !h-5/6">
+        <mat-card-header>
+            <div *ngIf="true; else disconnected" class="flex text-xs font-light">
+                <mat-icon color="primary" class="self-center">check_small</mat-icon>
+                <p class="self-center">Connected</p>
+            </div>
+        </mat-card-header>
+        <mat-card-header>
+            Messages
+        </mat-card-header>
+        <mat-card-content class="min-h-96">
+            <app-message-list *ngIf="this.chatBoxObservables.messages$ | async as messages" 
+            [messages]="messages"></app-message-list>
+        </mat-card-content>
+        <mat-card-actions>
+            <form [formGroup]="messageForm" (ngSubmit)="sendMessage(userData.id)" class="w-11/12">
+                <mat-form-field class="w-11/12">
+                    <mat-label>Message</mat-label>
+                    <input matInput formControlName="text" required 
+                    class=""/>
+                </mat-form-field>
+            </form>
+            <button mat-flat-button color="primary" [disabled]="messageForm.invalid"
+            (click)="sendMessage(userData.id)">Send</button>
+        </mat-card-actions>
+    </div>
+</div>
+
+<ng-template #loading>
+    <mat-spinner #loading class="ml-auto mr-auto"></mat-spinner>
+</ng-template>  
+<ng-template #disconnected>
+    <div *ngIf="true; else disconnected" class="flex">
+        <mat-icon color="primary">person_off</mat-icon>
+        <p>Disconnected or Blocked</p>
+    </div>
+</ng-template> -->
+
 <div class="h-9/10" *ngIf="this.chatBoxObservables.userData$ | async as userData; else loading">
     <mat-toolbar class="flex justify-between">
         <div class="flex self-center text-lg space-x-2">
@@ -22,11 +77,12 @@
                 <p class="self-center">Connected</p>
             </div>
         </mat-card-header>
-        <mat-card-header>
+        <!-- <mat-card-header>
             Messages
-        </mat-card-header>
+        </mat-card-header> -->
         <mat-card-content class="min-h-128">
-            <app-message-list *ngIf="this.chatBoxObservables.messages$ | async as messages" [messages]="messages"></app-message-list>
+            <app-message-list *ngIf="this.chatBoxObservables.messages$ | async as messages" 
+            [messages]="messages"></app-message-list>
         </mat-card-content>
         <mat-card-actions>
             <form [formGroup]="messageForm" (ngSubmit)="sendMessage(userData.id)" class="w-11/12">
