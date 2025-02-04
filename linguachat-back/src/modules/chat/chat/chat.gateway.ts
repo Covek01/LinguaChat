@@ -8,12 +8,15 @@ import { Server, Socket } from 'socket.io';
 import { Message } from 'src/models/message.types';
 import { ChatService } from './chat.service';
 import { chatConfig } from './chat.config';
+import { Exception } from 'handlebars';
 
-@WebSocketGateway(chatConfig.port, {cors: {
-  origin: 'http://localhost:4200', 
-  methods: ['GET', 'POST'], 
-  credentials: true, 
-}})
+@WebSocketGateway(chatConfig.port, {
+  cors: {
+    origin: 'http://localhost:4200',
+    methods: ['GET', 'POST'],
+    credentials: true,
+  },
+})
 export class ChatGateway {
   @WebSocketServer()
   server: Server;
@@ -22,16 +25,26 @@ export class ChatGateway {
 
   @SubscribeMessage('send-message')
   handleSendMessage(client: Socket, message: Message): Message {
-    const receiver: Socket = this.server.sockets.sockets.get(
-      this.chatService.getKeyOfConnectedUser(message.toId),
-    );
-    console.log(receiver);
-    if (receiver !== null && receiver !== undefined) {
-      receiver.emit('receive-message', message);
-    }
-    client.emit('sent-message', message);
+    try {
+      const receiver: Socket = this.server.sockets.sockets.get(
+        this.chatService.getKeyOfConnectedUser(message.toId),
+      );
+      console.log(receiver);
 
-    return message;
+      if (receiver !== null && receiver !== undefined) {
+        receiver.emit('receive-message', message);
+      }
+      client.emit('sent-message', message);
+
+      return message;
+    } catch (error) {
+      console.log('ERROR SENDING MESSAGE');
+      console.log(error);
+
+      client.emit('error', error);
+
+      throw new Error(error);
+    }
   }
 
   @SubscribeMessage('join')
@@ -43,8 +56,8 @@ export class ChatGateway {
       );
 
       client.emit('joined', userId);
-    } catch (err) {
-      client.emit('error', err);
+    } catch (error) {
+      client.emit('error', error);
     }
   }
 
