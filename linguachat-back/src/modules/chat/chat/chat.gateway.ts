@@ -31,6 +31,8 @@ export class ChatGateway {
       );
       console.log(receiver);
 
+      this.chatService.addMessage(message.room, message);
+
       if (receiver !== null && receiver !== undefined) {
         receiver.emit('receive-message', message);
       }
