@@ -1,14 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import {
-  interval,
-  map,
   Observable,
   skip,
   skipWhile,
   take,
-  takeUntil,
   zip,
 } from 'rxjs';
 import { UserGetDto } from 'src/models/user.types';
@@ -19,7 +16,6 @@ import { sendRequestToGetBlockedUsers } from 'src/store/user/blocked-users/block
 import { sendRequestToGetConnectedUsersByMe } from 'src/store/user/connections/connections.actions';
 import {
   selectAllConnections,
-  selectConnectionsIds,
 } from 'src/store/user/connections/connections.selector';
 import {
   sendRequestToGetMyUser,
@@ -42,50 +38,33 @@ export class ChatComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly chatService: ChatService,
     private readonly chatUtils: ChatUtils
-  ) {
-    this.chatService.onEvent('joined').subscribe({
-      next: (message) => {
-        console.log('Joined event received:', message);
-      },
-      error: (err) => {
-        console.error('Error in joined subscription:', err);
-      },
-      complete: () => {
-        console.log('Joined event subscription completed');
-      },
-    });
-  }
+  ) {}
 
   ngOnDestroy(): void {
     this.chatService.disconnect();
+    this.myUserSubscription$.unsubscribe();
     this.joinSubscription$.unsubscribe();
+    this.getChatsSubscription$.unsubscribe();
   }
 
   //ng
-  connectedUsers$ = this.store.select(selectAllConnections).pipe(
+  connectedUsers$: Observable<UserGetDto[]> = this.store.select(selectAllConnections).pipe(
     skipWhile((connectedUsers: UserGetDto[]) => {
       return connectedUsers.length === 0;
     })
   );
 
-  myUser$ = this.store.select(selectMyUser).pipe(
+  myUser$: Observable<UserGetDto> = this.store.select(selectMyUser).pipe(
     skipWhile((user: UserGetDto) => {
       return user.id === 0;
     })
   );
 
-  //rx
-  joinSubscription$ = this.store
-    .select(selectMyUser)
-    .pipe(skip(1))
-    .subscribe((user) => {
-      this.chatService.join(user.id);
-    });
-
-  getChats$ = zip([this.connectedUsers$, this.myUser$])
+  //subscriptions
+  getChatsSubscription$ = zip([this.connectedUsers$, this.myUser$])
     .pipe(take(1))
     .subscribe(([connectedUsers, myUser]) => {
-      connectedUsers.forEach((connectedUser) => {
+      connectedUsers.forEach((connectedUser: UserGetDto) => {
         const chatKey: string = this.chatUtils.getNameOfRoom(
           myUser.username,
           connectedUser.username
@@ -102,6 +81,26 @@ export class ChatComponent implements OnInit, OnDestroy {
       });
     });
 
+  myUserSubscription$ = this.store
+    .select(selectMyUser)
+    .pipe(skip(1))
+    .subscribe((user: UserGetDto) => {
+      this.chatService.join(user.id);
+    });
+
+  joinSubscription$ = this.chatService.onEvent('joined').subscribe({
+    next: (message) => {
+      console.log('Joined event received:', message);
+    },
+    error: (err) => {
+      console.error('Error in joined subscription:', err);
+    },
+    complete: () => {
+      console.log('Joined event subscription completed');
+    },
+  });
+
+  //functions
   ngOnInit(): void {
     this.store.dispatch(sendRequestToGetMyUser());
     this.store.dispatch(sendRequestToGetConnectedUsersByMe());
@@ -116,7 +115,7 @@ export class ChatComponent implements OnInit, OnDestroy {
         return;
       }
 
-      const userId = parseInt(params['userId']);
+      const userId: number = parseInt(params['userId']);
 
       this.store.dispatch(sendRequestToGetUser({ id: userId }));
     });

@@ -17,9 +17,7 @@ export class ChatBoxComponent {
   public messageForm: FormGroup;
 
   constructor(
-    private readonly store: Store,
     private fb: FormBuilder,
-    private readonly router: Router,
     private readonly chatService: ChatService,
     public chatBoxObservables: ChatBoxObservables,
     private readonly chatUtils: ChatUtils
@@ -34,12 +32,12 @@ export class ChatBoxComponent {
       return;
     }
 
-    const roomName = this.chatUtils.getNameOfRoom(
+    const roomName: string = this.chatUtils.getNameOfRoom(
       this.chatBoxObservables.myUserInfo.username,
       this.chatBoxObservables.userData.username
     );
 
-    const senderId = this.chatBoxObservables.myUserInfo?.id ?? 0;
+    const senderId: number = this.chatBoxObservables.myUserInfo?.id ?? 0;
     const messageToSend: Message = {
       fromId: senderId,
       toId: receiverId,

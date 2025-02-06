@@ -1,7 +1,23 @@
-<div class="flex justify-around">
+<div *ngIf="newUnseenMessages.length !== 0"
+class="flex justify-around bg-purpleNotify p-3 min-w-16">
     <mat-list-item>
-        <mat-icon *ngIf="newUnseenMessages.length !== 0" [matBadge]="newUnseenMessages.length" matListItemIcon color="primary">person</mat-icon>
-        <mat-icon *ngIf="newUnseenMessages.length == 0" matListItemIcon color="primary">person</mat-icon>
+        <mat-icon [matBadge]="newUnseenMessages.length" matListItemIcon color="primary">person</mat-icon>
+        <p matListItemTitle>{{user?.username ?? 'unknown'}}</p>
+        <div matListItemLine>
+            <span class="fi" [ngClass]="user?.userFlagKey ?? ''"></span>
+            <span class="ml-1">{{user?.country ?? ''}}</span>
+        </div>
+    </mat-list-item>
+    <button mat-flat-button color="primary" class="self-center" 
+    (click)="navigateChat(user?.id ?? 0)">
+        Chat
+    </button>
+</div>
+
+<div *ngIf="newUnseenMessages.length === 0"
+class="flex justify-around p-3 min-w-16">
+    <mat-list-item>
+        <mat-icon matListItemIcon color="primary">person</mat-icon>
         <p matListItemTitle>{{user?.username ?? 'unknown'}}</p>
         <div matListItemLine>
             <span class="fi" [ngClass]="user?.userFlagKey ?? ''"></span>

@@ -2,20 +2,16 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import {
-  combineLatest,
-  count,
   filter,
   map,
   Observable,
   skipWhile,
-  tap,
   withLatestFrom,
 } from 'rxjs';
 import { Message } from 'src/models/message.types';
 import { UserGetDto, UserGetDtoWithUserFlagKey } from 'src/models/user.types';
 import { ChatService } from 'src/services/chat.service';
 import {
-  selectMyUser,
   selectUser,
 } from 'src/store/user/user-data/user-data.selector';
 
@@ -55,11 +51,6 @@ export class ChatListItemComponent implements OnDestroy {
           newMessage.fromId !== selectedUser.id &&
           newMessage.fromId === this.user?.id
       ),
-      tap(([selectedUser, newMessages]) => {
-        // console.log('EVO ME');
-        // console.log(selectedUser);
-        // console.log(newMessages);
-      }),
       map(([newMessage, selectedUser]): Message => {
         return newMessage;
       })
@@ -72,6 +63,8 @@ export class ChatListItemComponent implements OnDestroy {
   private receivedMessageSubscription$ = this.newMessages$.subscribe(
     (value) => {}
   );
+
+
 
   ngOnDestroy(): void {
     this.newMessagesCountSubscription$.unsubscribe();

@@ -46,8 +46,8 @@ export class ChatBoxObservables implements OnDestroy {
     selectAllBlockedUsers
   );
 
-  public chatDictionary$ = this.store.select(selectChatEntities);
-
+  public chatDictionary$: Observable<Dictionary<Chat>> =
+    this.store.select(selectChatEntities);
 
   //created observables
 
@@ -68,13 +68,33 @@ export class ChatBoxObservables implements OnDestroy {
     }),
     skipWhile(([userData, connectedUsers]) => {
       const isUserConnected: boolean = connectedUsers
-        .map((user) => user.id)
+        .map((user: UserGetDto): number => user.id)
         .includes(userData.id);
 
       return isUserConnected;
     }),
     map(([userData, connectedUsers]) => {
-      const a = 1;
+      return userData;
+    })
+  );
+
+  public userBlocked$: Observable<UserGetDto> = combineLatest([
+    this.userData$,
+    this.blockedUsers$,
+  ]).pipe(
+    skipWhile(([userData, blockedUsers]) => {
+      return blockedUsers.length < 1 || userData.id === 0;
+    }),
+    skipWhile(([userData, blockedUsers]) => {
+      const isUserBlocked: boolean = blockedUsers
+        .map((user: UserGetDto): number => user.id)
+        .includes(userData.id);
+
+      const isUserNotBlocked = !isUserBlocked;
+
+      return isUserNotBlocked;
+    }),
+    map(([userData, blockedUsers]) => {
       return userData;
     })
   );
@@ -96,21 +116,24 @@ export class ChatBoxObservables implements OnDestroy {
       )
     );
 
-  public newMessages$ = merge(this.sentMessages$, this.receivedMessages$).pipe(
-    takeUntil(this.userNotConnected$)
+  public newMessages$: Observable<Message> = merge(
+    this.sentMessages$,
+    this.receivedMessages$
+  ).pipe(takeUntil(this.userNotConnected$));
+
+  private newMessagesSubscription$ = this.newMessages$.subscribe(
+    (message: Message) => {
+      const userIdToAddMessage: number =
+        message.toId === this.userData.id ? message.toId : message.fromId;
+      this.store.dispatch(
+        addMessage({ userId: userIdToAddMessage, message: message })
+      );
+    }
   );
 
-  private newMessagesSubscription$ = this.newMessages$.subscribe((message) => {
-    const userIdToAddMessage =
-      message.toId === this.userData.id ? message.toId : message.fromId;
-    this.store.dispatch(
-      addMessage({ userId: userIdToAddMessage, message: message })
-    );
-  });
-
   private sentMessagesSubscription$ = this.sentMessages$.subscribe(
-    (message) => {
-      //add message to ng store
+    (message: Message) => {
+      
     }
   );
 

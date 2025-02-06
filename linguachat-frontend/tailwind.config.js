@@ -13,6 +13,7 @@ module.exports = {
         white: '#ffffff',
         gray100: '#f5f5f5',
         gray200: '#eeeeee',
+        purpleNotify: '#ede7f6'
       }
     },
   },

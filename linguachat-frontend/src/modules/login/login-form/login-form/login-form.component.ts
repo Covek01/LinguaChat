@@ -4,6 +4,8 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { filter } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { LoginService } from 'src/services/login.service';
+import { UserService } from 'src/services/user.service';
 import { sendLoginRequest } from 'src/store/login/login.actions';
 import { selectLoginResponse } from 'src/store/login/login.selector';
 import { LoginRequest } from 'src/store/login/login.types';
@@ -18,23 +20,38 @@ export class LoginFormComponent implements OnDestroy {
   public username: string = '';
   public password: string = '';
 
-  constructor(private readonly store: Store, private readonly router: Router) {}
+  constructor(
+    private readonly store: Store,
+    private readonly router: Router,
+    private readonly loginService: LoginService
+  ) {}
 
-  listenWhenLoginOccursSubscription = this.store
-    .select(selectLoginResponse)
-    .pipe(filter((token) => !!token))
-    .subscribe((token) => {
-      console.log('I AM INVOKED MY FRIEND');
-      // localStorage.setItem('jwtToken', token);
-      this.router.navigate(['/user/myprofile']).then(
-        (nav) => {
-          console.log(nav); // true if navigation is successful
-        },
-        (err) => {
-          console.log(err); // when there's an error
-        }
-      );
-    });
+  // listenWhenLoginOccursSubscription = this.store
+  //   .select(selectLoginResponse)
+  //   .pipe(filter((token) => !!token))
+  //   .subscribe((token) => {
+  //     console.log(token);
+  //     // localStorage.setItem('jwtToken', token);
+  //     this.router.navigate(['/user/myprofile']).then(
+  //       (nav) => {
+  //         console.log(nav); // true if navigation is successful
+  //       },
+  //       (err) => {
+  //         console.log(err); // when there's an error
+  //       }
+  //     );
+  //   });
+
+  // public loginSubmit($event: MouseEvent) {
+  //   console.log(
+  //     `Username is ${this.username} and password is ${this.password}`
+  //   );
+  //   const request: LoginRequest = {
+  //     username: this.username,
+  //     password: this.password,
+  //   };
+  //   this.store.dispatch(sendLoginRequest({ request }));
+  // }
 
   public loginSubmit($event: MouseEvent) {
     console.log(
@@ -44,10 +61,19 @@ export class LoginFormComponent implements OnDestroy {
       username: this.username,
       password: this.password,
     };
-    this.store.dispatch(sendLoginRequest({ request }));
+    this.loginService.login(this.username, this.password).subscribe(() => {
+      this.router.navigate(['/user/myprofile']).then(
+        (nav) => {
+          console.log(nav); // true if navigation is successful
+        },
+        (err) => {
+          console.log(err); // when there's an error
+        }
+      );
+    });
   }
 
   ngOnDestroy(): void {
-    this.listenWhenLoginOccursSubscription.unsubscribe();
+    // this.listenWhenLoginOccursSubscription.unsubscribe();
   }
 }

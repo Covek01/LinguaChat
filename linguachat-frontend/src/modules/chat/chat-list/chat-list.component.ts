@@ -25,8 +25,8 @@ export class ChatListComponent {
   conectedUsersWithFlags$: Observable<UserGetDtoWithUserFlagKey[]> =
     combineLatest([this.connectedUsers$, this.flagsDictionary$]).pipe(
       map(([users, flagsDictionary]) => {
-        return users.map((user) => {
-          const userFlagKey = `fi-${
+        return users.map((user: UserGetDto) => {
+          const userFlagKey: string = `fi-${
             flagsDictionary![user.country]?.key ?? 'aq'
           }`.toLowerCase();
           return { ...user, userFlagKey: userFlagKey };

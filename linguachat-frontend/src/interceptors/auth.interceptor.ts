@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+  private isNavigatingToLogin = false; // Prevent multiple navigations
   private loginRequestUrl = 'http://localhost:3000/auth/login';
   private registerRequestUrl = 'http://localhost:3000/auth/register';
 
@@ -25,22 +26,26 @@ export class AuthInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     const jwtToken = this.cookieService.get('access_token');
 
-    // if (
-    //   !jwtToken &&
-    //   request.url !== this.loginRequestUrl &&
-    //   request.url !== this.registerRequestUrl
-    // ) {
-    //   this.router.navigate(['/auth/login']).then(
-    //     (nav) => {
-    //       console.log(nav); // true if navigation is successful
-    //     },
-    //     (err) => {
-    //       console.log(err); // when there's an error
-    //     }
-    //   );
+    if (
+      !jwtToken &&
+      request.url !== this.loginRequestUrl &&
+      request.url !== this.registerRequestUrl &&
+      !this.isNavigatingToLogin
+    ) {
+      this.isNavigatingToLogin = true;
+      this.router.navigate(['/auth/login']).then(
+        (nav) => {
+          console.log(nav); // true if navigation is successful
+          this.isNavigatingToLogin = false;
+        },
+        (err) => {
+          console.log(err); // when there's an error
+          this.isNavigatingToLogin = false;
+        }
+      );
 
-    //   return EMPTY;
-    // }
+      return EMPTY;
+    }
 
     if (jwtToken && jwtToken !== '') {
       const authReq = request.clone({
