@@ -1,6 +1,7 @@
 <div class="flex justify-around">
     <mat-list-item>
-        <mat-icon matListItemIcon color="primary">person</mat-icon>
+        <mat-icon *ngIf="newUnseenMessages.length !== 0" [matBadge]="newUnseenMessages.length" matListItemIcon color="primary">person</mat-icon>
+        <mat-icon *ngIf="newUnseenMessages.length == 0" matListItemIcon color="primary">person</mat-icon>
         <p matListItemTitle>{{user?.username ?? 'unknown'}}</p>
         <div matListItemLine>
             <span class="fi" [ngClass]="user?.userFlagKey ?? ''"></span>

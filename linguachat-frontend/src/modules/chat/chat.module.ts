@@ -20,6 +20,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MessageListComponent } from './message-list/message-list.component';
 import { MyMessageComponent } from './my-message/my-message.component';
 import { NotMyMessageComponent } from './not-my-message/not-my-message.component';
+import {MatBadgeModule} from '@angular/material/badge';
 
 @NgModule({
   declarations: [ChatComponent, ChatListComponent, ChatBoxComponent, ChatListItemComponent, MessageListComponent, MyMessageComponent, NotMyMessageComponent],
@@ -37,7 +38,8 @@ import { NotMyMessageComponent } from './not-my-message/not-my-message.component
     ReactiveFormsModule,
     MatDividerModule,
     MatListModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatBadgeModule,
   ],
 
 })
