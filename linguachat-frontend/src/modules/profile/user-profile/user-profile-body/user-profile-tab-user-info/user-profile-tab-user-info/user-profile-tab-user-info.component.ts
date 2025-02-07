@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
 import { combineLatest, map, Observable, skip, skipWhile, zip } from 'rxjs';
@@ -31,23 +31,23 @@ export class UserProfileTabUserInfoComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {}
 
-  userInfo$: Observable<UserGetDto> = this.store.select(selectUser);
+  public userInfo$: Observable<UserGetDto> = this.store.select(selectUser);
 
-  myUserInfo$: Observable<UserGetDto> = this.store.select(selectMyUser);
+  public myUserInfo$: Observable<UserGetDto> = this.store.select(selectMyUser);
 
-  userCountryKey$: Observable<Dictionary<Flag>> =
+  public userCountryKey$: Observable<Dictionary<Flag>> =
     this.store.select(selectFlagsEntities);
 
-  connectionsIds$: Observable<number[] | string[]> =
+  public connectionsIds$: Observable<number[] | string[]> =
     this.store.select(selectConnectionsIds);
 
-  blockedIds$: Observable<number[]> = this.store
+  public blockedIds$: Observable<number[]> = this.store
     .select(selectBlockedUserIds)
     .pipe(
       map((ids: string[] | number[]): number[] => ids.map((id) => Number(id)))
     );
 
-  isUserBlocked$: Observable<boolean> = combineLatest([
+  public isUserBlocked$: Observable<boolean> = combineLatest([
     this.userInfo$,
     this.blockedIds$,
   ]).pipe(
@@ -57,7 +57,7 @@ export class UserProfileTabUserInfoComponent implements OnDestroy, OnInit {
     })
   );
 
-  userFlagValueSubscription$ = combineLatest([this.userInfo$, this.userCountryKey$])
+  private userFlagValueSubscription$ = combineLatest([this.userInfo$, this.userCountryKey$])
     .pipe(
       map(([userInfo, flagsDictionary]) => {
         this.user = userInfo;
@@ -76,26 +76,26 @@ export class UserProfileTabUserInfoComponent implements OnDestroy, OnInit {
     this.store.dispatch(sendRequestToAddConnectedUser({ firstId, secondId }));
   }
 
-  disconnectFromUser(firstId: number, secondId: number): void {
+  public disconnectFromUser(firstId: number, secondId: number): void {
     this.store.dispatch(
       sendRequestToDeleteConnectedUser({ firstId, secondId })
     );
   }
 
-  blockUser(firstId: number, secondId: number): void {
+  public blockUser(firstId: number, secondId: number): void {
     this.store.dispatch(
       sendRequestToAddBlockedUser({ myId: firstId, blockedId: secondId })
     );
   }
 
-  checkWhetherUserIsConnected(
+  public checkWhetherUserIsConnected(
     connectionIds: (number | string)[],
     id: number | string
   ) {
     return connectionIds.includes(id);
   }
 
-  checkWhetherUserIsBlocked(
+  public checkWhetherUserIsBlocked(
     blockedIds: (number | string)[],
     id: number | string
   ) {
