@@ -1,19 +1,15 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { combineLatest, filter, map, mergeMap, Observable, reduce } from 'rxjs';
-import { LanguageInterface } from 'src/models/language.types';
-import { Post, PostInsertDto, PostInterface } from 'src/models/post.types';
+import { combineLatest, map, Observable } from 'rxjs';
+import {
+  LanguageInterface,
+  LanguageWithLearningLevel,
+} from 'src/models/language.types';
 import { UserGetDto } from 'src/models/user.types';
-import {
-  selectLanguagesLearning,
-  selectLanguagesLearningTotal,
-} from 'src/store/user/languages-learning/languages-learning.selector';
-import {
-  selectAllLanguagesNative,
-  selectLanguagesNativeIds,
-} from 'src/store/user/languages-native/languages-native.selector';
+import { selectLanguagesLearning } from 'src/store/user/languages-learning/languages-learning.selector';
+import { selectAllLanguagesNative } from 'src/store/user/languages-native/languages-native.selector';
 import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
 
 @Component({
@@ -22,9 +18,9 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   styleUrls: ['./myprofile-tab-post-add-dialog.component.sass'],
 })
 export class MyprofileTabPostAddDialogComponent implements OnDestroy {
-  myUser: UserGetDto | null = null;
-  postLanguages: LanguageInterface[] | null = null;
-  postForm: FormGroup;
+  public myUser: UserGetDto | null = null;
+  public postLanguages: LanguageInterface[] | null = null;
+  public postForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<MyprofileTabPostAddDialogComponent>,
@@ -38,52 +34,49 @@ export class MyprofileTabPostAddDialogComponent implements OnDestroy {
       language: ['', [Validators.required]],
     });
 
-
-    this.filteredLanguagesOptionsAfterInput$ = this.postForm
-      .valueChanges.pipe(
-        map((value) => {
-          console.log(value)
-          const a = this._filter(value.language);
-          console.log(a);
-          return a;
-        }) // Filter the language list
-      );
+    this.filteredLanguagesOptionsAfterInput$ = this.postForm.valueChanges.pipe(
+      map((value) => {
+        return this._filter(value.language);
+      }) // Filter the language list
+    );
   }
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
-    this.languagesSubscription.unsubscribe();
+    this.userSubscription$.unsubscribe();
+    this.languagesSubscription$.unsubscribe();
   }
 
-  languagesLearning$ = this.store.select(selectLanguagesLearning);
-  languagesNative$ = this.store.select(selectAllLanguagesNative);
+  public languagesLearning$: Observable<LanguageWithLearningLevel[]> =
+    this.store.select(selectLanguagesLearning);
+  public languagesNative$: Observable<LanguageInterface[]> = this.store.select(
+    selectAllLanguagesNative
+  );
 
-  filteredLanguagesOptionsAfterInput$: Observable<LanguageInterface[]>;
+  public filteredLanguagesOptionsAfterInput$: Observable<LanguageInterface[]>;
 
-  languagesSubscription = combineLatest([
+  private languagesSubscription$ = combineLatest([
     this.languagesLearning$,
     this.languagesNative$,
   ])
     .pipe(
       map(([array1, array2]) => [...array1, ...array2]),
-      map((languages) => {
+      map((languages: LanguageInterface[]): LanguageInterface[] => {
         const uniqueLanguages = this._getUniqueLanguages(languages);
-
-        console.log(languages);
-        console.log(uniqueLanguages);
 
         return uniqueLanguages;
       })
     )
-    .subscribe((uniqueLanguages) => {
+    .subscribe((uniqueLanguages: LanguageInterface[]) => {
       this.postLanguages = uniqueLanguages;
     });
 
-  userSubscription = this.store.select(selectMyUser).subscribe((myUser) => {
-    this.myUser = {
-      ...myUser,
-    };
-  });
+  private userSubscription$ = this.store
+    .select(selectMyUser)
+    .subscribe((myUser: UserGetDto) => {
+      this.myUser = {
+        ...myUser,
+      };
+    });
 
   private _filter(value: string): LanguageInterface[] {
     const filterValue = value.toLowerCase();

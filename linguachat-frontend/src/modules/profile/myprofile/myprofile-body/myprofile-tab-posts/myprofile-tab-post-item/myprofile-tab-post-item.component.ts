@@ -1,7 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { distinctUntilChanged } from 'rxjs';
 import { PostWithLikedAndCount } from 'src/models/post.types';
 import { UserGetDto } from 'src/models/user.types';
 import {
@@ -15,10 +14,10 @@ import {
 } from 'src/store/user/post/user-post.actions';
 import {
   selectMyUser,
-  selectUser,
 } from 'src/store/user/user-data/user-data.selector';
 import { MyprofileTabCommentAddDialogComponent } from '../myprofile-tab-comment-add-dialog/myprofile-tab-comment-add-dialog.component';
 import { CommentInsertDto } from 'src/models/comment.types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-myprofile-tab-post-item',
@@ -27,16 +26,16 @@ import { CommentInsertDto } from 'src/models/comment.types';
 })
 export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
   @Input() post: PostWithLikedAndCount | null = null;
-  myUser: UserGetDto | null = null;
+  public myUser: UserGetDto | null = null;
 
   constructor(private readonly store: Store, private dialog: MatDialog) {}
 
   ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
+    this.userSubscription$.unsubscribe();
   }
 
-  userInfo$ = this.store.select(selectMyUser);
-  userSubscription = this.store.select(selectMyUser).subscribe((user) => {
+  public userInfo$: Observable<UserGetDto> = this.store.select(selectMyUser);
+  userSubscription$ = this.store.select(selectMyUser).subscribe((user: UserGetDto) => {
     this.myUser = user;
   });
 
@@ -46,7 +45,7 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  likeOrUnlikePost(): void {
+  public likeOrUnlikePost(): void {
     if (!this.post) {
       return;
     }
@@ -57,7 +56,7 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
     }
   }
 
-  likePost(): void {
+  public likePost(): void {
     this.store.dispatch(
       sendRequestToLikePost({
         userId: this.myUser?.id ?? 0,
@@ -66,7 +65,7 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  unlikePost(): void {
+  public unlikePost(): void {
     this.store.dispatch(
       sendRequestToUnlikePost({
         userId: this.myUser?.id ?? 0,
@@ -75,19 +74,18 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
     );
   }
 
-  deletePost(): void {
+  public deletePost(): void {
     this.store.dispatch(
       sendRequestToDeletePost({ postId: this.post?.id ?? 0 })
     );
   }
 
-  handleAddCommentDialog(): void {
+  public handleAddCommentDialog(): void {
     const dialogRef = this.dialog.open(MyprofileTabCommentAddDialogComponent, {
       width: '600px',
     });
 
     dialogRef.afterClosed().subscribe((commentText) => {
-      console.log(commentText);
       if (commentText) {
         const commentInsertDto = {
           ...commentText,
@@ -95,7 +93,6 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
           userCommentedId: this.myUser?.id ?? 0,
         };
 
-        console.log(commentInsertDto instanceof CommentInsertDto);
         if (commentInsertDto) {
           this.store.dispatch(
             sendRequestToAddComment({ commentInsert: commentInsertDto })

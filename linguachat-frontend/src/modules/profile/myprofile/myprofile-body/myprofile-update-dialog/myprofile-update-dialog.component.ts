@@ -9,7 +9,7 @@ import { UserGetDto } from 'src/models/user.types';
   styleUrls: ['./myprofile-update-dialog.component.sass']
 })
 export class MyprofileUpdateDialogComponent implements OnInit {
-  userForm: FormGroup;
+  public userForm: FormGroup;
 
   constructor(
     public dialogRef: MatDialogRef<MyprofileUpdateDialogComponent>,
@@ -30,11 +30,11 @@ export class MyprofileUpdateDialogComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.userForm.valid) {
       this.dialogRef.close(this.userForm.value);
     }

@@ -1,5 +1,4 @@
 <mat-card appearance="outlined" class="!border-none !shadow-transparent">
-
     <mat-card-content class="border-x-0 border-primary">
         <div *ngFor="let commentOfPost of commentsOfPost$ | async as commentsOfPost">
             <app-myprofile-tab-comments-item [comment]="commentOfPost"></app-myprofile-tab-comments-item>

@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { filter, map, mergeMap } from 'rxjs';
+import { map } from 'rxjs';
+import { CommentGetDto } from 'src/models/comment.types';
 import { PostGetDto } from 'src/models/post.types';
 import { selectAllComments } from 'src/store/comment/comment.selector';
 
@@ -12,12 +12,12 @@ import { selectAllComments } from 'src/store/comment/comment.selector';
 })
 export class MyprofileTabCommentsComponent {
   @Input() post: PostGetDto | null = null;
-  constructor(private readonly store: Store, private dialog: MatDialog) {}
-  commentsOfPost$ = this.store
+  constructor(private readonly store: Store) {}
+  public commentsOfPost$ = this.store
     .select(selectAllComments)
     .pipe(
-      map((comments) =>
-        comments.filter((comment) => comment.postRelatedTo.id === this.post?.id)
+      map((comments: CommentGetDto[]): CommentGetDto[] =>
+        comments.filter((comment: CommentGetDto) => comment.postRelatedTo.id === this.post?.id)
       )
     );
 }

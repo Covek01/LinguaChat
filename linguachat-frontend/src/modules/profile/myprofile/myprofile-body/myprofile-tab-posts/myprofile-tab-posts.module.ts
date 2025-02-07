@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MyprofileTabCommentsComponent } from './myprofile-tab-comments/myprofile-tab-comments.component';
 import { MyprofileTabCommentsItemComponent } from './myprofile-tab-comments-item/myprofile-tab-comments-item.component';
-import { MyprofileModule } from '../../myprofile.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';

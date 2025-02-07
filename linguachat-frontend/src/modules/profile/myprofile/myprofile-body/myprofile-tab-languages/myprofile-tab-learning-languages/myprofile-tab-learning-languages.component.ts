@@ -20,22 +20,22 @@ import { Observable } from 'rxjs';
   styleUrls: ['./myprofile-tab-learning-languages.component.sass'],
 })
 export class MyprofileTabLearningLanguagesComponent implements OnDestroy {
-  displayedColumns: string[] = ['name', 'popularity', 'level', 'actions'];
-  myUser: UserGetDto | null = null;
-  learningLanguages: LanguageWithLearningLevel[] | null = null;
+  public displayedColumns: string[] = ['name', 'popularity', 'level', 'actions'];
+  public myUser: UserGetDto | null = null;
+  public learningLanguages: LanguageWithLearningLevel[] | null = null;
 
   constructor(private readonly store: Store, private dialog: MatDialog) {}
 
-  learningLanguages$: Observable<LanguageWithLearningLevel[]> =
+  public learningLanguages$: Observable<LanguageWithLearningLevel[]> =
     this.store.select(selectLanguagesLearning);
 
-  myUserSubscription$ = this.store
+  private myUserSubscription$ = this.store
     .select(selectMyUser)
     .subscribe((user: UserGetDto) => {
       this.myUser = user;
     });
 
-  learningLanguagesSubscription$ = this.store
+  private learningLanguagesSubscription$ = this.store
     .select(selectLanguagesLearning)
     .subscribe((learningLanguages: LanguageWithLearningLevel[]) => {
       this.learningLanguages = learningLanguages;
@@ -46,7 +46,7 @@ export class MyprofileTabLearningLanguagesComponent implements OnDestroy {
     this.myUserSubscription$.unsubscribe();
   }
 
-  handleAddLearningLanguageDialog(): void {
+  public handleAddLearningLanguageDialog(): void {
     const dialogRef = this.dialog.open(
       MyprofileTabLearningLanguagesAddDialogComponent,
       {
@@ -67,7 +67,7 @@ export class MyprofileTabLearningLanguagesComponent implements OnDestroy {
     });
   }
 
-  deleteLearningLanguageForUser(languageId: number): void {
+  public deleteLearningLanguageForUser(languageId: number): void {
     this.store.dispatch(
       sendRequestToDeleteLanguageLearning({
         userId: this.myUser?.id ?? 0,

@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { selectAllPosts } from 'src/store/user/post/user-post.selector';
 import { MyprofileTabPostAddDialogComponent } from '../myprofile-tab-post-add-dialog/myprofile-tab-post-add-dialog.component';
 import { sendRequestToAddPost } from 'src/store/user/post/user-post.actions';
-import { PostInsertDto } from 'src/models/post.types';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
+import { PostWithLikedAndCount } from 'src/models/post.types';
 
 @Component({
   selector: 'app-myprofile-tab-posts',
@@ -16,11 +16,11 @@ export class MyprofileTabPostsComponent implements OnDestroy {
   constructor(private readonly store: Store, private dialog: MatDialog) {}
  
   ngOnDestroy(): void {
-    this.closeDialogSubscription?.unsubscribe();
+    this.closeDialogSubscription$?.unsubscribe();
   }
 
-  userPosts$ = this.store.select(selectAllPosts);
-  closeDialogSubscription: Subscription | null = null;
+  userPosts$: Observable<PostWithLikedAndCount[]> = this.store.select(selectAllPosts);
+  closeDialogSubscription$: Subscription | null = null;
 
 
 
@@ -29,7 +29,7 @@ export class MyprofileTabPostsComponent implements OnDestroy {
       width: '600px',
     });
 
-    this.closeDialogSubscription = dialogRef.afterClosed().subscribe((postToInsert) => {
+    this.closeDialogSubscription$ = dialogRef.afterClosed().subscribe((postToInsert) => {
       console.log(postToInsert);
       if (postToInsert) {
         this.store.dispatch(sendRequestToAddPost({ postInsert: postToInsert }));

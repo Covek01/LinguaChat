@@ -18,15 +18,15 @@ import { Observable } from 'rxjs';
   styleUrls: ['./myprofile-tab-native-languages.component.sass'],
 })
 export class MyprofileTabNativeLanguagesComponent implements OnDestroy {
-  displayedColumns: string[] = ['name', 'popularity', 'actions'];
-  myUser: UserGetDto | null = null;
+  public displayedColumns: string[] = ['name', 'popularity', 'actions'];
+  public myUser: UserGetDto | null = null;
   constructor(private readonly store: Store, private dialog: MatDialog) {}
 
-  nativeLanguages$: Observable<LanguageInterface[]> = this.store.select(
+  public nativeLanguages$: Observable<LanguageInterface[]> = this.store.select(
     selectAllLanguagesNative
   );
 
-  myUserSubscription$ = this.store
+  public myUserSubscription$ = this.store
     .select(selectMyUser)
     .subscribe((user: UserGetDto) => {
       this.myUser = user;
@@ -36,7 +36,7 @@ export class MyprofileTabNativeLanguagesComponent implements OnDestroy {
     this.myUserSubscription$.unsubscribe();
   }
 
-  handleAddNativeLanguageDialog(): void {
+  public handleAddNativeLanguageDialog(): void {
     const dialogRef = this.dialog.open(
       MyprofileTabNativeLanguagesAddDialogComponent,
       {
@@ -56,7 +56,7 @@ export class MyprofileTabNativeLanguagesComponent implements OnDestroy {
     });
   }
 
-  deleteNativeLanguageForUser(languageId: number): void {
+  public deleteNativeLanguageForUser(languageId: number): void {
     this.store.dispatch(
       sendRequestToDeleteLanguageNative({
         userId: this.myUser?.id ?? 0,

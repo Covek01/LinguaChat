@@ -1,4 +1,4 @@
-<mat-card *ngIf="userInfo$ | async as userInfo; else loading">
+<mat-card *ngIf="userWithFlagKey$ | async as userInfo; else loading">
     <mat-card-header>
         <mat-icon color="primary" >info</mat-icon>
         <p>Basic profile info about user</p>
@@ -9,7 +9,7 @@
                 <mat-icon color="primary" >location_on</mat-icon>
                 <p class="inline">Country</p>
             </div>
-            <span class="fi" [ngClass]="this.userFlagKey"></span>
+            <span class="fi" [ngClass]="userInfo.userFlagKey"></span>
             <span class="ml-1">{{userInfo.country}}</span>
         </div>
         <div class="m-8">

@@ -21,11 +21,11 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
 export class MyprofileTabLearningLanguagesAddDialogComponent
   implements OnDestroy
 {
-  addLearningLanguageForm: FormGroup;
-  myUser: UserGetDto | null = null;
-  knowledgeLevels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
-  learningLanguagesMap: Map<number, LanguageWithLearningLevel> | null = null;
-  availableLanguages: LanguageInterface[] | null = null;
+  public addLearningLanguageForm: FormGroup;
+  public myUser: UserGetDto | null = null;
+  public knowledgeLevels: string[] = ['A1', 'A2', 'B1', 'B2', 'C1', 'C2'];
+  public learningLanguagesMap: Map<number, LanguageWithLearningLevel> | null = null;
+  public availableLanguages: LanguageInterface[] | null = null;
 
   constructor(
     public dialogRef: MatDialogRef<MyprofileTabLearningLanguagesAddDialogComponent>,
@@ -37,17 +37,17 @@ export class MyprofileTabLearningLanguagesAddDialogComponent
       level: ['', [Validators.required]],
     });
   }
-  
+
   ngOnDestroy(): void {
     this.userSubscription$.unsubscribe();
     this.languagesLearningSubscription$.unsubscribe();
     this.availableLanguagesNativeToAddSubscription$.unsubscribe();
   }
 
-  languagesLearning$: Observable<LanguageWithLearningLevel[]> =
+  public languagesLearning$: Observable<LanguageWithLearningLevel[]> =
     this.store.select(selectLanguagesLearning);
 
-  availableLanguagesLearningToAdd$ = this.store
+  public availableLanguagesLearningToAdd$ = this.store
     .select(selectAllLanguagesList)
     .pipe(
       map((languages: Language[]): Language[] => {
@@ -57,7 +57,7 @@ export class MyprofileTabLearningLanguagesAddDialogComponent
       })
     );
 
-  languagesLearningSubscription$ = this.store
+  private languagesLearningSubscription$ = this.store
     .select(selectLanguagesLearning)
     .subscribe((learningLanguages: LanguageWithLearningLevel[]) => {
       const map = new Map<number, LanguageWithLearningLevel>();
@@ -69,12 +69,12 @@ export class MyprofileTabLearningLanguagesAddDialogComponent
       this.learningLanguagesMap = map;
     });
 
-  availableLanguagesNativeToAddSubscription$ =
+  private availableLanguagesNativeToAddSubscription$ =
     this.availableLanguagesLearningToAdd$.subscribe((languages: Language[]) => {
       this.availableLanguages = languages;
     });
 
-  userSubscription$ = this.store
+  private userSubscription$ = this.store
     .select(selectMyUser)
     .subscribe((myUser: UserGetDto) => {
       this.myUser = {
@@ -82,17 +82,17 @@ export class MyprofileTabLearningLanguagesAddDialogComponent
       };
     });
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     const chosenLanguageToAdd: LanguageInterface =
       this.addLearningLanguageForm.value.language;
     this.dialogRef.close(this.addLearningLanguageForm.value);
   }
 
-  displayLanguage(language: LanguageInterface): string {
+  public displayLanguage(language: LanguageInterface): string {
     return language ? language.name : '';
   }
 }

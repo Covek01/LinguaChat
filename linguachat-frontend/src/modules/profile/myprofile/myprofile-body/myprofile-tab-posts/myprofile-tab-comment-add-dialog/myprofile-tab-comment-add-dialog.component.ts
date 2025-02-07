@@ -2,10 +2,8 @@ import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { CommentInsertDto } from 'src/models/comment.types';
 import { PostGetDto } from 'src/models/post.types';
 import { UserGetDto } from 'src/models/user.types';
-import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
 
 @Component({
   selector: 'app-myprofile-tab-comment-add-dialog',
@@ -13,8 +11,7 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   styleUrls: ['./myprofile-tab-comment-add-dialog.component.sass'],
 })
 export class MyprofileTabCommentAddDialogComponent {
-  commentForm: FormGroup;
-  myUser: UserGetDto | null = null;
+  public commentForm: FormGroup;
   @Input() postReferedTo: PostGetDto | null = null;
 
   constructor(
@@ -29,11 +26,11 @@ export class MyprofileTabCommentAddDialogComponent {
 
 
 
-  onNoClick(): void {
+  public onNoClick(): void {
     this.dialogRef.close();
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.commentForm.valid) {
       this.dialogRef.close(this.commentForm.value);
     }
