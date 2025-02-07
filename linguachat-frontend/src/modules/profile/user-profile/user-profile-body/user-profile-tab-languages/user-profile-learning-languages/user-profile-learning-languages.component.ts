@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { LanguageWithLearningLevel } from 'src/models/language.types';
 import {
   selectLanguagesLearning,
   selectLanguagesLearningIds,
@@ -14,5 +16,5 @@ export class UserProfileLearningLanguagesComponent {
   displayedColumns: string[] = ['name', 'popularity', 'level'];
   constructor(private readonly store: Store) {}
 
-  learningLanguages$ = this.store.select(selectLanguagesLearning);
+  learningLanguages$: Observable<LanguageWithLearningLevel[]> = this.store.select(selectLanguagesLearning);
 }

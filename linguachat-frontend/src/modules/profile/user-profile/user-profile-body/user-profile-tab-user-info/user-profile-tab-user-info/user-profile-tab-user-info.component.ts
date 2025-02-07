@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { combineLatest, map, Observable, skip, zip } from 'rxjs';
+import { combineLatest, map, Observable, skip, skipWhile, zip } from 'rxjs';
 import { Flag } from 'src/models/models.type';
 import { UserGetDto } from 'src/models/user.types';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
@@ -24,59 +24,53 @@ import {
   styleUrls: ['./user-profile-tab-user-info.component.sass'],
 })
 export class UserProfileTabUserInfoComponent implements OnDestroy, OnInit {
+  public user: UserGetDto = new UserGetDto();
+  public userFlagKey: string = '';
+
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {}
 
-  user: UserGetDto = new UserGetDto();
-  flagsDictionary: Dictionary<Flag> | null = null;
-  userFlagKey: string = '';
+  userInfo$: Observable<UserGetDto> = this.store.select(selectUser);
 
-  userInfo$ = this.store.select(selectUser);
-  myUserInfo$ = this.store.select(selectMyUser);
-  userCountryKey$ = this.store.select(selectFlagsEntities);
+  myUserInfo$: Observable<UserGetDto> = this.store.select(selectMyUser);
+
+  userCountryKey$: Observable<Dictionary<Flag>> =
+    this.store.select(selectFlagsEntities);
+
   connectionsIds$: Observable<number[] | string[]> =
     this.store.select(selectConnectionsIds);
+
   blockedIds$: Observable<number[]> = this.store
     .select(selectBlockedUserIds)
-    .pipe(map((ids) => ids.map((id) => Number(id))));
+    .pipe(
+      map((ids: string[] | number[]): number[] => ids.map((id) => Number(id)))
+    );
 
-  isUserBlocked$ = combineLatest([this.userInfo$, this.blockedIds$]).pipe(
+  isUserBlocked$: Observable<boolean> = combineLatest([
+    this.userInfo$,
+    this.blockedIds$,
+  ]).pipe(
+    skipWhile(([userInfo, blockedIds]) => userInfo.id === 0),
     map(([userInfo, blockedIds]) => {
       return blockedIds.includes(userInfo.id);
     })
   );
 
-  userFlagValueSubscription$ = zip([this.userInfo$, this.userCountryKey$])
+  userFlagValueSubscription$ = combineLatest([this.userInfo$, this.userCountryKey$])
     .pipe(
       map(([userInfo, flagsDictionary]) => {
         this.user = userInfo;
-        const returnedValue = `fi-${
+        const key: string = `fi-${
           flagsDictionary![this.user.country]?.key ?? ''
         }`.toLowerCase();
 
-        return returnedValue;
+        return key;
       })
     )
-    .subscribe((classValue) => {
-      this.userFlagKey = classValue;
+    .subscribe((key: string) => {
+      this.userFlagKey = key;
     });
-
-  // userInfoCopySubscription = this.userInfo$.subscribe((user) => {
-  //   this.user = user;
-  //   if (this.flagsDictionary) {
-  //     this.userFlagKey = `fi-${
-  //       this.flagsDictionary![this.user.country]?.key ?? ''
-  //     }`.toLowerCase();
-  //   } else {
-  //     this.store.dispatch(sendRequestToGetFlags());
-  //   }
-  // });
-
-  userCountryKeySubscription = this.userCountryKey$.subscribe((flags) => {
-    console.log(flags);
-    this.flagsDictionary = flags;
-  });
 
   connectWithUser(firstId: number, secondId: number): void {
     this.store.dispatch(sendRequestToAddConnectedUser({ firstId, secondId }));
@@ -110,7 +104,6 @@ export class UserProfileTabUserInfoComponent implements OnDestroy, OnInit {
   }
 
   ngOnDestroy(): void {
-    this.userCountryKeySubscription.unsubscribe();
     this.userFlagValueSubscription$.unsubscribe();
   }
 }

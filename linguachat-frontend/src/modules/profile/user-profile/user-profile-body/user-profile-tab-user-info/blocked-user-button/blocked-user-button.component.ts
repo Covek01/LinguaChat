@@ -15,7 +15,7 @@ export class BlockedUserButtonComponent {
 
   constructor(private readonly store: Store) {}
 
-  blockUser(firstId: number, secondId: number): void {
+  public blockUser(firstId: number, secondId: number): void {
     if (this.blockerId === 0 || this.blockedId === 0){
       return;
     }

@@ -5,13 +5,11 @@ import { UserGetDto, UserGetDtoWithUserFlagKey } from 'src/models/user.types';
 import { MatDialog } from '@angular/material/dialog';
 import { MyprofileUpdateDialogComponent } from '../myprofile-update-dialog/myprofile-update-dialog.component';
 import {
-  sendRequestToGetMyUser,
   sendRequestToUpdateMyUser,
 } from 'src/store/user/user-data/user-data.actions';
 import { selectFlagsEntities } from 'src/store/flags/flags.selector';
 import { Dictionary } from '@ngrx/entity';
 import { Flag } from 'src/models/models.type';
-import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
 import { combineLatest, map, Observable } from 'rxjs';
 
 @Component({
@@ -56,7 +54,7 @@ export class MyprofileTabUserInfoComponent implements OnDestroy {
     this.user = user;
   });
 
-  public handleUpdateProfileDialog() {
+  public handleUpdateProfileDialog(): void {
     const dialogRef = this.dialog.open(MyprofileUpdateDialogComponent, {
       data: this.user,
       width: '600px',
