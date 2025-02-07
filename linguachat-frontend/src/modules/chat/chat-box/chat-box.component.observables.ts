@@ -9,14 +9,12 @@ import {
   Observable,
   skipWhile,
   takeUntil,
-  tap,
 } from 'rxjs';
 import { Message } from 'src/models/message.types';
-import { User, UserGetDto } from 'src/models/user.types';
+import { UserGetDto } from 'src/models/user.types';
 import { ChatService } from 'src/services/chat.service';
 import { addMessage } from 'src/store/chat/chats.actions';
 import { selectChatEntities } from 'src/store/chat/chats.selector';
-import { chatsAdapter } from 'src/store/chat/chats.state';
 import { Chat } from 'src/store/chat/chats.types';
 import { selectAllBlockedUsers } from 'src/store/user/blocked-users/blocked-users.selector';
 import { selectAllConnections } from 'src/store/user/connections/connections.selector';
@@ -36,7 +34,6 @@ export class ChatBoxObservables implements OnDestroy {
   ) {}
 
   //ng observables
-
   public userData$: Observable<UserGetDto> = this.store.select(selectUser);
 
   public connectedUsers$: Observable<UserGetDto[]> =
@@ -50,8 +47,7 @@ export class ChatBoxObservables implements OnDestroy {
     this.store.select(selectChatEntities);
 
   //created observables
-
-  public messages$ = combineLatest([this.userData$, this.chatDictionary$]).pipe(
+  public messages$: Observable<Message[]> = combineLatest([this.userData$, this.chatDictionary$]).pipe(
     map(([userData, chatDictionary]): Message[] => {
       const chat: Chat | undefined = chatDictionary[userData.id];
 
@@ -73,7 +69,7 @@ export class ChatBoxObservables implements OnDestroy {
 
       return isUserConnected;
     }),
-    map(([userData, connectedUsers]) => {
+    map(([userData, connectedUsers]): UserGetDto => {
       return userData;
     })
   );
@@ -90,7 +86,7 @@ export class ChatBoxObservables implements OnDestroy {
         .map((user: UserGetDto): number => user.id)
         .includes(userData.id);
 
-      const isUserNotBlocked = !isUserBlocked;
+      const isUserNotBlocked: boolean = !isUserBlocked;
 
       return isUserNotBlocked;
     }),

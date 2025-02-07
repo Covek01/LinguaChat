@@ -1,12 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSidenav } from '@angular/material/sidenav';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
 import { sendRequestToGetAllLanguages } from 'src/store/user/all-languages/all-languages.actions';
 import { sendRequestToGetBlockedUsers } from 'src/store/user/blocked-users/blocked-users.actions';
 import {
-  sendRequestToGetLanguagesLearning,
   sendRequestToGetMyLanguagesLearning,
 } from 'src/store/user/languages-learning/languages-learning.actions';
 import { sendRequestToGetLanguagesNativeByMe } from 'src/store/user/languages-native/languages-native.actions';
@@ -20,7 +17,7 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   styleUrls: ['./myprofile.component.sass'],
 })
 export class MyprofileComponent implements OnInit {
-  constructor(private readonly store: Store, private readonly router: Router) {}
+  constructor(private readonly store: Store) {}
   myUserInfo$ = this.store.select(selectMyUser);
 
   ngOnInit(): void {
@@ -31,6 +28,5 @@ export class MyprofileComponent implements OnInit {
     this.store.dispatch(sendRequestToGetPostsByMe());
     this.store.dispatch(sendRequestToGetAllLanguages());
     this.store.dispatch(sendRequestToGetFlags());
-
   }
 }

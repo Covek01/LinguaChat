@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { PostWithLikedAndCount } from 'src/models/post.types';
 import { UserGetDto } from 'src/models/user.types';
 import { selectAllPosts } from 'src/store/user/post/user-post.selector';
 import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
@@ -11,10 +12,11 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   styleUrls: ['./myprofile-content.component.sass'],
 })
 export class MyprofileContentComponent {
-  userInfo$ = this.store.select(selectMyUser);
-  userPosts$ = this.store.select(selectAllPosts);
   @Input() user: UserGetDto = new UserGetDto();
-  constructor(private readonly store: Store, private readonly router: Router) {}
 
-  
+  constructor(private readonly store: Store) {}
+
+  userInfo$: Observable<UserGetDto> = this.store.select(selectMyUser);
+  userPosts$: Observable<PostWithLikedAndCount[]> =
+    this.store.select(selectAllPosts);
 }

@@ -3,15 +3,11 @@
         <mat-icon class="align-middle">person</mat-icon>
         <span>Profile info</span>
     </div>
-    
-    <!-- <div class="flex flex-row items-center space-x-5"> -->
-        <!-- <mat-icon color="primary" class="text-5xl w-32 h-32 leading-none">person</mat-icon> -->
-    <div >
+    <div>
         <span class="text-5xl">{{userInfo.name + " " + userInfo.surname}}</span>
         <mat-divider class="border-2 border-purple-600" color="primary"></mat-divider>
         <span class="text-3xl">{{'@' + userInfo.username}}</span>
     </div>
-    <!-- </div> -->
     <mat-tab-group class="mt-16">
         <mat-tab label="User info">
             <app-myprofile-tab-user-info></app-myprofile-tab-user-info>

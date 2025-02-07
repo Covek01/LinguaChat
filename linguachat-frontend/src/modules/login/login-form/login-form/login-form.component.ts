@@ -15,7 +15,7 @@ import { LoginRequest } from 'src/store/login/login.types';
   templateUrl: './login-form.component.html',
   styleUrls: ['./login-form.component.sass'],
 })
-export class LoginFormComponent implements OnDestroy {
+export class LoginFormComponent {
   public baseFrontendUrl: string = environment.frontendAddress;
   public username: string = '';
   public password: string = '';
@@ -71,9 +71,5 @@ export class LoginFormComponent implements OnDestroy {
         }
       );
     });
-  }
-
-  ngOnDestroy(): void {
-    // this.listenWhenLoginOccursSubscription.unsubscribe();
   }
 }

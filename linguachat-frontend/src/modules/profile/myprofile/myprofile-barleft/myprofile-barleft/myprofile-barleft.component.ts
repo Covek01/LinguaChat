@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
+import { combineLatest, map, Observable } from 'rxjs';
 import { Flag } from 'src/models/models.type';
 import { UserGetDto, UserGetDtoWithUserFlagKey } from 'src/models/user.types';
 import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
@@ -9,8 +10,6 @@ import { selectFlagsEntities } from 'src/store/flags/flags.selector';
 import { sendRequestToGetConnectedUsersByMe } from 'src/store/user/connections/connections.actions';
 import {
   selectAllConnections,
-  selectConnectionsEntities,
-  selectConnectionsState,
   selectConnectionsTotal,
 } from 'src/store/user/connections/connections.selector';
 import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
@@ -20,39 +19,41 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   templateUrl: './myprofile-barleft.component.html',
   styleUrls: ['./myprofile-barleft.component.sass'],
 })
-export class MyprofileBarleftComponent implements OnInit, OnDestroy {
+export class MyprofileBarleftComponent implements OnInit {
   constructor(private readonly store: Store, private readonly router: Router) {}
 
-  connectedUsers$ = this.store.select(selectAllConnections);
-  connectedUsersLength$ = this.store.select(selectConnectionsTotal);
+  //ng observers
+  connectedUsers$: Observable<UserGetDto[]> =
+    this.store.select(selectAllConnections);
 
-  flagsDictionary: Dictionary<Flag> | null = null;
-  connectedUsers: UserGetDtoWithUserFlagKey[] | null = null;
+  connectedUsersLength$: Observable<number> = this.store.select(
+    selectConnectionsTotal
+  );
 
-  user$ = this.store.select(selectMyUser);
+  flagsDictionary$: Observable<Dictionary<Flag>> =
+    this.store.select(selectFlagsEntities);
 
-  connectedUsersSubscription = this.connectedUsers$.subscribe((users) => {
-    this.connectedUsers = this.addFlagsMapProperty(users);
-  });
+  connectedUsersWithFlags$: Observable<UserGetDtoWithUserFlagKey[]> =
+    combineLatest([this.connectedUsers$, this.flagsDictionary$]).pipe(
+      map(([connectedUsers, flagsDictionary]): UserGetDtoWithUserFlagKey[] => {
+        return this.addFlagsMapProperty(connectedUsers, flagsDictionary);
+      })
+    );
 
-  flagsDictionarySubscription = this.store
-    .select(selectFlagsEntities)
-    .subscribe((flags) => {
-      this.flagsDictionary = flags;
-      this.store.dispatch(sendRequestToGetConnectedUsersByMe());
-    });
-
-  addFlagsMapProperty(users: UserGetDto[]): UserGetDtoWithUserFlagKey[] {
-    if (this.flagsDictionary) {
-      return users.map((user) => {
-        const userFlagKey = `fi-${
-          this.flagsDictionary![user.country]?.key ?? 'xx'
+  addFlagsMapProperty(
+    users: UserGetDto[],
+    flagsDictionary: Dictionary<Flag>
+  ): UserGetDtoWithUserFlagKey[] {
+    if (flagsDictionary) {
+      return users.map((user: UserGetDto): UserGetDtoWithUserFlagKey => {
+        const userFlagKey: string = `fi-${
+          flagsDictionary![user.country]?.key ?? 'aq'
         }`.toLowerCase();
+
         return { ...user, userFlagKey: userFlagKey };
       });
     } else {
-      this.store.dispatch(sendRequestToGetFlags());
-      return users.map((user) => {
+      return users.map((user: UserGetDto): UserGetDtoWithUserFlagKey => {
         return { ...user, userFlagKey: 'xx' };
       });
     }
@@ -60,10 +61,6 @@ export class MyprofileBarleftComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(sendRequestToGetConnectedUsersByMe());
-  }
-
-  ngOnDestroy(): void {
-    this.connectedUsersSubscription.unsubscribe();
   }
 
   handleClickToViewUserProfile(user: UserGetDtoWithUserFlagKey): void {

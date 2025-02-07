@@ -1,10 +1,10 @@
 <div>
-    <mat-list *ngIf="connectedUsers$ | async; else loading">
+    <mat-list *ngIf="connectedUsersWithFlags$ | async as connectedUsers; else loading">
         <div class="flex align-middle ml-2 space-x-2">
             <mat-icon color="primary">group</mat-icon>
             <h2 class="font-semibold">Connections</h2>
         </div>
-        <mat-list-item *ngFor="let connectedUser of this.connectedUsers ?? []">
+        <mat-list-item *ngFor="let connectedUser of connectedUsers ?? []">
             <app-myprofile-barleft-item [user]="connectedUser"></app-myprofile-barleft-item>
         </mat-list-item>
         <mat-divider color="primary"></mat-divider>

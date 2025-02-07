@@ -2,8 +2,8 @@ import { Component, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { filter, map } from 'rxjs';
-import { LanguageInterface } from 'src/models/language.types';
+import { filter, map, Observable } from 'rxjs';
+import { Language, LanguageInterface } from 'src/models/language.types';
 import { UserGetDto } from 'src/models/user.types';
 import { selectAllLanguagesList } from 'src/store/user/all-languages/all-languages.selector';
 import { selectAllLanguagesNative } from 'src/store/user/languages-native/languages-native.selector';
@@ -14,12 +14,12 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   templateUrl: './myprofile-tab-native-languages-add-dialog.component.html',
   styleUrls: ['./myprofile-tab-native-languages-add-dialog.component.sass'],
 })
-export class MyprofileTabNativeLanguagesAddDialogComponent implements OnDestroy {
+export class MyprofileTabNativeLanguagesAddDialogComponent
+  implements OnDestroy
+{
   myUser: UserGetDto | null = null;
   availableLanguages: LanguageInterface[] | null = null;
-
   nativeLanguagesMap: Map<number, LanguageInterface> | null = null;
-
   addLanguageForm: FormGroup;
 
   constructor(
@@ -30,11 +30,6 @@ export class MyprofileTabNativeLanguagesAddDialogComponent implements OnDestroy 
     this.addLanguageForm = this.fb.group({
       language: ['', [Validators.required]],
     });
-  }
-  ngOnDestroy(): void {
-    this.userSubscription.unsubscribe();
-    this.languagesNativeSubscription.unsubscribe();
-    this.availableLanguagesNativeToAddSubscription.unsubscribe();
   }
 
   languagesNative$ = this.store.select(selectAllLanguagesNative);
@@ -47,10 +42,10 @@ export class MyprofileTabNativeLanguagesAddDialogComponent implements OnDestroy 
       });
       this.nativeLanguagesMap = map;
     });
-  availableLanguagesNativeToAdd$ = this.store
+  availableLanguagesNativeToAdd$: Observable<Language[]> = this.store
     .select(selectAllLanguagesList)
     .pipe(
-      map((languages) => {
+      map((languages: Language[]): Language[] => {
         return languages.filter(
           (language) => !this.nativeLanguagesMap?.has(language.id)
         );
@@ -58,35 +53,34 @@ export class MyprofileTabNativeLanguagesAddDialogComponent implements OnDestroy 
     );
 
   availableLanguagesNativeToAddSubscription =
-    this.availableLanguagesNativeToAdd$.subscribe((languages) => {
-      this.availableLanguages = languages;
+    this.availableLanguagesNativeToAdd$.subscribe(
+      (languages: LanguageInterface[]) => {
+        this.availableLanguages = languages;
+      }
+    );
+
+  userSubscription = this.store
+    .select(selectMyUser)
+    .subscribe((myUser: UserGetDto) => {
+      this.myUser = {
+        ...myUser,
+      };
     });
 
-  userSubscription = this.store.select(selectMyUser).subscribe((myUser) => {
-    this.myUser = {
-      ...myUser,
-    };
-  });
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
+    this.languagesNativeSubscription.unsubscribe();
+    this.availableLanguagesNativeToAddSubscription.unsubscribe();
+  }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   onSubmit(): void {
-    const chosenLanguageToAdd: LanguageInterface = this.addLanguageForm.value.language;
+    const chosenLanguageToAdd: LanguageInterface =
+      this.addLanguageForm.value.language;
     this.dialogRef.close(chosenLanguageToAdd);
-
-    // console.log(this.addLanguageForm.value)
-    // if (this.addLanguageForm.valid) {
-    //   const chosenLanguageToAdd: LanguageInterface | null =
-    //     this.availableLanguages?.find(
-    //       (language) => language.name === this.addLanguageForm.value.language
-    //     ) ?? null;
-    //   if (!chosenLanguageToAdd) {
-    //     return;
-    //   }
-    //   this.dialogRef.close(chosenLanguageToAdd);
-    // }
   }
 
   displayLanguage(language: LanguageInterface): string {

@@ -10,6 +10,7 @@ import {
 } from 'src/store/user/languages-native/languages-native.actions';
 import { UserGetDto } from 'src/models/user.types';
 import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-myprofile-tab-native-languages',
@@ -21,23 +22,19 @@ export class MyprofileTabNativeLanguagesComponent implements OnDestroy {
   myUser: UserGetDto | null = null;
   constructor(private readonly store: Store, private dialog: MatDialog) {}
 
-  ngOnDestroy(): void {
-    this.myUserSubscription.unsubscribe();
-    this.nativeLanguagesSubscription$.unsubscribe();
-  }
+  nativeLanguages$: Observable<LanguageInterface[]> = this.store.select(
+    selectAllLanguagesNative
+  );
 
-  myUserSubscription = this.store.select(selectMyUser).subscribe((user) => {
-    this.myUser = user;
-  });
-
-  natLang: LanguageInterface[] | null = null;
-  nativeLanguagesSubscription$ = this.store
-    .select(selectAllLanguagesNative)
-    .subscribe((nativeLanguages) => {
-      this.natLang = nativeLanguages;
+  myUserSubscription$ = this.store
+    .select(selectMyUser)
+    .subscribe((user: UserGetDto) => {
+      this.myUser = user;
     });
 
-  nativeLanguages$ = this.store.select(selectAllLanguagesNative);
+  ngOnDestroy(): void {
+    this.myUserSubscription$.unsubscribe();
+  }
 
   handleAddNativeLanguageDialog(): void {
     const dialogRef = this.dialog.open(

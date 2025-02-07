@@ -14,12 +14,10 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
 })
 export class MyprofileBarleftItemComponent {
   @Input() user: UserGetDtoWithUserFlagKey = new UserGetDtoWithUserFlagKey();
-  flagsMap: Dictionary<Flag> | null = null;
 
-  constructor(private readonly store: Store, private readonly router: Router) {}
+  constructor(private readonly router: Router) {}
 
   handleClickToViewUserProfile(): void {
-    console.log('I AM INVOKED MY FRIEND');
     this.router.navigate([`/user`, this.user.id]).then(
       (nav) => {
         console.log(nav); // true if navigation is successful

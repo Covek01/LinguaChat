@@ -15,7 +15,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { ChatListItemComponent } from './chat-list-item/chat-list-item.component';
 import { MatListModule } from '@angular/material/list';
-import { ChatBoxObservables } from './chat-box/chat-box.component.observables';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MessageListComponent } from './message-list/message-list.component';
 import { MyMessageComponent } from './my-message/my-message.component';
