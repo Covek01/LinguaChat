@@ -156,21 +156,38 @@ export class UserService {
     limit: number,
     offset: number,
   ): Promise<UserGetDto[]> {
+    const forbiddenUserPairs: Blocking[] = await this.dataSource
+      .getRepository(Blocking)
+      .createQueryBuilder('blocking')
+      .innerJoinAndSelect('blocking.user', 'user')
+      .innerJoinAndSelect('blocking.blockedUser', 'blockedUser')
+      .where('user.id = :userId', { userId })
+      .orWhere('blockedUser.id = :blockedUserId', { blockedUserId: userId })
+      .getMany();
+
+    const forbiddenUserIds: number[] = forbiddenUserPairs.map(
+      (userPair: Blocking): number => {
+        return userPair.user.id === userId
+          ? userPair.blockedUser.id
+          : userPair.user.id;
+      },
+    );
+
+    console.log(forbiddenUserIds)
+
     const users: User[] = await this.dataSource
       .getRepository(User)
       .createQueryBuilder('user')
       .orderBy('user.since', 'DESC')
       .leftJoinAndSelect('user.languagesNative', 'languageNative')
-      .leftJoinAndSelect('user.blockedUsers', 'blockedUser')
-      .leftJoinAndSelect('user.usersBlocking', 'userBlocking')
       .where('languageNative.id = :languageId AND user.id != :myUserId', {
         languageId,
-        myUserId: userId
+        myUserId: userId,
       })
       .andWhere(
-        '(blockedUser.id IS NULL OR blockedUser.id != :userId) AND (userBlocking.id IS NULL OR userBlocking.id != :userId)',
+        'user.id NOT IN (:...forbiddenUserIds)',
         {
-          userId,
+          forbiddenUserIds,
         },
       )
       .limit(limit)
@@ -181,7 +198,6 @@ export class UserService {
       const { passHash, ...userWithoutPassHash } = user;
       return userWithoutPassHash;
     });
-    console.log(filteredUsers);
     return filteredUsers;
   }
 
