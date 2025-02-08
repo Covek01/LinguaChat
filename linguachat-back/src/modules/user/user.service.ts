@@ -172,9 +172,7 @@ export class UserService {
           : userPair.user.id;
       },
     );
-
-    console.log(forbiddenUserIds)
-
+    
     const users: User[] = await this.dataSource
       .getRepository(User)
       .createQueryBuilder('user')

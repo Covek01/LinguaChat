@@ -20,6 +20,7 @@ import { MessageListComponent } from './message-list/message-list.component';
 import { MyMessageComponent } from './my-message/my-message.component';
 import { NotMyMessageComponent } from './not-my-message/not-my-message.component';
 import {MatBadgeModule} from '@angular/material/badge';
+import { UserProfileTabUserInfoModule } from '../profile/user-profile/user-profile-body/user-profile-tab-user-info/user-profile-tab-user-info.module';
 
 @NgModule({
   declarations: [ChatComponent, ChatListComponent, ChatBoxComponent, ChatListItemComponent, MessageListComponent, MyMessageComponent, NotMyMessageComponent],
@@ -39,6 +40,7 @@ import {MatBadgeModule} from '@angular/material/badge';
     MatListModule,
     MatToolbarModule,
     MatBadgeModule,
+    UserProfileTabUserInfoModule,
   ],
 
 })

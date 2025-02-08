@@ -6,6 +6,7 @@ import { Message } from 'src/models/message.types';
 import { ChatService } from 'src/services/chat.service';
 import { ChatBoxObservables } from './chat-box.component.observables';
 import { ChatUtils } from '../chat.utils';
+import { UserGetDto } from 'src/models/user.types';
 
 @Component({
   selector: 'app-chat-box',
@@ -20,14 +21,15 @@ export class ChatBoxComponent {
     private fb: FormBuilder,
     private readonly chatService: ChatService,
     public chatBoxObservables: ChatBoxObservables,
-    private readonly chatUtils: ChatUtils
+    private readonly chatUtils: ChatUtils,
+    private readonly router: Router
   ) {
     this.messageForm = this.fb.group({
       text: ['', [Validators.required]],
     });
   }
 
-  sendMessage(receiverId: number): void {
+  public sendMessage(receiverId: number): void {
     if (!this.chatBoxObservables.myUserInfo) {
       return;
     }
@@ -48,5 +50,16 @@ export class ChatBoxComponent {
     this.chatService.sendMessage(messageToSend);
 
     this.messageForm.reset();
+  }
+
+  public handleClickToViewUserProfile(user: UserGetDto): void {
+    this.router.navigate([`/user`, user.id]).then(
+      (nav) => {
+        console.log(nav); // true if navigation is successful
+      },
+      (err) => {
+        console.log(err); // when there's an error
+      }
+    );
   }
 }

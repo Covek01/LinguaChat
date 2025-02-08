@@ -23,24 +23,24 @@ export class MyprofileBarleftComponent implements OnInit {
   constructor(private readonly store: Store, private readonly router: Router) {}
 
   //ng observers
-  connectedUsers$: Observable<UserGetDto[]> =
+  public connectedUsers$: Observable<UserGetDto[]> =
     this.store.select(selectAllConnections);
 
-  connectedUsersLength$: Observable<number> = this.store.select(
+  public connectedUsersLength$: Observable<number> = this.store.select(
     selectConnectionsTotal
   );
 
-  flagsDictionary$: Observable<Dictionary<Flag>> =
+  public flagsDictionary$: Observable<Dictionary<Flag>> =
     this.store.select(selectFlagsEntities);
 
-  connectedUsersWithFlags$: Observable<UserGetDtoWithUserFlagKey[]> =
+  public connectedUsersWithFlags$: Observable<UserGetDtoWithUserFlagKey[]> =
     combineLatest([this.connectedUsers$, this.flagsDictionary$]).pipe(
       map(([connectedUsers, flagsDictionary]): UserGetDtoWithUserFlagKey[] => {
         return this.addFlagsMapProperty(connectedUsers, flagsDictionary);
       })
     );
 
-  addFlagsMapProperty(
+  public addFlagsMapProperty(
     users: UserGetDto[],
     flagsDictionary: Dictionary<Flag>
   ): UserGetDtoWithUserFlagKey[] {
@@ -63,7 +63,7 @@ export class MyprofileBarleftComponent implements OnInit {
     this.store.dispatch(sendRequestToGetConnectedUsersByMe());
   }
 
-  handleClickToViewUserProfile(user: UserGetDtoWithUserFlagKey): void {
+  public handleClickToViewUserProfile(user: UserGetDtoWithUserFlagKey): void {
     this.router.navigate([`/user`, user.id]).then(
       (nav) => {
         console.log(nav); // true if navigation is successful

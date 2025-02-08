@@ -11,7 +11,7 @@ import {
   takeUntil,
 } from 'rxjs';
 import { Message } from 'src/models/message.types';
-import { UserGetDto } from 'src/models/user.types';
+import { User, UserGetDto } from 'src/models/user.types';
 import { ChatService } from 'src/services/chat.service';
 import { addMessage } from 'src/store/chat/chats.actions';
 import { selectChatEntities } from 'src/store/chat/chats.selector';
@@ -74,6 +74,22 @@ export class ChatBoxObservables implements OnDestroy {
     })
   );
 
+  public isUserBlocked$: Observable<boolean> = combineLatest([
+    this.userData$,
+    this.blockedUsers$,
+  ]).pipe(
+    skipWhile(([userData, blockedUsers]) => {
+      return blockedUsers.length < 1 || userData.id === 0;
+    }),
+    map(([userData, blockedUsers]): boolean => {
+      const isUserBlocked: boolean = blockedUsers
+        .map((user: UserGetDto): number => user.id)
+        .includes(userData.id);
+
+      return isUserBlocked;
+    }),
+  );
+
   public userBlocked$: Observable<UserGetDto> = combineLatest([
     this.userData$,
     this.blockedUsers$,
@@ -115,7 +131,7 @@ export class ChatBoxObservables implements OnDestroy {
   public newMessages$: Observable<Message> = merge(
     this.sentMessages$,
     this.receivedMessages$
-  ).pipe(takeUntil(this.userNotConnected$));
+  ).pipe(takeUntil(this.userBlocked$));
 
   private newMessagesSubscription$ = this.newMessages$.subscribe(
     (message: Message) => {

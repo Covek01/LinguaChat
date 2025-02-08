@@ -17,7 +17,7 @@ export class MyprofileBarleftItemComponent {
 
   constructor(private readonly router: Router) {}
 
-  handleClickToViewUserProfile(): void {
+  public handleClickToViewUserProfile(): void {
     this.router.navigate([`/user`, this.user.id]).then(
       (nav) => {
         console.log(nav); // true if navigation is successful
