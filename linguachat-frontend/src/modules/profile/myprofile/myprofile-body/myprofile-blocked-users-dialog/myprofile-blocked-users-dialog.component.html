@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>Update User Info</h1>
+<div mat-dialog-content>
+  <mat-list>
+    <div class="flex justify-around overflow-y-scroll"
+    *ngFor="let blockedUser of blockedUsersWithFlags$ | async as blockedUsers">
+        <mat-list-item >
+            <mat-icon matListItemIcon color="primary">person</mat-icon>
+            <p matListItemTitle>{{blockedUser?.username ?? 'unknown'}}</p>
+            <div matListItemLine>
+                <span class="fi" [ngClass]="blockedUser?.userFlagKey ?? ''"></span>
+                <span class="ml-1">{{blockedUser?.country ?? ''}}</span>
+            </div>
+        </mat-list-item>
+        <button mat-flat-button color="primary"
+        matListItemMeta class="self-center"
+        (click)="unblock(myUser.id, blockedUser.id)">Unblock</button>
+    </div>
+
+
+  </mat-list>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-stroked-button color="primary" (click)="onClose()">Close</button>
+</div>

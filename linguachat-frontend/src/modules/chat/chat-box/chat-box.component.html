@@ -38,7 +38,8 @@
                     [disabled]="(this.chatBoxObservables.isUserBlocked$ | async) || false"/>
                 </mat-form-field>
             </form>
-            <button mat-flat-button color="primary" [disabled]="messageForm.invalid"
+            <button mat-flat-button color="primary" 
+            [disabled]="messageForm.invalid || (this.chatBoxObservables.isUserBlocked$ | async) "
             (click)="sendMessage(userData.id)"
             class="">Send</button>
         </mat-card-actions>

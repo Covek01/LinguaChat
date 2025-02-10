@@ -32,7 +32,7 @@ export class ChatListItemComponent implements OnDestroy {
 
   public selectedUser$: Observable<UserGetDto> = this.store
     .select(selectUser)
-    .pipe(skipWhile((user) => user.id === 0));
+    .pipe(skipWhile((user: UserGetDto) => user.id === 0));
 
   public newMessages$: Observable<Message> = this.chatService
     .onEvent('receive-message')
@@ -57,7 +57,6 @@ export class ChatListItemComponent implements OnDestroy {
     )
     .subscribe((newMessage: Message) => {
       this.newUnseenMessages = [...this.newUnseenMessages, newMessage];
-      console.log(this.newUnseenMessages);
     });
 
   private receivedMessageSubscription$ = this.newMessages$.subscribe(

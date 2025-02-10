@@ -1,6 +1,12 @@
 import { Delete, Inject, Injectable, UseGuards } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { DataSource, DeleteResult, InsertResult, UpdateResult } from 'typeorm';
+import {
+  DataSource,
+  DeleteResult,
+  InsertResult,
+  SelectQueryBuilder,
+  UpdateResult,
+} from 'typeorm';
 import {
   UserGetDto,
   UserGetDtoProfile,
@@ -172,8 +178,10 @@ export class UserService {
           : userPair.user.id;
       },
     );
-    
-    const users: User[] = await this.dataSource
+
+    console.log(forbiddenUserIds);
+
+    let query: SelectQueryBuilder<User> = this.dataSource
       .getRepository(User)
       .createQueryBuilder('user')
       .orderBy('user.since', 'DESC')
@@ -181,21 +189,23 @@ export class UserService {
       .where('languageNative.id = :languageId AND user.id != :myUserId', {
         languageId,
         myUserId: userId,
-      })
-      .andWhere(
-        'user.id NOT IN (:...forbiddenUserIds)',
-        {
-          forbiddenUserIds,
-        },
-      )
-      .limit(limit)
-      .offset(offset)
-      .getMany();
+      });
 
-    const filteredUsers = users.map((user) => {
+    if (forbiddenUserIds.length > 0) {
+      query = query.andWhere('user.id NOT IN (:...forbiddenUserIds)', {
+        forbiddenUserIds,
+      });
+    }
+
+    query = query.limit(limit).offset(offset);
+
+    const users: User[] = await query.getMany();
+
+    const filteredUsers: UserGetDto[] = users.map((user: User): UserGetDto => {
       const { passHash, ...userWithoutPassHash } = user;
       return userWithoutPassHash;
     });
+
     return filteredUsers;
   }
 

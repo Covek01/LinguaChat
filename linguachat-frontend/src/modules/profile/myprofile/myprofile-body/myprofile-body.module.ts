@@ -20,6 +20,8 @@ import { MyprofileBarleftModule } from '../myprofile-barleft/myprofile-barleft.m
 import { MyprofileTabPostsModule } from './myprofile-tab-posts/myprofile-tab-posts.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MyprofileTabLanguagesModule } from './myprofile-tab-languages/myprofile-tab-languages.module';
+import { MyprofileBlockedUsersComponent } from './myprofile-blocked-users/myprofile-blocked-users.component';
+import { MyprofileBlockedUsersDialogComponent } from './myprofile-blocked-users-dialog/myprofile-blocked-users-dialog.component';
 
 
 @NgModule({
@@ -28,6 +30,8 @@ import { MyprofileTabLanguagesModule } from './myprofile-tab-languages/myprofile
     MyprofileContentComponent,
     MyprofileTabUserInfoComponent,
     MyprofileUpdateDialogComponent,
+    MyprofileBlockedUsersComponent,
+    MyprofileBlockedUsersDialogComponent,
   ],
   imports: [
     CommonModule,
