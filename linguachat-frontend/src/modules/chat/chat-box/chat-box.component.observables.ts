@@ -47,7 +47,10 @@ export class ChatBoxObservables implements OnDestroy {
     this.store.select(selectChatEntities);
 
   //created observables
-  public messages$: Observable<Message[]> = combineLatest([this.userData$, this.chatDictionary$]).pipe(
+  public messages$: Observable<Message[]> = combineLatest([
+    this.userData$,
+    this.chatDictionary$,
+  ]).pipe(
     map(([userData, chatDictionary]): Message[] => {
       const chat: Chat | undefined = chatDictionary[userData.id];
 
@@ -87,7 +90,7 @@ export class ChatBoxObservables implements OnDestroy {
         .includes(userData.id);
 
       return isUserBlocked;
-    }),
+    })
   );
 
   public userBlocked$: Observable<UserGetDto> = combineLatest([
@@ -144,9 +147,7 @@ export class ChatBoxObservables implements OnDestroy {
   );
 
   private sentMessagesSubscription$ = this.sentMessages$.subscribe(
-    (message: Message) => {
-      
-    }
+    (message: Message) => {}
   );
 
   private myDataSubscription$ = this.store

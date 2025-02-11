@@ -31,7 +31,6 @@ import { ChatUtils } from '../chat.utils';
   providers: [ChatUtils],
 })
 export class ChatComponent implements OnInit, OnDestroy {
-  private messagePaginationLimit: number = 10;
 
   constructor(
     private readonly store: Store,
@@ -74,7 +73,7 @@ export class ChatComponent implements OnInit, OnDestroy {
           sendRequestToGetChat({
             connectedUserId: connectedUser.id,
             chatKey: chatKey,
-            limit: this.messagePaginationLimit,
+            limit: this.chatUtils.messagePaginationLimit,
             offset: 0,
           })
         );

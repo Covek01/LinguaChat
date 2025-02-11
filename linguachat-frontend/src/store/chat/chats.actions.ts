@@ -1,7 +1,6 @@
-import { createAction, emptyProps, props } from '@ngrx/store';
-import { CommentGetDto, CommentInsertDto, CommentInterface } from 'src/models/comment.types';
+import { createAction, props } from '@ngrx/store';
+import { CommentGetDto, } from 'src/models/comment.types';
 import { Message } from 'src/models/message.types';
-import { PostInsertDto, PostInterface } from 'src/models/post.types';
 
 //get comments of post
 export const sendRequestToGetChat = createAction(
@@ -25,15 +24,20 @@ export const getResponseToAddComment = createAction(
   props<{ comment: CommentGetDto }>()
 );
 
-//load older messages
-export const sendRequestToDeleteComment = createAction(
-  '[Chat] Send Request Load Older Messages',
-  props<{ userId: number, offset: number, limit: number }>()
+export const setMessagesToChat = createAction(
+  '[Chat] Set Messages To Chat',
+  props<{ connectedUserId: number, chatKey: string, messages: Message[] }>()
 );
 
-export const getResponseToDeleteComment = createAction(
+//load older messages
+export const sendRequestToLoadOlderMessages = createAction(
+  '[Chat] Send Request Load Older Messages',
+  props<{ connectedUserId: number, chatKey: string, limit: number, offset: number }>()
+);
+
+export const getResponseForLoadingOlderMessages = createAction(
   '[Chat] Get Response For Loading Older Messages',
-  props<{ messages: Message[] }>()
+  props<{ connectedUserId: number, chatKey: string, messages: Message[] }>()
 );
 
 //delete comments of post

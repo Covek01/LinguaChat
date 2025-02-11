@@ -29,6 +29,10 @@ export class ChatService {
     const stop: number = offset + limit;
     const messagesString: string[] = await this.redis.lrange(key, start, stop);
     console.log(messagesString);
+    console.log(room);
+    console.log(limit)
+    console.log(offset)
+    console.log('SEEEC')
 
     const messages: Message[] = messagesString.map(
       (messageString: string): Message => JSON.parse(messageString),

@@ -53,7 +53,7 @@ export class ChatService {
     offset: number = 0
   ): Observable<Message[]> {
     return this.http.get<Message[]>(
-      `${this.baseAddress}/${this.basePath}/loadMessages/${room}/${limit}/${offset}`
+      `${this.baseAddress}/${this.basePath}/loadMessages/${room}/${limit - 1}/${offset}`
     );
   }
 }

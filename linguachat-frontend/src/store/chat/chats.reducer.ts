@@ -30,13 +30,6 @@ export const chatsReducer = createReducer(
   on(
     ChatsActions.getResponseForChat,
     (state, { connectedUserId, messages, chatKey }) => {
-      // const chats = connectedUsersIds.map((id): Chat => {
-      //   return {
-      //     connectedUserId: id,
-      //     messages: [],
-      //   };
-      // });
-
       const chatUpdated: Chat = {
         connectedUserId: connectedUserId,
         messages: messages,
@@ -45,5 +38,35 @@ export const chatsReducer = createReducer(
 
       return chatsAdapter.upsertOne(chatUpdated, state);
     }
-  )
+  ),
+  on(
+    ChatsActions.getResponseForLoadingOlderMessages,
+    (state, { connectedUserId, messages, chatKey }) => {
+      const chat: Chat | undefined = state.entities[connectedUserId];
+      if (chat === undefined) {
+        return {
+          ...state,
+        };
+      }
+
+      const updatedChat: Chat = {
+        ...chat,
+        messages: [...messages, ...chat.messages],
+        chatKey
+      }
+      console.log('SELECTOR')
+      console.log(messages)
+      console.log(chat.messages)
+      console.log(updatedChat.messages)
+
+
+
+      const chatUpdate: Update<Chat> = {
+        id: connectedUserId,
+        changes: updatedChat,
+      }
+
+      return chatsAdapter.updateOne(chatUpdate, state);
+    }
+  ),
 );
