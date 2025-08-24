@@ -13,21 +13,23 @@ import {
   Request,
 } from '@nestjs/common';
 import { LanguageService } from './language.service';
-import { AuthGuard } from '../auth/auth.guard';
 import {
   Language,
   LanguageInterface,
   LanguageWithLearningLevel,
-  NullLanguage,
 } from 'src/models/language.types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { off } from 'process';
+import { RolesGuard } from '../auth/authorization/roles.guard';
+import { Roles, ROLES_KEY } from '../auth/authorization/roles.decorator';
+import { Role } from '../auth/authorization/roles.enum';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
 @Controller('language')
 export class LanguageController {
   constructor(private languageService: LanguageService) {}
 
+
+  @Roles(Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Post('/add')
   async addLanguage(@Query('name') name: string): Promise<string> {
@@ -39,6 +41,8 @@ export class LanguageController {
     });
   }
 
+
+  @Roles(Role.User, Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Get('/get/:id')
   async getLanguage(@Param('id') id: string): Promise<LanguageInterface> {
@@ -52,6 +56,8 @@ export class LanguageController {
       });
   }
 
+
+  @Roles(Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Delete('/delete/:id')
   async deleteLanguage(@Param('id') id: string): Promise<string> {
@@ -65,6 +71,8 @@ export class LanguageController {
       });
   }
 
+
+  @Roles(Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Delete('/deleteByName/:name')
   async deleteLanguageByName(@Param('name') name: string): Promise<string> {
@@ -77,6 +85,8 @@ export class LanguageController {
         throw new Error(error);
       });
   }
+
+  @Roles(Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Put('/update')
   async updateLanguage(@Body() language: LanguageInterface): Promise<string> {
@@ -90,6 +100,7 @@ export class LanguageController {
       });
   }
 
+  @Roles(Role.User, Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Get('/getNativeLanguagesForUser/:id')
   async getNativeLanguagesForUser(
@@ -107,6 +118,7 @@ export class LanguageController {
     }
   }
 
+  @Roles(Role.User, Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Get('/getNativeLanguagesForUserPagination/:id/:limit/:offset')
   async getNativeLanguagesForUserPagination(
@@ -128,6 +140,7 @@ export class LanguageController {
     }
   }
 
+  @Roles(Role.User, Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Get('/getAllLanguages')
   async getAllLanguages(): Promise<Language[]> {
@@ -141,6 +154,7 @@ export class LanguageController {
     }
   }
 
+  @Roles(Role.User, Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Get('/getNativeLanguagesForMe')
   async getNativeLanguagesForMe(@Request() request): Promise<Language[]> {
@@ -155,6 +169,7 @@ export class LanguageController {
     }
   }
 
+  @Roles(Role.User, Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Get('/getLanguagesUserIsLearning/:id')
   async getLanguagesUserIsLearning(
@@ -172,6 +187,7 @@ export class LanguageController {
     }
   }
 
+  @Roles(Role.User, Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Get('/getLanguagesIAmLearning')
   async getLanguagesIAmLearning(

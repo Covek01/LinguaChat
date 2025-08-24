@@ -1,29 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { Dictionary } from '@ngrx/entity';
 import { Store } from '@ngrx/store';
-import { combineLatest, map, Observable, tap } from 'rxjs';
-import { Flag } from 'src/models/models.type';
-import { UserGetDto, UserGetDtoWithUserFlagKey } from 'src/models/user.types';
 import {
   sendRequestToGetFilteredUsersPaginationByMe,
   setPaginatorSize,
 } from 'src/store/filtered-users/filtered-users.actions';
 import {
-  selectAllFilteredUsers,
   selectFilteredLanguageId,
-  selectFilteredUsersCount,
-  selectPaginatorSize,
 } from 'src/store/filtered-users/filtered-users.selector';
-import { selectFlagsEntities } from 'src/store/flags/flags.selector';
 import { sendRequestToAddBlockedUser } from 'src/store/user/blocked-users/blocked-users.actions';
-import { selectBlockedUserIds } from 'src/store/user/blocked-users/blocked-users.selector';
 import {
   sendRequestToAddConnectedUser,
   sendRequestToDeleteConnectedUser,
 } from 'src/store/user/connections/connections.actions';
-import { selectConnectionsIds } from 'src/store/user/connections/connections.selector';
-import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
 import { FilteredProfilesObservers } from './filtered-profiles.observers.component';
 
 @Component({

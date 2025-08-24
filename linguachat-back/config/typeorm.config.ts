@@ -10,12 +10,11 @@ import { Connection } from 'src/modules/connection/connection.entity';
 import { Blocking } from 'src/modules/user/blocking.entity';
 import { UserLearningLanguage } from 'src/modules/user/UserLearningLanguage.entity';
 
-// import { Connection } from 'src/modules/user/connection.entity';
 
 export const configTypeOrm: DataSourceOptions = {
   type: 'postgres',
   host: 'localhost',
-  port: 5432,
+  port: 7654,
   username: 'postgres',
   password: 'password',
   entities: [Language, Post, Comment, User, Connection, Blocking, UserLearningLanguage],

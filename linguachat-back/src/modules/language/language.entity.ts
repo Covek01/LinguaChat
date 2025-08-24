@@ -11,7 +11,7 @@ export class Language {
     @Column({unique: true, nullable: false})
     name: string;
 
-    @Column()
+    @Column({default: 0})
     popularity: number;
 
     // @ManyToMany(() => User, (user) => user.languagesLearning)

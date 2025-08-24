@@ -1,18 +1,18 @@
-import { HttpClient } from "@angular/common/http";
-import { Observable } from "rxjs";
-import { environment } from "src/environments/environment";
-import { Language, LanguageWithLearningLevel } from "src/models/language.types";
-import { servicesPaths } from "./config/services-paths.config";
-import { Injectable } from "@angular/core";
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Language, LanguageWithLearningLevel } from 'src/models/language.types';
+import { servicesPaths } from './config/services-paths.config';
+import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageService {
   private baseAddress: string;
   private basePath: string;
 
-  constructor(private http: HttpClient) { 
+  constructor(private http: HttpClient) {
     this.baseAddress = environment.postgresAddress;
     this.basePath = servicesPaths.language;
   }
@@ -28,8 +28,10 @@ export class LanguageService {
       `${this.baseAddress}/${this.basePath}/getNativeLanguagesForMe`
     );
   }
-  
-  getLanguagesUserIsLearning(id: number): Observable<LanguageWithLearningLevel[]> {
+
+  getLanguagesUserIsLearning(
+    id: number
+  ): Observable<LanguageWithLearningLevel[]> {
     return this.http.get<LanguageWithLearningLevel[]>(
       `${this.baseAddress}/${this.basePath}/getLanguagesUserIsLearning/${id}`
     );
@@ -78,5 +80,4 @@ export class LanguageService {
       language
     );
   }
-  
 }
