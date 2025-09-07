@@ -10,24 +10,21 @@ import {
   Put,
   UseGuards,
   Request,
-  Req,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { UserGetDto, UserInsertDto } from 'src/models/user.types';
+import { UserGetDto } from 'src/models/user.types';
 import { ApiBearerAuth, ApiBody, ApiParam, ApiTags } from '@nestjs/swagger';
-import { User } from './user.entity';
-import { DeleteResult } from 'typeorm';
-import { AuthGuard } from '../auth/auth.guard';
-import { LocalAuthGuard } from '../auth/local-auth.guard';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { Blocking } from './blocking.entity';
-import { Language } from '../language/language.entity';
 import {
   LanguageInterface,
   LanguageWithLearningLevel,
 } from 'src/models/language.types';
+import { Roles } from '../auth/authorization/roles.decorator';
+import { Role } from '../auth/authorization/roles.enum';
+import { RolesGuard } from '../auth/authorization/roles.guard';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.User, Role.Admin)
 @ApiTags('user')
 @ApiBearerAuth()
 @Controller('user')
@@ -95,13 +92,9 @@ export class UserController {
 
   @HttpCode(HttpStatus.OK)
   @Post('/getHiddenUsers')
-  async getHiddenUsers(
-    @Param('id') id: string,
-  ): Promise<UserGetDto[]> {
+  async getHiddenUsers(@Param('id') id: string): Promise<UserGetDto[]> {
     try {
-      return await this.userService.getHiddenUsers(
-        parseInt(id, 10),
-      );
+      return await this.userService.getHiddenUsers(parseInt(id, 10));
     } catch (ex) {
       console.log('Error with getting blocked user list');
       console.log(ex);
@@ -189,7 +182,9 @@ export class UserController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Get('/getFilteredUsersByLanguagePagination/:userId/:languageId/:limit/:offset')
+  @Get(
+    '/getFilteredUsersByLanguagePagination/:userId/:languageId/:limit/:offset',
+  )
   async getFilteredUsersByLanguagePagination(
     @Param('userId') userId: string,
     @Param('languageId') languageId: string,
@@ -210,7 +205,6 @@ export class UserController {
       throw new Error(ex);
     }
   }
-
 
   @HttpCode(HttpStatus.OK)
   @Get('/getFilteredUsersByLanguagePaginationByMe/:languageId/:limit/:offset')

@@ -1,7 +1,6 @@
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Injectable } from '@nestjs/common';
 import Redis from 'ioredis';
-import { off } from 'process';
 import { Message } from 'src/models/message.types';
 
 @Injectable()
@@ -32,7 +31,6 @@ export class ChatService {
     console.log(room);
     console.log(limit)
     console.log(offset)
-    console.log('SEEEC')
 
     const messages: Message[] = messagesString.map(
       (messageString: string): Message => JSON.parse(messageString),

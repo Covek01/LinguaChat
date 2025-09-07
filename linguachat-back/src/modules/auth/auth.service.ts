@@ -9,6 +9,7 @@ import { InjectDataSource } from '@nestjs/typeorm';
 import { User } from '../user/user.entity';
 import { MailService } from 'src/mail/mail.service';
 import { plainToInstance } from 'class-transformer';
+import { Role } from './authorization/roles.enum';
 
 @Injectable()
 export class AuthService {
@@ -66,7 +67,7 @@ export class AuthService {
           comment: '',
           country: user_dto.country,
           city: user_dto.city,
-          role: "User",
+          role: Role.User,
           confirmed: false
       }
       
@@ -75,12 +76,6 @@ export class AuthService {
         .insert(user);
 
 
-        return "User added successfully"
-        // const token_object = await this.signIn(user_dto.username, user_dto.password);
-        // const userDto: UserGetDto = plainToInstance(UserGetDto, user, { excludeExtraneousValues: true });
-        // console.log(userDto)
-        // console.log(token_object.access_token)
-        
-        // await this.mailService.sendUserConfirmation(userDto, token_object.access_token);
+        return "User added successfully";
   }
 }

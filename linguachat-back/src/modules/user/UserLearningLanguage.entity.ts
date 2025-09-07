@@ -8,7 +8,11 @@ export class UserLearningLanguage {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @ManyToOne(() => User, (user) => user.userLanguagesLearning)
+    @ManyToOne(() => User, (user) => user.userLanguagesLearning, {
+        cascade: true,
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+    })
     @JoinColumn({ name: 'user_id' })
     user: User;
 

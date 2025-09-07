@@ -28,7 +28,6 @@ import { Role } from '../auth/authorization/roles.enum';
 export class LanguageController {
   constructor(private languageService: LanguageService) {}
 
-
   @Roles(Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Post('/add')
@@ -40,7 +39,6 @@ export class LanguageController {
       throw new Error(error);
     });
   }
-
 
   @Roles(Role.User, Role.Admin)
   @HttpCode(HttpStatus.OK)
@@ -56,7 +54,6 @@ export class LanguageController {
       });
   }
 
-
   @Roles(Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Delete('/delete/:id')
@@ -70,7 +67,6 @@ export class LanguageController {
         throw new Error(error);
       });
   }
-
 
   @Roles(Role.Admin)
   @HttpCode(HttpStatus.OK)

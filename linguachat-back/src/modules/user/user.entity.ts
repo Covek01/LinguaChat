@@ -100,9 +100,6 @@ export class User {
   @OneToMany(
     () => UserLearningLanguage,
     (userLearningLanguage) => userLearningLanguage.user,
-    {
-      cascade: true,
-    },
   )
   userLanguagesLearning: UserLearningLanguage[];
 

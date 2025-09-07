@@ -12,9 +12,7 @@ import {
   Request,
 } from '@nestjs/common';
 import { PostService } from './post.service';
-import { AuthGuard } from '../auth/auth.guard';
 import {
-  NullPost,
   PostGetDto,
   PostInsertDto,
   PostInterface,
@@ -22,11 +20,13 @@ import {
   PostWithLikedAndCount,
 } from 'src/models/post.types';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { use } from 'passport';
-import { QueryFailedError } from 'typeorm';
 import { ReturnMessage } from 'src/models/models.type';
+import { RolesGuard } from '../auth/authorization/roles.guard';
+import { Role } from '../auth/authorization/roles.enum';
+import { Roles } from '../auth/authorization/roles.decorator';
 
-@UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard, RolesGuard)
+@Roles(Role.User, Role.Admin)
 @Controller('post')
 export class PostController {
   constructor(private postService: PostService) {}

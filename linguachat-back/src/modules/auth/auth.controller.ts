@@ -21,14 +21,6 @@ import { JwtAuthGuard } from './jwt-auth.guard';
 export class AuthController {
   constructor(private authService: AuthService) {}
 
-  // @HttpCode(HttpStatus.OK)
-  // @Post('login')
-  // @ApiBody({ type: SignInDto })
-  // signIn(@Body() signInObject: SignInDto) {
-  //     console.log(signInObject)
-  //     return this.authService.signIn(signInObject.username, signInObject.password);
-  // }
-
   @HttpCode(HttpStatus.OK)
   @UseGuards(LocalAuthGuard)
   @Post('login')
@@ -40,7 +32,7 @@ export class AuthController {
         secure: true,
         sameSite: 'none',
         httpOnly: false,
-        maxAge: 1000 * 60 * 360
+        maxAge: 1000 * 60 * 360,
       });
 
       return response.status(200).json({
@@ -59,8 +51,8 @@ export class AuthController {
   @Delete('logout')
   @ApiBody({ type: SignInDto })
   logOut(@Request() req, @Res() response: Response) {
-    response.clearCookie('access_token')
-    console.log('I am touched')
+    response.clearCookie('access_token');
+    console.log('I am touched');
     return response.status(200).send('User has logged out');
   }
 

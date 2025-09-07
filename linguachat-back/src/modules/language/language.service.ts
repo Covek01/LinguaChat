@@ -5,7 +5,6 @@ import { Language } from './language.entity';
 import {
   LanguageInterface,
   LanguageWithLearningLevel,
-  NullLanguage,
 } from 'src/models/language.types';
 import { UserLearningLanguage } from '../user/UserLearningLanguage.entity';
 

@@ -1,4 +1,4 @@
-import { Delete, Inject, Injectable, UseGuards } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
 import {
   DataSource,
@@ -7,18 +7,10 @@ import {
   SelectQueryBuilder,
   UpdateResult,
 } from 'typeorm';
-import {
-  UserGetDto,
-  UserGetDtoProfile,
-  UserInsertDto,
-  UserInterface,
-  UserUpdateDto,
-} from '../../models/user.types';
+import { UserGetDto, UserGetDtoProfile } from '../../models/user.types';
 
 import { User } from './user.entity';
-import { sha1 } from '../auth/sha1.hash';
 import { plainToInstance } from 'class-transformer';
-import { AuthGuard } from '../auth/auth.guard';
 import { Blocking } from './blocking.entity';
 import { Language } from '../language/language.entity';
 import { UserLearningLanguage } from './UserLearningLanguage.entity';

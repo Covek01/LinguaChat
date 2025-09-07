@@ -57,24 +57,24 @@ export class ActionsComponent {
 
   handleLogout(): void {
     this.store.dispatch(sendLogoutRequest());
-    // this.loginService
-    //   .logout()
-    //   .pipe(
-    //     catchError((error) => {
-    //       console.log(error);
-    //       return of(error);
-    //     })
-    //   )
-    //   .subscribe(() => {
-    //     this.router.navigate([`/auth/login`]).then(
-    //       (nav) => {
-    //         console.log(nav);
-    //       },
-    //       (err) => {
-    //         console.log(err);
-    //       }
-    //     );
-    //   });
+    this.loginService
+      .logout()
+      .pipe(
+        catchError((error) => {
+          console.log(error);
+          return of(error);
+        })
+      )
+      .subscribe(() => {
+        this.router.navigate([`/auth/login`]).then(
+          (nav) => {
+            console.log(nav);
+          },
+          (err) => {
+            console.log(err);
+          }
+        );
+      });
     console.log('CURRENT URL');
     console.log(this.router.url);
   }
