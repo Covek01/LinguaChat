@@ -19,6 +19,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MyprofileTabLanguagesComponent } from './myprofile-tab-languages/myprofile-tab-languages.component';
 import { MyprofileModule } from '../../myprofile.module';
 import { MatTableModule } from '@angular/material/table';
+import { MyprofileTabOperationsLanguagesComponent } from './myprofile-tab-operations-languages/myprofile-tab-operations-languages.component';
+import { MyprofileTabOperationsLanguagesDialogComponent } from './myprofile-tab-operations-languages-dialog/myprofile-tab-operations-languages-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +29,8 @@ import { MatTableModule } from '@angular/material/table';
     MyprofileTabLearningLanguagesAddDialogComponent,
     MyprofileTabNativeLanguagesAddDialogComponent,
     MyprofileTabLanguagesComponent,
+    MyprofileTabOperationsLanguagesComponent,
+    MyprofileTabOperationsLanguagesDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -49,8 +49,8 @@ export class LanguageService {
     );
   }
 
-  addLanguage(name: string): Observable<string> {
-    return this.http.post<string>(
+  addLanguage(name: string): Observable<Language> {
+    return this.http.post<Language>(
       `${this.baseAddress}/${this.basePath}/add?name=${name}`,
       {}
     );
@@ -63,8 +63,11 @@ export class LanguageService {
   }
 
   deleteLanguage(id: number): Observable<string> {
-    return this.http.delete<string>(
-      `${this.baseAddress}/${this.basePath}/delete/${id}`
+    return this.http.delete(
+      `${this.baseAddress}/${this.basePath}/delete/${id}`,
+      {
+        responseType: 'text',
+      }
     );
   }
 

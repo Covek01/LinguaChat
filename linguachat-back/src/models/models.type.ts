@@ -12,7 +12,7 @@ export interface DoubleIds {
 }
 
 export interface ReturnMessageInterface {
-  message: string
+  message: string;
 }
 
 export class ReturnMessage implements ReturnMessageInterface {
@@ -20,6 +20,5 @@ export class ReturnMessage implements ReturnMessageInterface {
 
   constructor(message: string) {
     this.message = message;
-
   }
 }

@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import { PostWithLikedAndCount } from 'src/models/post.types';
+import { Post, PostWithLikedAndCount } from 'src/models/post.types';
 import { UserGetDto } from 'src/models/user.types';
 import {
   sendRequestToAddComment,
@@ -78,6 +78,10 @@ export class MyprofileTabPostItemComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       sendRequestToDeletePost({ postId: this.post?.id ?? 0 })
     );
+  }
+
+  public generateLikeButtonText(post: PostWithLikedAndCount): string {
+    return `${post.likedCount} likes`
   }
 
   public handleAddCommentDialog(): void {

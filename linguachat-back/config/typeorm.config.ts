@@ -1,9 +1,7 @@
 
-import { Module } from '@nestjs/common';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { Language } from 'src/modules/language/language.entity';
 import { Post } from 'src/modules/post/post.entity';
-import { ConnectionOptions, DataSource, DataSourceOptions } from 'typeorm';
+import { DataSourceOptions } from 'typeorm';
 import { Comment } from 'src/modules/comment/comment.entity'
 import { User } from 'src/modules/user/user.entity';
 import { Connection } from 'src/modules/connection/connection.entity';

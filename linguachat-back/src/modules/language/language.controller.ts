@@ -31,7 +31,7 @@ export class LanguageController {
   @Roles(Role.Admin)
   @HttpCode(HttpStatus.OK)
   @Post('/add')
-  async addLanguage(@Query('name') name: string): Promise<string> {
+  async addLanguage(@Query('name') name: string): Promise<Language> {
     return await this.languageService.addLanguage(name).catch((error) => {
       console.log('Error with inserting language');
       console.log(error);

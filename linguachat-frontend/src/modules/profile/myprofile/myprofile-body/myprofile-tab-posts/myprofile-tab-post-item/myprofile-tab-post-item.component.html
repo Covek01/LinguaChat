@@ -1,53 +1,69 @@
 <div *ngIf="post && post.createdBy as createdBy" class="flex align-middle ml-4">
-    <mat-icon color="primary">person</mat-icon>
-    <p>{{createdBy.username}}</p>
+  <mat-icon color="primary">person</mat-icon>
+  <p>{{ createdBy.username }}</p>
 </div>
-<mat-card appearance="raised" class="m-2" *ngIf="post && post.createdBy as createdBy">
-    <mat-card-header class="flex space-x-2">
-        <mat-icon *ngIf="post?.type === 'Question'" color="primary">help_center</mat-icon>
-        <mat-icon *ngIf="post?.type === 'Lesson'" color="primary">cast_for_education</mat-icon>
-        <p class="font-semibold">
-            {{post.title}}
-        </p>
-    </mat-card-header>
-    <mat-card-content class="min-h-16 mt-2 mb-4">
-        {{post.text}}
-    </mat-card-content> 
-    <mat-card-actions align="end" *ngIf="post && post.createdBy as createdBy">
-        <button mat-flat-button color="primary" (click)="likeOrUnlikePost()">
-            <div *ngIf="post?.liked === true" class="flex align-middle">
-                <mat-icon  [inline]="true">thumb_up</mat-icon>
-                <p>Liked</p>
-            </div>
-            <div *ngIf="post?.liked === false" class="flex align-middle">
-                <mat-icon  [inline]="true">thumb_up_off_alt</mat-icon>
-                <p>Like</p>
-            </div>
-        </button>
-        <button mat-stroked-button color="primary" class="m-1" (click)="handleAddCommentDialog()">
-                <mat-icon [inline]="true">comment</mat-icon>
-                <span>Comment</span>
-        </button>
-        <button mat-icon-button class="rounded-sm"
-        color="warn" (click)="deletePost()"
-        *ngIf="createdBy.id === myUser?.id">
-            <mat-icon>delete</mat-icon>
-        </button>
-    </mat-card-actions>
-    <mat-card-footer class="m-2 font-light">
-        <span class="font-semibold">{{post.language?.name ?? ''}}</span>
-        <span>, </span>
-        <span>Post created: </span>
-        {{post.time | date: 'yyyy-MM-dd'}}
-    </mat-card-footer>
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                <mat-icon  [inline]="true" class="m-2" color="primary">comment</mat-icon>
-                <p>Comments</p>
-            </mat-panel-title>
-        </mat-expansion-panel-header>
-        <app-myprofile-tab-comments [post]="post"></app-myprofile-tab-comments>
-    </mat-expansion-panel>
-    
+<mat-card
+  appearance="raised"
+  class="m-2"
+  *ngIf="post && post.createdBy as createdBy"
+>
+  <mat-card-header class="flex space-x-2">
+    <mat-icon *ngIf="post?.type === 'Question'" color="primary"
+      >help_center</mat-icon
+    >
+    <mat-icon *ngIf="post?.type === 'Lesson'" color="primary"
+      >cast_for_education</mat-icon
+    >
+    <p class="font-semibold">
+      {{ post.title }}
+    </p>
+  </mat-card-header>
+  <mat-card-content class="min-h-16 mt-2 mb-4">
+    {{ post.text }}
+  </mat-card-content>
+  <mat-card-actions align="end" *ngIf="post && post.createdBy as createdBy">
+    <button mat-flat-button color="primary" (click)="likeOrUnlikePost()">
+      <div *ngIf="post?.liked === true" class="flex align-middle space-x-2">
+        <mat-icon [inline]="true">thumb_up</mat-icon>
+        <p>{{ generateLikeButtonText(post) }}</p>
+      </div>
+      <div *ngIf="post?.liked === false" class="flex align-middle space-x-2">
+        <mat-icon [inline]="true">thumb_up_off_alt</mat-icon>
+        <p>{{ generateLikeButtonText(post) }}</p>
+      </div>
+    </button>
+    <button
+      mat-stroked-button
+      color="primary"
+      class="m-1"
+      (click)="handleAddCommentDialog()"
+    >
+      <mat-icon [inline]="true">comment</mat-icon>
+      <span>Comment</span>
+    </button>
+    <button
+      mat-icon-button
+      class="rounded-sm"
+      color="warn"
+      (click)="deletePost()"
+      *ngIf="createdBy.id === myUser?.id"
+    >
+      <mat-icon>delete</mat-icon>
+    </button>
+  </mat-card-actions>
+  <mat-card-footer class="m-2 font-light">
+    <span class="font-semibold">{{ post.language?.name ?? "" }}</span>
+    <span>, </span>
+    <span>Post created: </span>
+    {{ post.time | date : "yyyy-MM-dd" }}
+  </mat-card-footer>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon [inline]="true" class="m-2" color="primary">comment</mat-icon>
+        <p>Comments</p>
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-myprofile-tab-comments [post]="post"></app-myprofile-tab-comments>
+  </mat-expansion-panel>
 </mat-card>

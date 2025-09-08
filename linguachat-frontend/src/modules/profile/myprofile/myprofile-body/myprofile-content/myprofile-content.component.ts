@@ -12,7 +12,7 @@ import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
   styleUrls: ['./myprofile-content.component.sass'],
 })
 export class MyprofileContentComponent {
-  @Input() user: UserGetDto = new UserGetDto();
+  @Input() user: UserGetDto | null = new UserGetDto();
 
   constructor(private readonly store: Store) {}
 

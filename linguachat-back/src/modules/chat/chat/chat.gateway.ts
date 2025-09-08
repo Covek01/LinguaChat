@@ -7,6 +7,7 @@ import { Server, Socket } from 'socket.io';
 import { Message } from 'src/models/message.types';
 import { ChatService } from './chat.service';
 import { chatConfig } from './chat.config';
+import { Exception } from 'handlebars';
 
 @WebSocketGateway(chatConfig.port, {
   cors: {

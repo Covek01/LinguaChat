@@ -24,9 +24,10 @@ export const postReducer = createReducer(
     if (post) {
       const postNew = {
         ...post,
-        liked: true
-      }
-      console.log(post);
+        liked: true,
+        likedCount: post.likedCount + 1,
+      };
+      console.log(postNew);
       return userPostsAdapter.updateOne(
         {
           id: postId,
@@ -43,8 +44,9 @@ export const postReducer = createReducer(
     if (post) {
       const postNew = {
         ...post,
-        liked: false
-      }
+        liked: false,
+        likedCount: post.likedCount - 1,
+      };
       return userPostsAdapter.updateOne(
         {
           id: postId,
@@ -59,7 +61,10 @@ export const postReducer = createReducer(
   on(PostActions.getResponseForAddingPaginatedPostsByMe, (state, { posts }) => {
     return userPostsAdapter.addMany(posts, state);
   }),
-  on(PostActions.getResponseForGettingPaginatedPostsByMe, (state, { posts }) => {
-    return userPostsAdapter.setAll(posts, state);
-  }),
+  on(
+    PostActions.getResponseForGettingPaginatedPostsByMe,
+    (state, { posts }) => {
+      return userPostsAdapter.setAll(posts, state);
+    }
+  )
 );

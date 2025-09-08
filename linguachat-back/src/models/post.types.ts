@@ -45,8 +45,8 @@ export class PostGetDto implements PostInterface {
 }
 
 export class PostWithLikedAndCount extends PostGetDto {
-    liked: boolean;
-    likedCount: number;
+  liked: boolean;
+  likedCount: number;
 }
 
 export const NullPost: PostGetDto = {

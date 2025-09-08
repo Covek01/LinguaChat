@@ -17,16 +17,6 @@ export class Language implements LanguageInterface {
   }
 }
 
-// export class LanguageWithLearningLevel {
-//   language: Language;
-//   level: string;
-
-//   constructor(language: Language, level: string) {
-//     this.language = language;
-//     this.level = level; 
-//   }
-// }
-
 export class LanguageWithLearningLevel extends Language {
   level: string;
 
@@ -43,5 +33,5 @@ export const NullLanguage: LanguageInterface = {
 };
 
 export interface LanguageIdList {
-  languagesIds: number[]
+  languagesIds: number[];
 }

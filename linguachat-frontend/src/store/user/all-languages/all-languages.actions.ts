@@ -13,6 +13,26 @@ export const getResponseForAllLanguages = createAction(
   props<{ languages: LanguageInterface[] }>()
 );
 
+export const sendRequestForLanguageInsert = createAction(
+  '[All Languages] Send request to insert new language',
+  props<{ name: string }>()
+);
+
+export const getResponseForLanguageInsert = createAction(
+  '[All Languages] Get Response for language insertion',
+  props<{ language: Language }>()
+);
+
+export const sendRequestForLanguageDelete = createAction(
+  '[All Languages] Send request to delete new language',
+  props<{ languageId: number }>()
+);
+
+export const getResponseForLanguageDelete = createAction(
+  '[All Languages] Get Response for language deletion',
+  props<{ languageId: number }>()
+);
+
 export const getError = createAction(
   '[All Languages] Get Error',
   props<{ error: string }>()

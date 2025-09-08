@@ -8,25 +8,25 @@ const { selectIds, selectEntities, selectAll, selectTotal } =
 export const allLanguagesState =
   createFeatureSelector<AllLanguagesState>('allLanguages');
 
-// select the array of connected user ids
+// select the array of language ids
 export const selecAllLanguagesIds = createSelector(
   allLanguagesState,
   selectIds
 );
 
-// select the dictionary of connected user entities
+// select the dictionary of languageentities
 export const selecAllLanguagesEntities = createSelector(
   allLanguagesState,
   selectEntities
 );
 
-// select the array of connected users
+// select the array of all languages
 export const selectAllLanguagesList = createSelector(
   allLanguagesState,
   selectAll
 );
 
-// select the total connected user count
+// select the total language count
 export const selecAllLanguagesTotal = createSelector(
   allLanguagesState,
   selectTotal

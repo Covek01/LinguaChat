@@ -13,6 +13,7 @@ import { Connection } from '../connection/connection.entity';
 import { Comment } from 'src/modules/comment/comment.entity';
 import { Blocking } from './blocking.entity';
 import { UserLearningLanguage } from './UserLearningLanguage.entity';
+import { Role } from '../auth/authorization/roles.enum';
 
 @Entity()
 export class User {
@@ -49,53 +50,16 @@ export class User {
   @Column()
   city: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: false, type: 'enum', enum: Role, enumName: 'user_role' , default: Role.User })
   role: string;
 
   @Column()
   confirmed: boolean;
-  //Users relationships
-  // @ManyToMany(() => User, (user) => user.blockedBy, {
-  //     cascade: true,
-  // })
-  // @JoinTable({
-  //     name: 'blockings',
-  //     joinColumn: {
-  //         name: "user_id",
-  //         referencedColumnName: "id"
-  //     },
-  //     inverseJoinColumn: {
-  //         name: "blocked_id",
-  //         referencedColumnName: "id"
-  //     }
-  // })
-  // userBlocked: User[];
-
-  // @ManyToMany(() => User, (user) => user.userBlocked)
-  // blockedBy: User[];
-  // Define relationships using the Blocking entity
   @OneToMany(() => Blocking, (blocking) => blocking.user)
   blockedUsers: Blocking[];
 
   @OneToMany(() => Blocking, (blocking) => blocking.blockedUser)
   usersBlocking: Blocking[];
-
-  //Language relationships
-  // @ManyToMany(() => Language, (language) => language.learnedBy, {
-  //     cascade: true,
-  // })
-  // @JoinTable({
-  //     name: 'users_learning_languages',
-  //     joinColumn: {
-  //         name: "user_id",
-  //         referencedColumnName: "id"
-  //     },
-  //     inverseJoinColumn: {
-  //         name: "language_id",
-  //         referencedColumnName: "id"
-  //     }
-  // })
-  // languagesLearning: Language[];
 
   @OneToMany(
     () => UserLearningLanguage,

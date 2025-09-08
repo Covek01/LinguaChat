@@ -14,15 +14,21 @@ export class LanguageService {
     @InjectDataSource('postgresConnection') private dataSource: DataSource,
   ) {}
 
-  async addLanguage(name: string): Promise<string> {
-    const result: InsertResult = await this.dataSource
+  async addLanguage(name: string): Promise<Language> {
+    // const result: InsertResult = await this.dataSource
+    //   .getRepository(Language)
+    //   .insert({
+    //     name: name,
+    //     popularity: 0,
+    //   });
+    const languageToInsert: Language = await this.dataSource
       .getRepository(Language)
-      .insert({
+      .create({
         name: name,
         popularity: 0,
       });
 
-    return 'Language successfully added';
+    return this.dataSource.getRepository(Language).save(languageToInsert);
   }
 
   async getLanguage(languageId: number): Promise<LanguageInterface> {
@@ -42,6 +48,7 @@ export class LanguageService {
     const result: DeleteResult = await this.dataSource
       .createQueryBuilder()
       .delete()
+      .from(Language)
       .where('id = :id', { id: id })
       .execute();
 
@@ -52,6 +59,7 @@ export class LanguageService {
     const result: DeleteResult = await this.dataSource
       .createQueryBuilder()
       .delete()
+      .from(Language)
       .where('name = :name', { name: languageName })
       .execute();
 

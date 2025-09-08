@@ -28,9 +28,9 @@ export class MyprofileTabPostAddDialogComponent implements OnDestroy {
     private readonly store: Store
   ) {
     this.postForm = this.fb.group({
-      title: ['Title', [Validators.required, Validators.pattern('[A-Z][^]*')]],
-      text: ['Text', [Validators.required, Validators.pattern('[A-Z][^]*')]],
-      type: ['Type', Validators.required],
+      title: ['', [Validators.required, Validators.pattern('[A-Z][^]*')]],
+      text: ['', [Validators.required, Validators.pattern('[A-Z][^]*')]],
+      type: ['', Validators.required],
       language: ['', [Validators.required]],
     });
 

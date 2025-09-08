@@ -1,0 +1,67 @@
+<h1 mat-dialog-title>Language administration</h1>
+
+<div mat-dialog-content class="space-y-4">
+  <!-- Add language -->
+  <div class="flex space-x-6 content-center">
+    <mat-form-field class="flex-1" appearance="fill">
+      <mat-label>New language</mat-label>
+      <input
+        matInput
+        [formControl]="newLanguage"
+        placeholder="Language"
+        (keyup.enter)="addLanguage()"
+      />
+      <mat-hint>Press Enter to add</mat-hint>
+      <mat-error *ngIf="newLanguage.hasError('required')">
+        Language is required
+      </mat-error>
+      <mat-error *ngIf="newLanguage.hasError('duplicate')">
+        Language already exists
+      </mat-error>
+      <mat-error *ngIf="newLanguage.hasError('maxlength')">
+        Max 50 characters
+      </mat-error>
+    </mat-form-field>
+
+    <button
+      mat-flat-button
+      color="primary"
+      (click)="addLanguage()"
+      class="self-center"
+      [disabled]="newLanguage.invalid"
+    >
+    <mat-icon>add</mat-icon>
+      Add
+    </button>
+  </div>
+
+  <!-- List -->
+  <ng-container *ngIf="languages.length; else empty">
+    <mat-list>
+      <mat-list-item *ngFor="let language of languages">
+        <div class="flex w-full items-center justify-between">
+          <div class="font-medium">{{ language.name }}</div>
+          <button mat-button color="primary" (click)="removeLanguage(language.id)">
+            <mat-icon>delete</mat-icon>
+            <p>Delete</p>
+          </button>
+        </div>
+      </mat-list-item>
+    </mat-list>
+  </ng-container>
+
+  <ng-template #empty>
+    <div class="text-sm text-gray-500">No languages yet. Add one above.</div>
+  </ng-template>
+</div>
+
+<div mat-dialog-actions align="end">
+  <button
+    mat-flat-button
+    color="primary"
+    (click)="onSubmit()"
+    [disabled]="!languages.length"
+  >
+    Submit
+  </button>
+</div>
