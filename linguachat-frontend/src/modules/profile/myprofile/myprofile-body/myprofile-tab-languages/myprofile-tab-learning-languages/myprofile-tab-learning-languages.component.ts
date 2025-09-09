@@ -1,9 +1,7 @@
 import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngrx/store';
-import {
-  LanguageWithLearningLevel,
-} from 'src/models/language.types';
+import { Language, LanguageWithLearningLevel } from 'src/models/language.types';
 import { UserGetDto } from 'src/models/user.types';
 import { selectLanguagesLearning } from 'src/store/user/languages-learning/languages-learning.selector';
 import { selectMyUser } from 'src/store/user/user-data/user-data.selector';
@@ -12,7 +10,16 @@ import {
   sendRequestToAddLanguageLearning,
   sendRequestToDeleteLanguageLearning,
 } from 'src/store/user/languages-learning/languages-learning.actions';
-import { Observable } from 'rxjs';
+import {
+  combineLatest,
+  filter,
+  map,
+  Observable,
+  Subscription,
+  tap,
+} from 'rxjs';
+import { selectAllLanguagesList } from 'src/store/user/all-languages/all-languages.selector';
+import { langaugesLearningAdapter } from 'src/store/user/languages-learning/languages-learning.state';
 
 @Component({
   selector: 'app-myprofile-tab-learning-languages',
@@ -20,7 +27,12 @@ import { Observable } from 'rxjs';
   styleUrls: ['./myprofile-tab-learning-languages.component.sass'],
 })
 export class MyprofileTabLearningLanguagesComponent implements OnDestroy {
-  public displayedColumns: string[] = ['name', 'popularity', 'level', 'actions'];
+  public displayedColumns: string[] = [
+    'name',
+    'popularity',
+    'level',
+    'actions',
+  ];
   public myUser: UserGetDto | null = null;
   public learningLanguages: LanguageWithLearningLevel[] | null = null;
 
@@ -40,6 +52,32 @@ export class MyprofileTabLearningLanguagesComponent implements OnDestroy {
     .subscribe((learningLanguages: LanguageWithLearningLevel[]) => {
       this.learningLanguages = learningLanguages;
     });
+
+  private allLanguages$: Observable<Language[]> = this.store.select(
+    selectAllLanguagesList
+  );
+
+  // private learningLanguagesSubscription$: Subscription = combineLatest([
+  //   this.learningLanguages$,
+  //   this.allLanguages$,
+  // ])
+  //   .pipe(
+  //     tap(([learningLanguages, allLanguages]) => {
+  //       console.log(learningLanguages);
+  //       console.log(allLanguages);
+  //     }),
+  //     map(([learningLanguages, allLanguages]): LanguageWithLearningLevel[] => {
+  //       return learningLanguages.filter((language) =>
+  //         allLanguages
+  //           .map((oneLanguage) => oneLanguage.id)
+  //           .includes(language.id)
+  //       );
+  //     })
+  //   )
+  //   .subscribe(
+  //     (languages: LanguageWithLearningLevel[]) =>
+  //       (this.learningLanguages = languages)
+  //   );
 
   ngOnDestroy(): void {
     this.learningLanguagesSubscription$.unsubscribe();

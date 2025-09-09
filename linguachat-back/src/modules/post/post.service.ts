@@ -289,6 +289,10 @@ export class PostService {
       return connectedUserId;
     });
 
+    if (!connectedUserIds.length) {
+      return [];
+    }
+
     const posts: Post[] | null = await this.dataSource
       .getRepository(Post)
       .createQueryBuilder('post')

@@ -45,6 +45,13 @@ export class LanguageService {
   }
 
   async deleteLanguage(id: number): Promise<string> {
+    const resultNativeLanguages: DeleteResult = await this.dataSource
+      .createQueryBuilder()
+      .delete()
+      .from('users_native_languages')
+      .where('language_id = :id', { id })
+      .execute();
+
     const result: DeleteResult = await this.dataSource
       .createQueryBuilder()
       .delete()

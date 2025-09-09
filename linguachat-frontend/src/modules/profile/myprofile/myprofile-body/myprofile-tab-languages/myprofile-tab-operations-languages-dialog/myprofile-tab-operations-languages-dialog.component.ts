@@ -46,7 +46,7 @@ export class MyprofileTabOperationsLanguagesDialogComponent
   }
 
   public addLanguage() {
-    const name = this.newLanguage.value.trim();
+    const name = this.convertToCapitalLetter(this.newLanguage.value.trim());
     if (!name) {
       this.newLanguage.setValue('');
       this.newLanguage.markAsTouched();
@@ -62,6 +62,7 @@ export class MyprofileTabOperationsLanguagesDialogComponent
     }
 
     this.store.dispatch(sendRequestForLanguageInsert({ name }));
+    this.newLanguage.setValue('');
   }
 
   public removeLanguage(languageId: number) {
@@ -70,5 +71,9 @@ export class MyprofileTabOperationsLanguagesDialogComponent
 
   public onSubmit(): void {
     this.dialogRef.close();
+  }
+
+  private convertToCapitalLetter(value: string): string {
+    return value.charAt(0).toUpperCase() + value.slice(1);
   }
 }

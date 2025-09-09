@@ -49,6 +49,8 @@ export class Post {
   //Language relationships
   @ManyToOne(() => Language, (language) => language.postsReferencedIn, {
     nullable: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
   })
   @JoinColumn({ name: 'languageId' })
   language: Language;
