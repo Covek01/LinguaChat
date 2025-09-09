@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
@@ -7,12 +7,15 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { filter } from 'rxjs';
+import { filter, map, Observable, withLatestFrom } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Flag } from 'src/models/models.type';
 import {
   UserInsertDto,
   UserInsertDtoWithPasswordReset,
 } from 'src/models/user.types';
+import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
+import { selectFlagsList } from 'src/store/flags/flags.selector';
 import { sendSignupRequest } from 'src/store/signup/signup.actions';
 import { selectSignupResponse } from 'src/store/signup/signup.selector';
 
@@ -21,9 +24,10 @@ import { selectSignupResponse } from 'src/store/signup/signup.selector';
   templateUrl: './signup-form.component.html',
   styleUrls: ['./signup-form.component.sass'],
 })
-export class SignupFormComponent {
+export class SignupFormComponent implements OnInit {
   baseFrontendUrl: string = environment.frontendAddress;
   signupForm: FormGroup;
+  public filteredCountries$: Observable<string[]>;
 
   listenWhenSignupOccurs$ = this.store
     .select(selectSignupResponse)
@@ -39,6 +43,10 @@ export class SignupFormComponent {
         }
       );
     });
+
+  public countries$: Observable<string[]> = this.store
+    .select(selectFlagsList)
+    .pipe(map((flags: Flag[]): string[] => flags.map((flag) => flag.country)));
 
   constructor(
     private readonly store: Store,
@@ -56,6 +64,19 @@ export class SignupFormComponent {
       password: ['', Validators.required],
       confirmPassword: ['', Validators.required],
     });
+
+    this.filteredCountries$ = this.signupForm.valueChanges.pipe(
+      withLatestFrom(this.countries$),
+      map(([form, countries]) => {
+        if (typeof form.country !== 'string') {
+          return [];
+        }
+        const countryValue: string = form.country;
+        return countries.filter((country) =>
+          country.toLowerCase().includes(countryValue.toLowerCase())
+        );
+      }) // Filter the language list
+    );
   }
 
   onUserSignupSubmit() {
@@ -69,5 +90,9 @@ export class SignupFormComponent {
     const { confirmPassword, ...user } = loginValue;
 
     this.store.dispatch(sendSignupRequest({ user: user }));
+  }
+
+  ngOnInit(): void {
+    this.store.dispatch(sendRequestToGetFlags());
   }
 }

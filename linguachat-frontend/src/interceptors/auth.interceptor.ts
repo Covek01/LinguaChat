@@ -14,6 +14,8 @@ export class AuthInterceptor implements HttpInterceptor {
   private isNavigatingToLogin = false; // Prevent multiple navigations
   private loginRequestUrl = 'http://localhost:3000/auth/login';
   private registerRequestUrl = 'http://localhost:3000/auth/register';
+  private getCountriesRequestUrl = `assets/data/flags-nicknames.json`;
+
 
   constructor(
     private cookieService: CookieService,
@@ -30,6 +32,7 @@ export class AuthInterceptor implements HttpInterceptor {
       !jwtToken &&
       request.url !== this.loginRequestUrl &&
       request.url !== this.registerRequestUrl &&
+      request.url !== this.getCountriesRequestUrl &&
       !this.isNavigatingToLogin
     ) {
       this.isNavigatingToLogin = true;

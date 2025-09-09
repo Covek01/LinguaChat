@@ -4,16 +4,8 @@ import { SignupComponent } from './signup/signup.component';
 import { TaskbarModule } from '../shared/taskbar/taskbar.module';
 import { SignupFormModule } from './signup-form/signup-form.module';
 
-
-
 @NgModule({
-  declarations: [
-    SignupComponent
-  ],
-  imports: [
-    CommonModule,
-    TaskbarModule,
-    SignupFormModule
-  ],
+  declarations: [SignupComponent],
+  imports: [CommonModule, TaskbarModule, SignupFormModule],
 })
-export class SignupModule { }
+export class SignupModule {}
