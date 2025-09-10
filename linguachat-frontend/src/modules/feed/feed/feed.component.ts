@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { sendRequestToGetFilteredUsersPaginationByMe } from 'src/store/filtered-users/filtered-users.actions';
-import { sendRequestToAddPaginatedPostsByMe, sendRequestToGetPaginatedPostsByMe } from 'src/store/user/post/user-post.actions';
+import { sendRequestToGetFlags } from 'src/store/flags/flags.actions';
+import {
+  sendRequestToAddPaginatedPostsByMe,
+  sendRequestToGetPaginatedPostsByMe,
+} from 'src/store/user/post/user-post.actions';
 import { sendRequestToGetMyUser } from 'src/store/user/user-data/user-data.actions';
 
 @Component({
@@ -15,6 +19,7 @@ export class FeedComponent implements OnInit {
 
   ngOnInit(): void {
     this.store.dispatch(sendRequestToGetMyUser());
+    this.store.dispatch(sendRequestToGetFlags());
     this.store.dispatch(
       sendRequestToGetPaginatedPostsByMe({
         limit: this.paginationLimit,

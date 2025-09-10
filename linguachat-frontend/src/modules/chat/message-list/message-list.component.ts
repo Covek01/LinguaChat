@@ -105,11 +105,6 @@ export class MessageListComponent implements OnDestroy, AfterViewInit {
     map((messages: Message[]): number => messages.length)
   );
 
-  // public loadOlderMessages$ = this.messages$.pipe(
-  //   scan((oldMessages: Message[], newMessages: Message[]): Message[] => oldOffset + length, 0),
-
-  // )
-
   public loadOlderMessagesSubscription$: Subscription | null = null;
 
   myUserSubscription$ = this.store.select(selectMyUser).subscribe((user) => {

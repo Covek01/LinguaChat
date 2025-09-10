@@ -28,8 +28,10 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 
 ### profiles
-* covek, covek
+* covek, covek - admin
 * nidza01, nidza01
 * marija02, marija02
 * lechmann, lechmann
-* pera, pera
+* peraman, peraman
+* vercetti, vercetti
+* nikobellic, nikobellic
